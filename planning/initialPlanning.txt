@@ -1,0 +1,61 @@
+Transcript created from group meeting, this was work from all members.
+
+Story Points Range: 1-5 (1 is low effort, 5 is high effort)
+Risk Factor: Low, Medium or High
+
+Classes:
+
+Habit
+    Attributes
+        title
+        reason
+        startDate
+        daysActive
+        frequency
+        comment
+        eventList arrayList<HabitEvent>
+        location (optional)
+    Methods
+        getters and setters
+        showInformation
+        editEvent
+        deleteEvent
+        
+
+HabitEvent
+Denotes an event that occured for a specific habit
+    Attributes
+        comment
+        photograph
+        date
+    Method 
+        getters and setters
+        showInformation
+        
+        
+
+HabitList extends ArrayAdapter
+    Attributes
+    Methods
+
+
+User
+    Attributes
+        habits 
+        name
+        id
+        username
+        password
+        followers ArrayList<User>
+        following ArrayList<User>
+
+    Methods
+        getters and setters
+        addHabit
+        editHabit
+        deleteHabit
+
+        viewHabits
+        getDailyHabits
+
+
