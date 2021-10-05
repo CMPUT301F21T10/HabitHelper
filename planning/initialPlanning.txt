@@ -46,8 +46,8 @@ User
         id
         username
         password
-        followers ArrayList<User>
-        following ArrayList<User>
+        followers ArrayList<id>
+        following ArrayList<id>
 
     Methods
         getters and setters
