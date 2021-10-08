@@ -25,6 +25,7 @@ Habit
 HabitEvent
 Denotes an event that occured for a specific habit
     Attributes
+        habit
         comment
         photograph
         date
