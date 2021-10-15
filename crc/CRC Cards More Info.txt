@@ -1,0 +1,3 @@
+-Every user will be stored as documents in one collection, and each user will have a list containing habits. We might change this later by linking Habits to Users through a HabitID and storing all habits in a another collection.
+
+-HabitEvents will be stored as documents in a separate collection, and we will link different HabitEvents with their corresponding Habit using HabitId. We do this because each Habit will have a huge number of HabitEvents, furthermore saving just the habitId instead of the Habit object will save memory.
