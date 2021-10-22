@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "718139019861",
+    "firebase_url": "https://habithelper-e0593-default-rtdb.firebaseio.com",
+    "project_id": "habithelper-e0593",
+    "storage_bucket": "habithelper-e0593.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718139019861:android:5a3c00fde151d5bdc3fadc",
+        "android_client_info": {
+          "package_name": "com.example.habithelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718139019861-tdvl8jemtfmpl1e6vi3peao9ila6imp0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmBpVtgo5VQMpwBAL-EAH-DBqx8xTAKf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718139019861-tdvl8jemtfmpl1e6vi3peao9ila6imp0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
