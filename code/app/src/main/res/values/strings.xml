@@ -4,5 +4,6 @@
     <string name="welcomeMessage">Welcome to HabitHelper</string>
     <string name="submitLogin">Login</string>
     <string name="newUser"> <u>Sign Up</u> </string>
+    <string name="currentUser">CurrentUser</string>
 
 </resources>
