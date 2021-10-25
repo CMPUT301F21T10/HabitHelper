@@ -54,8 +54,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
             }
         });
-
-
     }
 
     /**
@@ -78,6 +76,9 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     public void onOkPressed(User newUser){
         HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
         newUserData.put("UserData", newUser.generateDBData());
+        newUserData.put("Requests", newUser.generateRequestList());
+        newUserData.put("Followers", newUser.generateFollowersList());
+        newUserData.put("Following", newUser.generateFollowingList());
         userCollectionReference
                 .document()
                 .set(newUserData)

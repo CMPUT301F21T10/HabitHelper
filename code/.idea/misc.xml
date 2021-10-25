@@ -5,9 +5,13 @@
       <map>
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/friend_list.xml" value="0.17685185185185184" />
-        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/new_user_fragment_layout.xml" value="0.17685185185185184" />
-        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/new_user_lfragment_layout.xml" value="0.17685185185185184" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/followers_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/friend_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/new_user_fragment_layout.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/profile.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/profile_page.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
