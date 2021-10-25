@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
         loginIntent = new Intent(this, LoginActivity.class);
@@ -25,14 +26,9 @@ public class MainActivity extends AppCompatActivity {
            startActivity(loginIntent);
         }
 
-
         //Initialize the database
         db = FirebaseFirestore.getInstance();
         final CollectionReference userCollectionReference = db.collection("Users");
-
-
-
-
     }
 
 }
