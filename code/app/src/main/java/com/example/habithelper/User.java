@@ -11,6 +11,7 @@ public class User {
     public ArrayList<Habit> habits;
     public ArrayList<Integer> followers;
     public ArrayList<Integer> following;
+    public ArrayList<Integer> requests;
 
     /**
      * Basic constructor for when a user does not yet have an ID defined in the database
@@ -27,6 +28,7 @@ public class User {
         this.followers = new ArrayList<Integer>();
         this.following = new ArrayList<Integer>();
         this.habits = new ArrayList<Habit>();
+        this.requests = new ArrayList<Integer>();
     }
 
     /**
@@ -45,6 +47,7 @@ public class User {
         this.followers = new ArrayList<Integer>();
         this.following = new ArrayList<Integer>();
         this.habits = new ArrayList<Habit>();
+        this.requests = new ArrayList<Integer>();
     }
 
     /**
