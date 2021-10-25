@@ -1,5 +1,6 @@
 package com.example.habithelper;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -61,9 +62,7 @@ public class User {
     public ArrayList<String> generateDBData(){
         ArrayList<String> DBData = new ArrayList<>();
         DBData.add(this.name);
-        DBData.add(this.ID.toString());
         DBData.add(this.userName);
-
         //Convert the password to a hash function if the user already exists in the table
         //Safe to assume the password is already hashed if the ID is not -1
         //And if it is hashed we should not hash it again
@@ -78,9 +77,69 @@ public class User {
         return DBData;
     }
 
-//    public void sendRequest(Integer id){
+    /**
+     * Format the Request data in a way usable in Firestore
+     * @return An array list of the requests to this user
+     */
+    public ArrayList<String> generateRequestList(){
+        ArrayList<String> DBData = new ArrayList<>();
+        //Convert the password to a hash function if the user already exists in the table
+        //Safe to assume the password is already hashed if the ID is not -1
+        //And if it is hashed we should not hash it again
+        if (this.ID == -1){
+            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.update(this.password.getBytes());
+            String passwordHash = new String(messageDigest.digest());
+            DBData.add(passwordHash);*/
+        } else{
+            DBData.add(this.password);
+        }
+        return DBData;
+    }
+
+    /**
+     * Format the followers data in a way usable in Firestore
+     * @return An array list of the followers of this user
+     */
+    public ArrayList<String> generateFollowersList(){
+        ArrayList<String> DBData = new ArrayList<>();
+        //Convert the password to a hash function if the user already exists in the table
+        //Safe to assume the password is already hashed if the ID is not -1
+        //And if it is hashed we should not hash it again
+        if (this.ID == -1){
+            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.update(this.password.getBytes());
+            String passwordHash = new String(messageDigest.digest());
+            DBData.add(passwordHash);*/
+        } else{
+            DBData.add(this.password);
+        }
+        return DBData;
+    }
+
+    /**
+     * Format the following data in a way usable in Firestore
+     * @return An array list of the user that user is following
+     */
+    public ArrayList<String> generateFollowingList(){
+        ArrayList<String> DBData = new ArrayList<>();
+        //Convert the password to a hash function if the user already exists in the table
+        //Safe to assume the password is already hashed if the ID is not -1
+        //And if it is hashed we should not hash it again
+        if (this.ID == -1){
+            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.update(this.password.getBytes());
+            String passwordHash = new String(messageDigest.digest());
+            DBData.add(passwordHash);*/
+        } else{
+            DBData.add(this.password);
+        }
+        return DBData;
+    }
+
+//    public void sendRequest(String id){
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        Query q = db.collection("Users");
-//        q.eq
+//        Task user = db.collection("Users").document(id).get();
+//
 //    }
 }
