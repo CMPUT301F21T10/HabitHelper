@@ -1,5 +1,9 @@
 package com.example.habithelper;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.security.MessageDigest;
 
@@ -57,6 +61,7 @@ public class User {
     public ArrayList<String> generateDBData(){
         ArrayList<String> DBData = new ArrayList<>();
         DBData.add(this.name);
+        DBData.add(this.ID.toString());
         DBData.add(this.userName);
 
         //Convert the password to a hash function if the user already exists in the table
@@ -73,5 +78,9 @@ public class User {
         return DBData;
     }
 
-
+//    public void sendRequest(Integer id){
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        Query q = db.collection("Users");
+//        q.eq
+//    }
 }
