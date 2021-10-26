@@ -36,15 +36,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
-        app:layout_anchor="@id/bottomAppBar" />
-
+        app:layout_anchor="@id/bottomAppBar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="409dp"
-        android:layout_height="673dp"
+        android:layout_height="669dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
