@@ -12,9 +12,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.EventListener;
@@ -32,16 +39,21 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
     Integer maxUserID = 2;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         mainIntent = new Intent(this, MainActivity.class);
 
         db = FirebaseFirestore.getInstance();
         userCollectionReference = db.collection("Users");
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         userCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -54,6 +66,16 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            //reload();
+        }
     }
 
     /**
@@ -74,6 +96,9 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     @Override
     public void onOkPressed(User newUser){
+        /*
+        //Note from Emily : May need to remove this later, yet to be determined
+        //Currently commented out for testing purposes
         HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
         newUserData.put("UserData", newUser.generateDBData());
         newUserData.put("Requests", newUser.generateRequestList());
@@ -95,6 +120,30 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                         // These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
+                });*/
+        createAuthenticationUser(newUser);
+    }
+
+    public void createAuthenticationUser(User newUser){
+        String email = newUser.userName;
+        String password = newUser.password;
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            mainIntent.putExtra("currentUser", user);
+                            startActivity(mainIntent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 });
     }
     /**
@@ -106,8 +155,32 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     public void onLoginSignInClick(View view){
         //If the user has been defined by an ID, send that back to the main
-        mainIntent.putExtra("currentUserID", 1);
-        startActivity(mainIntent);
+        EditText emailEdit = findViewById(R.id.loginEditEmail);
+        String email = emailEdit.getText().toString();
+        EditText passwordEdit = findViewById(R.id.loginEditPassword);
+        String password = passwordEdit.getText().toString();
+        /*
+        //Use the firestore authentication service to try to log the user in
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //If the sign in was successful, return to the main activity
+                            mainIntent.putExtra("currentUser", user);
+                            startActivity(mainIntent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });*/
+
     }
     /**
      * Simple function to hide the keyboard once it no longer becomes necessary
