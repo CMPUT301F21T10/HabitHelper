@@ -36,6 +36,7 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity implements NewUserFragment.OnFragmentInteractionListener{
 
     Intent mainIntent;
+    Intent testIntent;
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
     Integer maxUserID = 2;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
 
         mainIntent = new Intent(this, MainActivity.class);
+
 
         db = FirebaseFirestore.getInstance();
         userCollectionReference = db.collection("Users");
@@ -194,5 +196,10 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     }
     public void onTextClick(View view){
         hideKeyboard();
+    }
+
+    public void onTestFollowers(View view){
+        testIntent = new Intent(this, FollowersActivity.class);
+        startActivity(testIntent);
     }
 }

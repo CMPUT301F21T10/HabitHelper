@@ -74,4 +74,12 @@
         android:textColor="@color/fontColor"
         android:textSize="@dimen/fontEditSize" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onTestFollowers"
+        android:backgroundTint="@color/button"
+        android:text="CLICK ME" />
+
 </LinearLayout>
