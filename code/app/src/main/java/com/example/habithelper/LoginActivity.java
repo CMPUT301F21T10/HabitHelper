@@ -130,9 +130,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     public void createAuthenticationUser(User newUser){
         String email = newUser.userName;
         String password = newUser.password;
-        Log.d("LOGIN", password);
-        Log.d("LOGIN", email);
-        Log.d("LOGIN", newUser.name);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
