@@ -22,7 +22,7 @@
             android:textSize="@dimen/fontEditSize" />
 
         <EditText
-            android:id="@+id/loginNewUsername"
+            android:id="@+id/loginNewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -43,7 +43,7 @@
             android:text="@string/enterUsername" />
 
         <EditText
-            android:id="@+id/loginNewName"
+            android:id="@+id/loginNewUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

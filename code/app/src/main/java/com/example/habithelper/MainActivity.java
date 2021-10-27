@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         loginIntent = new Intent(this, LoginActivity.class);
         //If the user has not been logged in yet
-        if (!intent.hasExtra("currentUserID")){
+        if (!intent.hasExtra("currentUser")){
             //Open up the login screen
            startActivity(loginIntent);
         }

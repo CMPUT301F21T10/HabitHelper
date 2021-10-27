@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         /*
         //Note from Emily : May need to remove this later, yet to be determined
         //Currently commented out for testing purposes
+        //Can reuse some of this code to add a user to the DB
         HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
         newUserData.put("UserData", newUser.generateDBData());
         newUserData.put("Requests", newUser.generateRequestList());
@@ -129,6 +130,9 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     public void createAuthenticationUser(User newUser){
         String email = newUser.userName;
         String password = newUser.password;
+        Log.d("LOGIN", password);
+        Log.d("LOGIN", email);
+        Log.d("LOGIN", newUser.name);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -161,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         String email = emailEdit.getText().toString();
         EditText passwordEdit = findViewById(R.id.loginEditPassword);
         String password = passwordEdit.getText().toString();
-        /*
+
         //Use the firestore authentication service to try to log the user in
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -181,7 +185,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
-                });*/
+                });
 
     }
     /**
