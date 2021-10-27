@@ -6,12 +6,16 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -38,15 +42,38 @@ public class FollowersActivity extends AppCompatActivity {
         userCollectionReference = db.collection("Users");
 
         followersListView = findViewById(R.id.following_List);
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //DocumentReference docRef = db.collection("Users").document("fX5pvzWewCVnRKDM7nJV");
+        followersDataList = new ArrayList<>();
 
-        String[] names = {"Raj", "Yevhen", "Emily", "Yuvan", "Tokyo"};
-        ArrayList<String> followersDataList = new ArrayList<>(Arrays.asList(names));
+        DocumentReference docRef = db.collection("Users").document("fX5pvzWewCVnRKDM7nJV"); //Hardcoded ID for now
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    ArrayList<String> Followers = (ArrayList<String>) document.get("Followers");
+                    if (document.exists()) {
+                        followersDataList.addAll(Followers);
+                    } else {
+                        Log.d("TAG", "No such document");
+                    }
+                } else {
+                    Log.d("TAG", "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+        //String[] names = {"Raj", "Yevhen", "Emily", "Yuvan", "Tokyo"};
+        //followersDataList = new ArrayList<>(Arrays.asList(names));
+
+
+        //String value = document.getString("username");
+
 
         followersAdapter = new ArrayAdapter<>(this, R.layout.followers_content, followersDataList);
         followersListView.setAdapter(followersAdapter);
-        System.out.println("TRASH");
+
 
 //        userCollectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
 //            @Override
