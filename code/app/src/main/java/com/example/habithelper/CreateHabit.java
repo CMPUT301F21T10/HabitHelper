@@ -1,4 +1,4 @@
-package com.example.homescreen;
+package com.example.habithelper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
