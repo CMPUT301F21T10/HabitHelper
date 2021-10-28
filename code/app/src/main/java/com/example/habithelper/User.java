@@ -64,17 +64,7 @@ public class User {
         ArrayList<String> DBData = new ArrayList<>();
         DBData.add(this.name);
         DBData.add(this.userName);
-        //Convert the password to a hash function if the user already exists in the table
-        //Safe to assume the password is already hashed if the ID is not -1
-        //And if it is hashed we should not hash it again
-        if (this.ID == "-1"){
-            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(this.password.getBytes());
-            String passwordHash = new String(messageDigest.digest());
-            DBData.add(passwordHash);*/
-        } else{
-            DBData.add(this.password);
-        }
+
         return DBData;
     }
 

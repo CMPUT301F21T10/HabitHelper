@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     Intent testIntent;
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
-    Integer maxUserID = 2;
     private FirebaseAuth mAuth;
 
     @Override
@@ -138,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                             startActivity(mainIntent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Log.d(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -173,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                             startActivity(mainIntent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Log.d(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
