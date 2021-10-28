@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, com.example.homescreen.CreateHabit.class);
+                Intent intent = new Intent(MainActivity.this, com.example.habithelper.CreateHabit.class);
                 startActivity(intent);
             }
         });
