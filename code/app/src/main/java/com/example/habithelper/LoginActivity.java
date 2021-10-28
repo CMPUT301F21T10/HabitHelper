@@ -190,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * Simple function to hide the keyboard once it no longer becomes necessary
      */
     public void hideKeyboard() {
-        View view = this.getCurrentFocus();
+        View view = getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
