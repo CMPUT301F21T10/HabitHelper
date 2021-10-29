@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "User creation failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
