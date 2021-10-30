@@ -1,5 +1,0 @@
-<resources>
-    <dimen name="fontTitleSize">30dp</dimen>
-    <dimen name="fontEditSize">20dp</dimen>
-    <dimen name="baseMargin">5dp</dimen>
-</resources>
