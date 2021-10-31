@@ -1,10 +1,18 @@
 package com.example.habithelper;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 public class User {
@@ -56,9 +64,20 @@ public class User {
 
     /**
      * This constructor takes in data from the database and converts it into a User object
-     * @param DBData
+     * @param doc
+     *  the data pulled from the DB document
      */
-    public User(String DBData){
+    public User(DocumentSnapshot doc){
+
+        ArrayList<String> DBData = new ArrayList<>();
+        DBData = (ArrayList<String>) doc.get("UserData");
+        this.name = DBData.get(0);
+        this.email = DBData.get(1);
+
+        this.followers = new ArrayList<String>();
+        this.following = new ArrayList<String>();
+        this.habits = new ArrayList<Habit>();
+        this.requests = new ArrayList<String>();
 
     }
 

@@ -1,5 +1,9 @@
 package com.example.habithelper;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -11,18 +15,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton floatingActionButton;
+
     FirebaseFirestore db;
     Intent loginIntent;
+
+    //This should only be used for the collectUserData method
+    private User userToReturn;
+    //This can be used for other purposes
+    User currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         loginIntent = new Intent(this, LoginActivity.class);
+
+        //Initialize the database
+        db = FirebaseFirestore.getInstance();
+        final CollectionReference userCollectionReference = db.collection("Users");
+
         //If the user has not been logged in yet
         if (!intent.hasExtra("currentUser")){
             //Open up the login screen
@@ -42,15 +61,13 @@ public class MainActivity extends AppCompatActivity {
             if (user != null) {
                 //All data will be attached to the user's email
                 String email = user.getEmail();
+                currentUser = collectUserData(email);
 
             }else{
 
             }
         }
 
-        //Initialize the database
-        db = FirebaseFirestore.getInstance();
-        final CollectionReference userCollectionReference = db.collection("Users");
 
         //NOTE: What does this do
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -75,6 +92,35 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Get the document information from the DB on the user passed to the function as an email
+     * And convert it into a user object
+     * @param email
+     * @return
+     */
+    public User collectUserData(String email){
+        DocumentReference docRef = db.collection("Users").document(email);
+        userToReturn = null;
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        userToReturn = new User(document);
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        return userToReturn;
     }
 
 }
