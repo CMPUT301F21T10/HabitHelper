@@ -20,37 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
-//    FirebaseFirestore db;
-//    Intent loginIntent;
     public FloatingActionButton floatingActionButton;
-
-
-//        Intent intent = getIntent();
-//        loginIntent = new Intent(this, LoginActivity.class);
-//        //If the user has not been logged in yet
-//        if (!intent.hasExtra("currentUser")){
-//            //Open up the login screen
-//           startActivity(loginIntent);
-//        }
-//        //if a user has been logged in, access their information
-//        else{
-//            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-//            if (user != null) {
-//                String email = user.getEmail();
-//
-//                // The user's ID, unique to the Firebase project. Do NOT use this value to
-//                // authenticate with your backend server, if you have one. Use
-//                // FirebaseUser.getIdToken() instead.
-//                String uid = user.getUid();
-//            }else{
-//
-//            }
-//        }
-
-//        //Initialize the database
-//        db = FirebaseFirestore.getInstance();
-//        final CollectionReference userCollectionReference = db.collection("Users");
-
     FirebaseFirestore db;
     Intent loginIntent;
     @Override
@@ -70,12 +40,9 @@ public class MainActivity extends AppCompatActivity {
         else{
             FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
             if (user != null) {
+                //All data will be attached to the user's email
                 String email = user.getEmail();
 
-                // The user's ID, unique to the Firebase project. Do NOT use this value to
-                // authenticate with your backend server, if you have one. Use
-               // FirebaseUser.getIdToken() instead.
-                String uid = user.getUid();
             }else{
 
             }
@@ -85,23 +52,21 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         final CollectionReference userCollectionReference = db.collection("Users");
 
+        //NOTE: What does this do
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragmentContainerView);
         NavController navController = navHostFragment.getNavController();
-
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-
-
+        //Draw a notification badge over the friends icon
         bottomNavigationView.setBackground(null);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.friends_fragment);
         badge.setVisible(true);
         badge.setNumber(10);
         badge.setBadgeGravity(BadgeDrawable.TOP_END);
 
-
+        //Set the floating action button to open up new habit
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,11 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-
     }
 
 }
