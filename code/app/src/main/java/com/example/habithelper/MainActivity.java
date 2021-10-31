@@ -1,15 +1,18 @@
 package com.example.habithelper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.util.Log;
 import android.view.View;
-=======
->>>>>>> 2ed747221dcc0bc6e28e120a1116ac5206d27a69
 
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -17,17 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
-<<<<<<< HEAD
 //    FirebaseFirestore db;
 //    Intent loginIntent;
     public FloatingActionButton floatingActionButton;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        Log.d("In main activity", "onCreate: haha");
-
-        setContentView(R.layout.activity_homescreen);
 
 //        Intent intent = getIntent();
 //        loginIntent = new Intent(this, LoginActivity.class);
@@ -54,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
 //        //Initialize the database
 //        db = FirebaseFirestore.getInstance();
 //        final CollectionReference userCollectionReference = db.collection("Users");
-=======
+
     FirebaseFirestore db;
     Intent loginIntent;
-    //public FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,23 +80,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
-/*
+
         //Initialize the database
         db = FirebaseFirestore.getInstance();
         final CollectionReference userCollectionReference = db.collection("Users");
-
-
-        floatingActionButton = findViewById(R.id.fab);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateHabit.class);
-                startActivity(intent);
-            }
-        });
-
-
->>>>>>> 2ed747221dcc0bc6e28e120a1116ac5206d27a69
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
@@ -117,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.friends_fragment);
         badge.setVisible(true);
         badge.setNumber(10);
-        badge.setBadgeGravity(BadgeDrawable.TOP_END);*/
+        badge.setBadgeGravity(BadgeDrawable.TOP_END);
+
 
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
