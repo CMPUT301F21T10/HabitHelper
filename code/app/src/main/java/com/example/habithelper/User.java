@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 
 public class User {
-    public String userName;
+    public String email;
     public String password;
     public String name;
     public String ID;
@@ -19,12 +19,12 @@ public class User {
 
     /**
      * Basic constructor for when a user does not yet have an ID defined in the database
-     * @param userName
+     * @param email
      * @param password
      * @param name
      */
-    public User(String name, String userName, String password) {
-        this.userName = userName;
+    public User(String name, String email, String password) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.ID = "-1";
@@ -37,13 +37,13 @@ public class User {
 
     /**
      * Constructor for when the user has an ID already defined in the database
-     * @param userName
+     * @param email
      * @param password
      * @param name
      * @param ID
      */
-    public User(String name, String userName, String password, String ID) {
-        this.userName = userName;
+    public User(String name, String email, String password, String ID) {
+        this.email = email;
         this.password = password;
         this.name = name;
         this.ID = ID;
@@ -52,6 +52,14 @@ public class User {
         this.following = new ArrayList<String>();
         this.habits = new ArrayList<Habit>();
         this.requests = new ArrayList<String>();
+    }
+
+    /**
+     * This constructor takes in data from the database and converts it into a User object
+     * @param DBData
+     */
+    public User(String DBData){
+
     }
 
 
@@ -63,7 +71,7 @@ public class User {
     public ArrayList<String> generateDBData(){
         ArrayList<String> DBData = new ArrayList<>();
         DBData.add(this.name);
-        DBData.add(this.userName);
+        DBData.add(this.email);
 
         return DBData;
     }

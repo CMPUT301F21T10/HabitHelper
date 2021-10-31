@@ -16,6 +16,6 @@ public class UserTest {
         User user = mockUser();
         ArrayList<String> data = user.generateDBData();
         assertEquals(user.name, data.get(0));
-        assertEquals(user.userName, data.get(1));
+        assertEquals(user.email, data.get(1));
     }
 }

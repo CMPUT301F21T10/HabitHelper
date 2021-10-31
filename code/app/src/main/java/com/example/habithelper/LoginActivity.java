@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +28,9 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class LoginActivity extends AppCompatActivity implements NewUserFragment.OnFragmentInteractionListener{
@@ -92,37 +97,16 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     @Override
     public void onOkPressed(User newUser){
-        /*
-        //Note from Emily : May need to remove this later, yet to be determined
-        //Currently commented out for testing purposes
-        //Can reuse some of this code to add a user to the DB
-        HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
-        newUserData.put("UserData", newUser.generateDBData());
-        newUserData.put("Requests", newUser.generateRequestList());
-        newUserData.put("Followers", newUser.generateFollowersList());
-        newUserData.put("Following", newUser.generateFollowingList());
-        userCollectionReference
-                .document()
-                .set(newUserData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });*/
+        createDBUser(newUser);
         createAuthenticationUser(newUser);
     }
 
+    /**
+     * Create a user with the firestore authentication service
+     * @param newUser
+     */
     public void createAuthenticationUser(User newUser){
-        String email = newUser.userName;
+        String email = newUser.email;
         String password = newUser.password;
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -141,6 +125,37 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                             Toast.makeText(LoginActivity.this, "User creation failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+    }
+
+    /**
+     * Create a user in the firestore database, identifiable by their email
+     * Data will be put into collection "User"
+     * @param newUser
+     */
+    public void createDBUser(User newUser){
+        //Put the data from the suer object into a specific data structure
+        HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
+        newUserData.put("UserData", newUser.generateDBData());
+        newUserData.put("Requests", newUser.generateRequestList());
+        newUserData.put("Followers", newUser.generateFollowersList());
+        newUserData.put("Following", newUser.generateFollowingList());
+        userCollectionReference
+                .document(newUser.email)
+                .set(newUserData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d(TAG, "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
     }
