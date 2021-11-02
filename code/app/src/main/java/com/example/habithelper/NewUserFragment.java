@@ -42,7 +42,7 @@ public class NewUserFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.new_user_fragment_layout, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_newUser, null);
         editName = view.findViewById(R.id.loginNewName);
         editUserName = view.findViewById(R.id.loginNewUsername);
         editPassword = view.findViewById(R.id.loginNewPassword);
