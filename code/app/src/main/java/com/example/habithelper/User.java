@@ -1,25 +1,17 @@
 package com.example.habithelper;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Map;
 
 
 public class User {
     public String email;
     public String password;
     public String name;
-    public String ID;
     public ArrayList<Habit> habits;
     public ArrayList<String> followers;
     public ArrayList<String> following;
@@ -28,38 +20,22 @@ public class User {
     /**
      * Basic constructor for when a user does not yet have an ID defined in the database
      * @param email
+     *  User's email, used for sign in
      * @param password
+     *  User's password, only used for user creation purposes
+     *  Not actually stored anywhere in the DB
      * @param name
+     *  The user's preferred name
      */
     public User(String name, String email, String password) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.ID = "-1";
 
-        this.followers = new ArrayList<String>();
-        this.following = new ArrayList<String>();
+        this.followers = new ArrayList<>();
+        this.following = new ArrayList<>();
         this.habits = new ArrayList<Habit>();
-        this.requests = new ArrayList<String>();
-    }
-
-    /**
-     * Constructor for when the user has an ID already defined in the database
-     * @param email
-     * @param password
-     * @param name
-     * @param ID
-     */
-    public User(String name, String email, String password, String ID) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.ID = ID;
-
-        this.followers = new ArrayList<String>();
-        this.following = new ArrayList<String>();
-        this.habits = new ArrayList<Habit>();
-        this.requests = new ArrayList<String>();
+        this.requests = new ArrayList<>();
     }
 
     /**
@@ -71,17 +47,59 @@ public class User {
 
         ArrayList<String> DBData = new ArrayList<>();
         DBData = (ArrayList<String>) doc.get("UserData");
-        this.name = DBData.get(0);
-        this.email = DBData.get(1);
+        if (DBData.size() == 2){
+            this.name = DBData.get(0);
+            this.email = DBData.get(1);
+        }else{
+            this.name = "FAIL";
+            this.email = "FAIL";
+        }
 
-        this.followers = new ArrayList<String>();
-        this.following = new ArrayList<String>();
+        this.followers = new ArrayList<>();
+        this.following = new ArrayList<>();
         this.habits = new ArrayList<Habit>();
-        this.requests = new ArrayList<String>();
+        this.requests = new ArrayList<>();
 
     }
 
+    /**
+     * Add a follower to this user's follower list
+     * @param userEmail
+     *  Email of a user following the current user
+     */
+    public void addFollower(String userEmail){
+        this.followers.add(userEmail);
+    }
 
+    /**
+     * Add a user this user is following to the following arraylist
+     * @param userEmail
+     *  Email of the user the current user is following
+     */
+    public void addFollowing(String userEmail){
+        this.following.add(userEmail);
+    }
+
+    /**
+     * Add a habit to this user's habit list
+     * @param newHabit
+     *  A new habit to attach to this user
+     */
+    public void addUserHabit(Habit newHabit){
+        //this.habits.add(newHabit);
+        //habits.size();
+        //habits.add(newHabit);
+    }
+
+    /**
+     * Add a follow request to this user
+     * Follow request is sent from another user, to be accepted or rejected
+     * @param userEmail
+     *  The email of a user attempting to follow the current user
+     */
+    public void addRequest(String userEmail){
+        this.requests.add(userEmail);
+    }
 
     /**
      * Format the User data in a way usable in Firestore
@@ -100,19 +118,7 @@ public class User {
      * @return An array list of the requests to this user
      */
     public ArrayList<String> generateRequestList(){
-        ArrayList<String> DBData = new ArrayList<>();
-        //Convert the password to a hash function if the user already exists in the table
-        //Safe to assume the password is already hashed if the ID is not -1
-        //And if it is hashed we should not hash it again
-        if (this.ID == "-1"){
-            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(this.password.getBytes());
-            String passwordHash = new String(messageDigest.digest());
-            DBData.add(passwordHash);*/
-        } else{
-            DBData.add(this.password);
-        }
-        return DBData;
+        return this.requests;
     }
 
     /**
@@ -124,17 +130,7 @@ public class User {
         DBData.add("Raj");
         DBData.add("Yevhen");
         DBData.add("Emily");
-        //Convert the password to a hash function if the user already exists in the table
-        //Safe to assume the password is already hashed if the ID is not -1
-        //And if it is hashed we should not hash it again
-        if (this.ID == "-1"){
-            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(this.password.getBytes());
-            String passwordHash = new String(messageDigest.digest());
-            DBData.add(passwordHash);*/
-        } else{
-            DBData.add(this.password);
-        }
+
         return DBData;
     }
 
@@ -143,19 +139,8 @@ public class User {
      * @return An array list of the user that user is following
      */
     public ArrayList<String> generateFollowingList(){
-        ArrayList<String> DBData = new ArrayList<>();
-        //Convert the password to a hash function if the user already exists in the table
-        //Safe to assume the password is already hashed if the ID is not -1
-        //And if it is hashed we should not hash it again
-        if (this.ID == "-1"){
-            /*MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
-            messageDigest.update(this.password.getBytes());
-            String passwordHash = new String(messageDigest.digest());
-            DBData.add(passwordHash);*/
-        } else{
-            DBData.add(this.password);
-        }
-        return DBData;
+
+        return this.following;
     }
 
     /**
@@ -169,8 +154,10 @@ public class User {
     }
 
     /**
-     * @param FollowerId: Id of the user who received the request.
+     * @param FollowerId
+     *  Id of the user who received the request
      * @param accept
+     *  True if the current user is accepting the request, false otherwise
      */
     public void acceptRequest(String FollowerId, boolean accept){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -178,7 +165,7 @@ public class User {
         docRef.update("Requests", FieldValue.arrayRemove(FollowerId));
         if(accept){
             docRef.update("Following", FieldValue.arrayUnion(FollowerId));
-            docRef.update("Followers", FieldValue.arrayUnion(this.ID));
+            docRef.update("Followers", FieldValue.arrayUnion(this.email));
         }
     }
 }
