@@ -141,6 +141,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         newUserData.put("Requests", newUser.generateRequestList());
         newUserData.put("Followers", newUser.generateFollowersList());
         newUserData.put("Following", newUser.generateFollowingList());
+        newUserData.put("Habits", newUser.generateHabitList());
         userCollectionReference
                 .document(newUser.email)
                 .set(newUserData)

@@ -55,10 +55,10 @@ public class User {
             this.email = "FAIL";
         }
 
-        this.followers = new ArrayList<>();
-        this.following = new ArrayList<>();
+        this.followers = (ArrayList<String>) doc.get("Followers");
+        this.following = (ArrayList<String>) doc.get("Following");
         this.habits = new ArrayList<Habit>();
-        this.requests = new ArrayList<>();
+        this.requests = (ArrayList<String>) doc.get("Requests");
 
     }
 
@@ -141,6 +141,14 @@ public class User {
     public ArrayList<String> generateFollowingList(){
 
         return this.following;
+    }
+
+    public ArrayList<String> generateHabitList(){
+        ArrayList<String> DBData = new ArrayList<>();
+        for (int i=0; i < this.habits.size();i++){
+            DBData.add(this.habits.get(i).generateDBData());
+        }
+        return DBData;
     }
 
     /**
