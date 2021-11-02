@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/habits_fragment"
-        android:name="com.example.habithelper.Habits"
+        android:name="com.example.habithelper.HabitFragment"
         android:label="Habits"
         tools:layout="@layout/fragment_habits" />
     <fragment
         android:id="@+id/today_fragment"
-        android:name="com.example.habithelper.Today"
+        android:name="com.example.habithelper.TodayFragment"
         android:label="Today"
         tools:layout="@layout/fragment_today" />
     <fragment
         android:id="@+id/events_fragment"
-        android:name="com.example.habithelper.Events"
+        android:name="com.example.habithelper.EventsFragment"
         android:label="Events"
         tools:layout="@layout/fragment_events" />
     <fragment
         android:id="@+id/friends_fragment"
-        android:name="com.example.habithelper.Friends"
+        android:name="com.example.habithelper.FriendsFragment"
         android:label="Friends"
         tools:layout="@layout/fragment_friends" />
 </navigation>

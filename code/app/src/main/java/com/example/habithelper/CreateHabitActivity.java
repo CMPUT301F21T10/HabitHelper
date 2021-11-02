@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class CreateHabit extends AppCompatActivity {
+public class CreateHabitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +156,7 @@ public class CreateHabit extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.createHabit:
                 Toast.makeText(this, "Habit Created", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(CreateHabit.this, MainActivity.class);
+                Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
                 startActivity(intent);
                 return true;
         }

@@ -19,10 +19,6 @@ public class UserTest {
         assertEquals(user.email, data.get(1));
     }
 
-    @Test
-    public void testGenerate(){
-
-    }
 
 
 }

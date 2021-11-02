@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitHelper">
         <activity
-            android:name=".CreateHabit"
+            android:name=".CreateHabitActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"/>
         <activity
