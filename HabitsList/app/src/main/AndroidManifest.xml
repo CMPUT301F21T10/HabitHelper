@@ -11,8 +11,7 @@
         android:theme="@style/Theme.HabitHelper">
         <activity
             android:name=".CreateHabitActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity"/>
+            android:exported="true"/>
         <activity
             android:name=".FollowersActivity"
             android:exported="true" />

@@ -21,7 +21,7 @@ public class CreateHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_habit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); back button removed
         getSupportActionBar().setTitle("Create Habit");
 
         Button mon_btn = findViewById(R.id.mon_btn);
@@ -159,7 +159,12 @@ public class CreateHabitActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
                 startActivity(intent);
                 return true;
+
+            case R.id.goBack:
+                onBackPressed();
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

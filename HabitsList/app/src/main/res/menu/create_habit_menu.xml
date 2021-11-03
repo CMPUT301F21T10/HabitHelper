@@ -3,6 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/goBack"
+        app:showAsAction="ifRoom"
+        android:title="Cancel" />
+    <item
         android:id="@+id/createHabit"
         app:showAsAction="ifRoom"
         android:title="Create" />
