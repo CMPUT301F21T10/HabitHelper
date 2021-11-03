@@ -182,6 +182,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
 //                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
+                intent.putExtra("classFrom", CreateHabitActivity.class.toString());
                 intent.putExtra("habitCreated", habitCreated);
                 startActivity(intent);
 

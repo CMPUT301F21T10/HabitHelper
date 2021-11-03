@@ -57,10 +57,17 @@ public class MainActivity extends AppCompatActivity{
         ArrayList<Habit> habitCreated = new ArrayList<>();
 
         if (extras != null){
-            habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-            for (Habit eachHabit : habitCreated){
-                HabitsList.add(eachHabit);
+            if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
+                HabitsList = (ArrayList<Habit>) extras.getSerializable("habitEdited");
+                Log.d("normal", "normal part");
+            }else{
+                Log.d("elsePart", "else part");
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                for (Habit eachHabit : habitCreated){
+                    HabitsList.add(eachHabit);
+                }
             }
+
 
         }
 
