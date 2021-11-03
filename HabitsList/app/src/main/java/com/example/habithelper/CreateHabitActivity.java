@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -160,9 +159,9 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        EditText editTextTitle = findViewById(R.id.editTextTitle);
-        EditText editTextReason = findViewById(R.id.editTextReason);
-        EditText editTextStartDate = findViewById(R.id.editTextStartDate);
+        EditText editTextTitle = findViewById(R.id.editTextDateCompleted);
+        EditText editTextReason = findViewById(R.id.editTextOptionalComments);
+        EditText editTextStartDate = findViewById(R.id.editTextOptionalLocation);
 
 
 

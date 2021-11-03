@@ -1,10 +1,13 @@
 package com.example.habithelper;
 
+import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,7 +91,6 @@ public class HabitFragment extends Fragment implements Serializable {
             for (Habit eachHabit:habits){
                 HabitsList.add(eachHabit);
             }
-
         }
 
         Log.d("WTF2", "onCreateView: " + HabitsList.size());
@@ -97,6 +99,7 @@ public class HabitFragment extends Fragment implements Serializable {
         recyclerView.setLayoutManager(layoutManager);
 
         HabitsAdapter = new habitsCustomList(HabitsList, getContext());
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(HabitsAdapter);
 
 //        Log.d("WTF", "onCreateView: " + recyclerView.getId());
@@ -113,5 +116,21 @@ public class HabitFragment extends Fragment implements Serializable {
 //        Log.d("TEXT", "onAddHabit: "+String.valueOf(HabitsList.size()));
 //    }
 
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            Intent intent = new Intent(getContext(), CreateHabitEventActivity.class);
+            Habit habitEvent = HabitsList.get(viewHolder.getAdapterPosition());
+            intent.putExtra("habit", habitEvent);
+            startActivity(intent);
+            HabitsAdapter.notifyDataSetChanged();
+        }
+    };
 
 }
