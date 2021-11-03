@@ -66,11 +66,57 @@ public class MainActivity extends AppCompatActivity {
                 String email = user.getEmail();
                 collectUserData(email);
             }else{
-
+                throw new NullPointerException("There is no FirebaseUser!");
             }
         }
 
+    }
 
+    /**
+     * Get the document information from the DB on the user passed to the function as an email
+     * And convert it into a user object
+     * @param email
+     * @return
+     */
+    public void collectUserData(String email){
+        DocumentReference docRef = db.collection("Users").document(email);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    User newUser = null;
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            newUser = new User(document);
+                        } else {
+                            throw new RuntimeException("Invalid Firestore ID Given");
+                        }
+                    } else {
+                        throw new RuntimeException("Firestore retrieval failed");
+                    }
+                    afterUserLoad(newUser);
+                }
+            });
+        return;
+    }
+
+    /**
+     * Everything to be done after the user has logged in should go here
+     * This will only happen after a user has been loaded in
+     * @param newUser
+     */
+    public void afterUserLoad(User newUser){
+        //Ensure we do actually have a user
+        if (newUser == null){
+            throw new NullPointerException("There is no user logged in!");
+        }
+        setUpInterface();
+    }
+
+    /**
+     * Set up the bottom interface bar
+     */
+    public void setUpInterface(){
         //NOTE: What does this do
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
@@ -94,37 +140,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    /**
-     * Get the document information from the DB on the user passed to the function as an email
-     * And convert it into a user object
-     * @param email
-     * @return
-     */
-    public void collectUserData(String email){
-        DocumentReference docRef = db.collection("Users").document("fakeraj2@fake.com");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    User newUser = null;
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            newUser = new User(document);
-                        } else {
-                        }
-                    } else {
-                    }
-                    afterUserLoad(newUser);
-                }
-            });
-
-        return;
-    }
-
-    public void afterUserLoad(User newUser){
-        Log.d("GETTASK", "USERGOT");
-        Log.d("GETTASK", newUser.email);
     }
 }

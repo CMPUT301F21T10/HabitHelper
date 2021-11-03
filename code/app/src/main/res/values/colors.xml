@@ -12,5 +12,5 @@
     <color name="fontColor">#FF1B1B1E</color>
     <color name="accent1">#FFA9BCD0</color>
     <color name="accent2">#FFD8DBE2</color>
-    <color name = "button_clicked">#db402c</color>
+    <color name = "button_clicked">#FFdb402c</color>
 </resources>
