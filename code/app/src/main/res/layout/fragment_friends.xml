@@ -5,21 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editName"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_bar"
+        android:queryHint="Search"
+        android:layout_margin="2dp"
+        app:iconifiedByDefault="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:ems="10"
-        android:hint="Search"
-        android:inputType="textPersonName"
-        android:maxLength="40"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/followingButton"
+        android:layout_marginTop="70dp">
+
+    </androidx.appcompat.widget.SearchView>
+
 
     <Button
         android:id="@+id/followingButton"

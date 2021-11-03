@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -35,6 +36,7 @@ public class FriendsFragment extends Fragment {
     FirebaseFirestore db;
     Intent loginIntent;
 
+    SearchView followSearch;
     ListView followersListView;
     ArrayAdapter<String> followersAdapter;
     ArrayList<String> followersDataList;
@@ -178,12 +180,14 @@ public class FriendsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
+
         // OnClickListener to call onFollowersSelect and change the recycler view to followers list
         Button followersButton = (Button) view.findViewById(R.id.followersButton);
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFollowersSelect();
+                //followersAdapter.getFilter().filter(null);
                 followersAdapter.notifyDataSetChanged();
             }
         });
@@ -194,6 +198,7 @@ public class FriendsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onFollowingSelect();
+                //followersAdapter.getFilter().filter(null);
                 followersAdapter.notifyDataSetChanged();
             }
         });
@@ -205,6 +210,23 @@ public class FriendsFragment extends Fragment {
         followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
+
+        followSearch = view.findViewById(R.id.search_bar);
+        followSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                followersAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                followersAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
         return view;
     }
 }
