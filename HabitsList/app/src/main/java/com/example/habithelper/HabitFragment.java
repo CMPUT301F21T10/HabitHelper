@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Use the {@link HabitFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HabitFragment extends Fragment implements Serializable {
+public class HabitFragment extends Fragment implements Serializable, habitsCustomList.ItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,18 +95,13 @@ public class HabitFragment extends Fragment implements Serializable {
             }
         }
 
-        Log.d("WTF2", "onCreateView: " + HabitsList.size());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        HabitsAdapter = new habitsCustomList(HabitsList, getContext());
+        HabitsAdapter = new habitsCustomList(HabitsList, getContext(), this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(HabitsAdapter);
-
-//        Log.d("WTF", "onCreateView: " + recyclerView.getId());
-
-        Log.d("WTF", "onCreateView: " + recyclerView.getAdapter().getItemCount());
 
         return view;
     }
@@ -135,4 +130,9 @@ public class HabitFragment extends Fragment implements Serializable {
         }
     };
 
+    @Override
+    public void onItemClick(Habit habit) {
+        Log.d("EDIT_HABIT", "onItemClick: " + habit.getTitle());
+
+    }
 }
