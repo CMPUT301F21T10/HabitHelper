@@ -27,11 +27,13 @@
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/drawable-v24/ic_today.xml" value="0.2703125" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/activity_create_habit.xml" value="0.4" />
-        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/followers_content.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/fragment_friends.xml" value="0.264" />
+        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/fragment_friends.xml" value="0.4" />
+        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/fragment_habits.xml" value="0.6" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/friend_list.xml" value="0.264" />
+        <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/toolbar.xml" value="0.264" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/drawable-v24/ic_add.xml" value="0.2703125" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
