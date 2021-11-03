@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,6 +26,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton floatingActionButton;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     //This should only be used for the collectUserData method
     private User userToReturn;
+    private Boolean getUserDone = false;
     //This can be used for other purposes
     User currentUser;
     @Override
@@ -41,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Intent intent = getIntent();
         loginIntent = new Intent(this, LoginActivity.class);
 
         //Initialize the database
         db = FirebaseFirestore.getInstance();
         final CollectionReference userCollectionReference = db.collection("Users");
+
 
         //If the user has not been logged in yet
         if (!intent.hasExtra("currentUser")){
@@ -60,8 +64,7 @@ public class MainActivity extends AppCompatActivity {
             if (user != null) {
                 //All data will be attached to the user's email
                 String email = user.getEmail();
-                currentUser = collectUserData(email);
-
+                collectUserData(email);
             }else{
 
             }
@@ -99,27 +102,29 @@ public class MainActivity extends AppCompatActivity {
      * @param email
      * @return
      */
-    public User collectUserData(String email){
-        DocumentReference docRef = db.collection("Users").document(email);
-        userToReturn = null;
+    public void collectUserData(String email){
+        DocumentReference docRef = db.collection("Users").document("fakeraj2@fake.com");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        userToReturn = new User(document);
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    User newUser = null;
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            newUser = new User(document);
+                        } else {
+                        }
                     } else {
-                        Log.d(TAG, "No such document");
-
                     }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    afterUserLoad(newUser);
                 }
-            }
-        });
-        return userToReturn;
+            });
+
+        return;
     }
 
+    public void afterUserLoad(User newUser){
+        Log.d("GETTASK", "USERGOT");
+        Log.d("GETTASK", newUser.email);
+    }
 }
