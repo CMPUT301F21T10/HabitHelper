@@ -29,8 +29,10 @@
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/layout/fragment_new_user.xml" value="0.1953125" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/layout/habit_row_contents.xml" value="0.536" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
-        <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_create_habit_event.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16875" />
+        <entry key="app/src/main/res/layout/followers_content.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/fragment_habits.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/fragment_today.xml" value="0.1537037037037037" />
         <entry key="app/src/main/res/layout/habit_event_swipe.xml" value="0.16875" />

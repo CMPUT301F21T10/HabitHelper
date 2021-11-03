@@ -28,7 +28,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         textViewHabitName = findViewById(R.id.textViewHabitName);
         Bundle extras = getIntent().getExtras();
         Habit habitCreated;
-        
+
         if (extras != null){
             habitCreated = (Habit) extras.getSerializable("habit");
             textViewHabitName.setText("Habit Name: "+habitCreated.getTitle());

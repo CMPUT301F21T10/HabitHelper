@@ -42,7 +42,7 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
     public void onBindViewHolder(@NonNull habitsCustomList.MyViewHolder holder, int position) {
         holder.habitTitle_textView.setText(habits_list.get(position).getTitle());
         holder.habitComment_textView.setText(habits_list.get(position).getReason());
-        holder.habitComment_textView.setText(habits_list.get(position).getDateStarted());
+        holder.habitDate_textView.setText(habits_list.get(position).getDateStarted());
 
 
     }

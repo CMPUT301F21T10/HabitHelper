@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class HabitFragment extends Fragment implements Serializable {
             ArrayList<Habit> habits = new ArrayList<>();
             habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
             for (Habit eachHabit:habits){
+//                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
                 HabitsList.add(eachHabit);
             }
         }

@@ -12,7 +12,7 @@
         layout="@layout/toolbar" />
 
     <EditText
-        android:id="@+id/editTextDateCompleted"
+        android:id="@+id/editTextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextOptionalLocation"
+        android:id="@+id/editTextStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -45,10 +45,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
     <EditText
-        android:id="@+id/editTextOptionalComments"
+        android:id="@+id/editTextReason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDateCompleted" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextStartDate" />
 
     <TextView
         android:id="@+id/selectDays"
@@ -76,7 +76,7 @@
         android:text="Select Days"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOptionalLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextReason" />
 
     <Button
         android:id="@+id/mon_btn"

@@ -159,9 +159,9 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        EditText editTextTitle = findViewById(R.id.editTextDateCompleted);
-        EditText editTextReason = findViewById(R.id.editTextOptionalComments);
-        EditText editTextStartDate = findViewById(R.id.editTextOptionalLocation);
+        EditText editTextTitle = findViewById(R.id.editTextTitle);
+        EditText editTextReason = findViewById(R.id.editTextReason);
+        EditText editTextStartDate = findViewById(R.id.editTextStartDate);
 
 
 
