@@ -33,6 +33,7 @@ public class HabitFragment extends Fragment {
 
     ArrayList<Habit> HabitsList = new ArrayList<>();
     RecyclerView recyclerView;
+    RecyclerView.Adapter HabitsAdapter;
 
     public HabitFragment() {
         // Required empty public constructor
@@ -66,16 +67,6 @@ public class HabitFragment extends Fragment {
 
         HabitsList.add(new Habit("Exercise"));
         HabitsList.add(new Habit("Meditation"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
-        HabitsList.add(new Habit("Football"));
 
     }
 
@@ -89,22 +80,36 @@ public class HabitFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.habits_recycler_view);
 
-        Log.d("WTF2", "onCreateView: " + HabitsList.size());
+        if (getArguments() != null){
+            ArrayList<String> habitTitles = new ArrayList<>();
+            habitTitles = getArguments().getStringArrayList("habitsTitle");
+            for (String eachTitle:habitTitles){
+                HabitsList.add(new Habit(eachTitle));
+            }
 
+        }
+
+        Log.d("WTF2", "onCreateView: " + HabitsList.size());
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        RecyclerView.Adapter HabitsAdapter = new habitsCustomList(HabitsList, getContext());
+        HabitsAdapter = new habitsCustomList(HabitsList, getContext());
         recyclerView.setAdapter(HabitsAdapter);
-
 
 //        Log.d("WTF", "onCreateView: " + recyclerView.getId());
 
         Log.d("WTF", "onCreateView: " + recyclerView.getAdapter().getItemCount());
 
-
         return view;
     }
+
+
+//    public void addHabit(Habit habit1) {
+//        HabitsList.add(habit1);
+//        HabitsAdapter.notifyDataSetChanged();
+//        Log.d("TEXT", "onAddHabit: "+String.valueOf(HabitsList.size()));
+//    }
+
 
 }

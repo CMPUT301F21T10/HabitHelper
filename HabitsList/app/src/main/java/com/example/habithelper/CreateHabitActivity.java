@@ -11,9 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 public class CreateHabitActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,7 @@ public class CreateHabitActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true); removed back button from toolbar
         getSupportActionBar().setTitle("Create Habit");
+
 
         Button mon_btn = findViewById(R.id.mon_btn);
         final boolean[] mon_clicked = {false};
@@ -153,11 +159,21 @@ public class CreateHabitActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        EditText editTextTitle = findViewById(R.id.editTextTitle);
+
+
+
         switch (item.getItemId()){
             case R.id.createHabit:
-                Toast.makeText(this, "Habit Created", Toast.LENGTH_LONG).show();
+                String habitTitle = String.valueOf(editTextTitle.getText());
+//                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
+                intent.putExtra("habitsTitle", habitTitle);
                 startActivity(intent);
+
+
                 return true;
 
             case R.id.goBack:
