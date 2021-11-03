@@ -1,5 +1,7 @@
 package com.example.habithelper;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -47,6 +49,7 @@ public class User {
 
         ArrayList<String> DBData = new ArrayList<>();
         DBData = (ArrayList<String>) doc.get("UserData");
+        //Log.d("GETTASK", "DBDATA: " + DBData.get(0));
         if (DBData.size() == 2){
             this.name = DBData.get(0);
             this.email = DBData.get(1);
