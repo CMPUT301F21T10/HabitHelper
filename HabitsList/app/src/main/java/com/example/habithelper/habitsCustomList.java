@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +41,10 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
     @Override
     public void onBindViewHolder(@NonNull habitsCustomList.MyViewHolder holder, int position) {
         holder.habitTitle_textView.setText(habits_list.get(position).getTitle());
+        holder.habitComment_textView.setText(habits_list.get(position).getReason());
+        holder.habitDate_textView.setText(habits_list.get(position).getDateStarted());
+
+
     }
 
     @Override
@@ -48,11 +54,13 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView habitTitle_textView;
+        TextView habitTitle_textView, habitComment_textView,habitDate_textView;
 
         public MyViewHolder (View view) {
             super(view);
             habitTitle_textView = view.findViewById(R.id.habitTitleTextView);
+            habitComment_textView = view.findViewById(R.id.habitComment_textView);
+            habitDate_textView = view.findViewById(R.id.habitDate_textView);
 
         }
     }

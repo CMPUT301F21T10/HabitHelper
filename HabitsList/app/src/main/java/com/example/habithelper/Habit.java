@@ -24,6 +24,8 @@ public class Habit implements Serializable {
         this.title = title;
     }
 
+
+
     public String getTitle() {
         return title;
     }

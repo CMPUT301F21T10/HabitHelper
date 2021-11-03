@@ -32,10 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     public FloatingActionButton floatingActionButton;
-    ArrayList<String> HabitsList = new ArrayList<>();
+    ArrayList<Habit> HabitsList = new ArrayList<>();
 
     int count  = 0;
 
@@ -54,11 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle extras = getIntent().getExtras();
-        String habitTitle;
+        ArrayList<Habit> habitCreated = new ArrayList<>();
 
         if (extras != null){
-            habitTitle = extras.getString("habitsTitle");
-            HabitsList.add(habitTitle);
+            habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+            for (Habit eachHabit : habitCreated){
+                HabitsList.add(eachHabit);
+            }
+
         }
 
 
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
         Bundle bundle = new Bundle();
-        bundle.putStringArrayList("habitsTitle", HabitsList);
+        bundle.putSerializable("habitCreated", HabitsList);
         Fragment fragment1 = new HabitFragment();
         fragment1.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateHabitActivity.class);
+                intent.putExtra("habitCreated", HabitsList);
                 startActivity(intent);
             }
         });
@@ -131,32 +135,28 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.habits_fragment:
                         Bundle bundle = new Bundle();
-
-                        bundle.putStringArrayList("habitsTitle", HabitsList);
+                        bundle.putSerializable("habitCreated", HabitsList);
                         fragment = new HabitFragment();
                         fragment.setArguments(bundle);
                         break;
 
                     case R.id.today_fragment:
                         bundle = new Bundle();
-
-                        bundle.putStringArrayList("habitsTitle", HabitsList);
+                        bundle.putSerializable("habitCreated", HabitsList);
                         fragment = new TodayFragment();
                         fragment.setArguments(bundle);
                         break;
 
                     case R.id.events_fragment:
                         bundle = new Bundle();
-
-                        bundle.putStringArrayList("habitsTitle", HabitsList);
+                        bundle.putSerializable("habitCreated", HabitsList);
                         fragment = new EventsFragment();
                         fragment.setArguments(bundle);
                         break;
 
                     case R.id.friends_fragment:
                         bundle = new Bundle();
-
-                        bundle.putStringArrayList("habitsTitle", HabitsList);
+                        bundle.putSerializable("habitCreated", HabitsList);
                         fragment = new FriendsFragment();
                         fragment.setArguments(bundle);
                         break;

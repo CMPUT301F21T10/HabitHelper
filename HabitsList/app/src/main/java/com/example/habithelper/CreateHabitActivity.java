@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CreateHabitActivity extends AppCompatActivity {
+public class CreateHabitActivity extends AppCompatActivity implements Serializable{
 
 
     @Override
@@ -161,16 +161,29 @@ public class CreateHabitActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         EditText editTextTitle = findViewById(R.id.editTextTitle);
+        EditText editTextReason = findViewById(R.id.editTextReason);
+        EditText editTextStartDate = findViewById(R.id.editTextStartDate);
 
 
 
         switch (item.getItemId()){
             case R.id.createHabit:
+                Bundle extras = getIntent().getExtras();
+                ArrayList<Habit> habitCreated = new ArrayList<>();
+
+                if (extras != null){
+                    habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                    }
+
+
                 String habitTitle = String.valueOf(editTextTitle.getText());
+                String habitReason = String.valueOf(editTextReason.getText());
+                String habitStartDate = String.valueOf(editTextStartDate.getText());;
+                habitCreated.add(new Habit(habitTitle, habitReason, habitStartDate, true));
 //                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
-                intent.putExtra("habitsTitle", habitTitle);
+                intent.putExtra("habitCreated", habitCreated);
                 startActivity(intent);
 
 

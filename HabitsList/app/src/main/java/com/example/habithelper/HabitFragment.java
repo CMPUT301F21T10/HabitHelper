@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  * Use the {@link HabitFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HabitFragment extends Fragment {
+public class HabitFragment extends Fragment implements Serializable {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -65,8 +67,8 @@ public class HabitFragment extends Fragment {
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
 
-        HabitsList.add(new Habit("Exercise"));
-        HabitsList.add(new Habit("Meditation"));
+        HabitsList.add(new Habit("Exercise", "To improve cardio", "09/11/2021", true));
+        HabitsList.add(new Habit("Meditation", "To relax", "13/11/2021", true));
 
     }
 
@@ -81,10 +83,10 @@ public class HabitFragment extends Fragment {
         recyclerView = view.findViewById(R.id.habits_recycler_view);
 
         if (getArguments() != null){
-            ArrayList<String> habitTitles = new ArrayList<>();
-            habitTitles = getArguments().getStringArrayList("habitsTitle");
-            for (String eachTitle:habitTitles){
-                HabitsList.add(new Habit(eachTitle));
+            ArrayList<Habit> habits = new ArrayList<>();
+            habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
+            for (Habit eachHabit:habits){
+                HabitsList.add(eachHabit);
             }
 
         }
