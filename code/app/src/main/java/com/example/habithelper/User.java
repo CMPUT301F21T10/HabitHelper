@@ -176,4 +176,8 @@ public class User {
             docRef.update("Followers", FieldValue.arrayUnion(this.email));
         }
     }
+
+    public ArrayList<String> getFollowers() {
+        return followers;
+    }
 }

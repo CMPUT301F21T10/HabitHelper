@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     }
 
     public void onTestFollowers(View view){
-        testIntent = new Intent(this, FollowersActivity.class);
-        startActivity(testIntent);
+        //testIntent = new Intent(this, FollowersActivity.class);
+        //startActivity(testIntent);
     }
 }

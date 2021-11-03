@@ -29,6 +29,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="29dp"
         android:text="Following"
+        android:onClick="followingView"
         app:layout_constraintEnd_toStartOf="@+id/followersButton"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="Followers"
+        android:onClick="followersView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
