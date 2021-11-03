@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             habitTitle = extras.getString("habitsTitle");
             HabitsList.add(habitTitle);
         }
-        HabitsList.add("HelloFromMain");
 
 
 //        Intent intent = getIntent();
