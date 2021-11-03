@@ -210,8 +210,4 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         hideKeyboard();
     }
 
-    public void onTestFollowers(View view){
-        //testIntent = new Intent(this, FollowersActivity.class);
-        //startActivity(testIntent);
-    }
 }

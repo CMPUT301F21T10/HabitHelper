@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ public class FriendsFragment extends Fragment {
     //ArrayList<String> Followers;
 
     //This should only be used for the collectUserData method
-    private User userToReturn;
+    FirebaseUser userInfo;
     //This can be used for other purposes
     User currentUser;
 
@@ -77,6 +78,13 @@ public class FriendsFragment extends Fragment {
 
     }
 
+    /**
+     * onCreate method gets the currentUser that was passed in the intent extras
+     * checks if the user is not null, and sets up the followers/following fragment
+     * and starts by displaying the followers list first.
+     * @param savedInstanceState bundle
+     */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,44 +93,115 @@ public class FriendsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         Intent intent = getActivity().getIntent();
-        loginIntent = new Intent(getActivity(), LoginActivity.class);
         db = FirebaseFirestore.getInstance();
-
         FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-        System.out.println(user.getEmail());
         if (user != null) {
-            //All data will be attached to the user's email
-            String email = user.getEmail();
-            followersDataList = new ArrayList<>();
-
-            DocumentReference docRef = db.collection("Users").document(email);
-
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        System.out.println("This is the TEST LINE IN LOOP: " + (ArrayList<String>) document.get("Followers"));
-                        followersDataList.addAll((ArrayList<String>) document.get("Followers"));
-                        System.out.println("This is the TEST LINE IN LOOP AFTER ADDALL: " + followersDataList);
-                        System.out.println("Adapter " + followersAdapter);
-                        System.out.println("DataList " + followersDataList);
-                        followersAdapter.notifyDataSetChanged();
-                    }
-                }
-            });
+            onFollowersSelect();
         }
     }
 
+
+    /**
+     * onFollowersSelect retrieves the current user of the app from the database
+     * and takes a DocumentSnapshot to set the DataList to the content of the
+     * Followers collection on the Firebase, then updates the adapter for changes.
+     *
+     * This method is called during onCreate and anytime the Followers button is pressed.
+     */
+    public void onFollowersSelect(){
+
+        Intent intent = getActivity().getIntent();
+        db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+        String email = user.getEmail();
+        DocumentReference docRef = db.collection("Users").document(email);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    followersDataList.clear();
+                    followersDataList.addAll((ArrayList<String>) document.get("Followers"));
+                    // notifyDataSetChanged here AND in onclick below to have the listview change correctly
+                    followersAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+    /**
+     * onFollowingSelect retrieves the current user of the app from the database
+     * and takes a DocumentSnapshot to set the DataList to the content of the
+     * Following collection on the Firebase, then updates the adapter for changes.
+     *
+     * This method is called when the Following button is pressed and not in onCreate.
+     */
+    public void onFollowingSelect(){
+
+        Intent intent = getActivity().getIntent();
+        db = FirebaseFirestore.getInstance();
+
+        FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+        String email = user.getEmail();
+        DocumentReference docRef = db.collection("Users").document(email);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    followersDataList.clear();
+                    followersDataList.addAll((ArrayList<String>) document.get("Following"));
+                    // notifyDataSetChanged here AND in onclick below to have the listview change correctly
+                    followersAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Sets up the initial layout, button onClickListeners and initializes the arraylist and its adapter.
+     * Allows the user to click back and forth between the lists and changes the content of the
+     * view based on the database follower/following information of the current user.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return fragment_friends view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
+        // OnClickListener to call onFollowersSelect and change the recycler view to followers list
+        Button followersButton = (Button) view.findViewById(R.id.followersButton);
+        followersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFollowersSelect();
+                followersAdapter.notifyDataSetChanged();
+            }
+        });
 
+        // OnClickListener to call onFollowingSelect and change the recycler view to following list
+        Button followingButton = (Button) view.findViewById(R.id.followingButton);
+        followingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFollowingSelect();
+                followersAdapter.notifyDataSetChanged();
+            }
+        });
+
+        // setup the datalist, addapter and set the adapter for the correct view
+        // the same datalist and adapter is used for both followers and following, only
+        // the content of the datalist gets changed to avoid using two datalist, adapters and hiding them
+        followersDataList = new ArrayList<>();
         followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
