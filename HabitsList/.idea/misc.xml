@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_create_habit_event.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.16875" />
+        <entry key="app/src/main/res/layout/activity_view_habits.xml" value="0.1546875" />
         <entry key="app/src/main/res/layout/followers_content.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/fragment_habits.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/fragment_today.xml" value="0.1537037037037037" />
@@ -39,10 +40,11 @@
         <entry key="app/src/main/res/layout/habit_row_contents.xml" value="0.1537037037037037" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.16875" />
         <entry key="app/src/main/res/menu/create_habit_menu.xml" value="0.14375" />
+        <entry key="app/src/main/res/menu/view_habit_menu.xml" value="0.16875" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

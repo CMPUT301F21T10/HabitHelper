@@ -71,8 +71,8 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
 
-        HabitsList.add(new Habit("Exercise", "To improve cardio", "09/11/2021", true));
-        HabitsList.add(new Habit("Meditation", "To relax", "13/11/2021", true));
+//        HabitsList.add(new Habit("Exercise", "To improve cardio", "09/11/2021", true));
+//        HabitsList.add(new Habit("Meditation", "To relax", "13/11/2021", true));
 
     }
 
@@ -132,7 +132,9 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
     @Override
     public void onItemClick(Habit habit) {
-        Log.d("EDIT_HABIT", "onItemClick: " + habit.getTitle());
-
+        HabitsList.add(habit);
+        Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
+        intent.putExtra("habit", HabitsList);
+        startActivity(intent);
     }
 }
