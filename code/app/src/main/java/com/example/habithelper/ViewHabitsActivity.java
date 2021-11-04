@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
     Bundle extras;
     ArrayList<Habit> habitCreated = new ArrayList<>();
     Habit habitEditing;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         extras = getIntent().getExtras();
         if (extras != null){
             habitCreated = (ArrayList<Habit>) extras.getSerializable("habit");
+            user = (FirebaseUser) extras.get("currentUser");
         }
         habitEditing = habitCreated.get(habitCreated.size()-1);
         editTextTitle.setText(habitEditing.getTitle());
@@ -69,6 +73,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("habitEdited", habitCreated);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
 
 
@@ -86,6 +91,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("habitEdited", habitCreated);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
 
                 return true;

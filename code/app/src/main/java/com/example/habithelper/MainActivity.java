@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Habit> HabitsList = new ArrayList<>();
 
     FirebaseFirestore db;
+    FirebaseUser user;
 //    Intent loginIntent;
 
     //This should only be used for the collectUserData method
@@ -55,12 +57,14 @@ public class MainActivity extends AppCompatActivity {
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
                 HabitsList = (ArrayList<Habit>) extras.getSerializable("habitEdited");
                 Log.d("normal", "normal part");
+                user = (FirebaseUser) extras.get("currentUser");
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
                 Log.d("elsePart", "else part");
                 habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
                 for (Habit eachHabit : habitCreated){
                     HabitsList.add(eachHabit);
                 }
+                user = (FirebaseUser) extras.get("currentUser");
             }else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
 //              loginIntent = new Intent(this, LoginActivity.class);
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 //Initialize the database
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference userCollectionReference = db.collection("Users");
-                FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+                user = (FirebaseUser) intent.getExtras().get("currentUser");
                 if (user != null) {
                     //All data will be attached to the user's email
                     String email = user.getEmail();
@@ -179,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateHabitActivity.class);
                 intent.putExtra("habitCreated", HabitsList);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
             }
         });

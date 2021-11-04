@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -170,9 +172,10 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 Bundle extras = getIntent().getExtras();
                 ArrayList<Habit> habitCreated = new ArrayList<>();
 
-                if (extras != null){
-                    habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                }
+
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                FirebaseUser user = (FirebaseUser) extras.get("currentUser");
+
 
 
                 String habitTitle = String.valueOf(editTextTitle.getText());
@@ -184,6 +187,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitActivity.class.toString());
                 intent.putExtra("habitCreated", habitCreated);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
 
 

@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -40,6 +43,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
     ArrayList<Habit> HabitsList = new ArrayList<>();
     RecyclerView recyclerView;
     RecyclerView.Adapter HabitsAdapter;
+    FirebaseUser user;
 
     public HabitFragment() {
         // Required empty public constructor
@@ -89,6 +93,8 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         if (getArguments() != null){
             ArrayList<Habit> habits = new ArrayList<>();
             habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
+            Intent intent = getActivity().getIntent();
+            user = (FirebaseUser) intent.getExtras().get("currentUser");
             for (Habit eachHabit:habits){
 //                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
                 HabitsList.add(eachHabit);
@@ -125,6 +131,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
             Intent intent = new Intent(getContext(), CreateHabitEventActivity.class);
             Habit habitEvent = HabitsList.get(viewHolder.getAdapterPosition());
             intent.putExtra("habit", habitEvent);
+            intent.putExtra("currentUser", user);
             startActivity(intent);
             HabitsAdapter.notifyDataSetChanged();
         }
@@ -135,6 +142,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         HabitsList.add(habit);
         Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
         intent.putExtra("habit", HabitsList);
+        intent.putExtra("currentUser", user);
         startActivity(intent);
     }
 }
