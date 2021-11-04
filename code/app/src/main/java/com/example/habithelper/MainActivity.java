@@ -15,9 +15,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,19 +56,86 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         ArrayList<Habit> habitCreated;
         ArrayList<HabitEvent> habitEventCreated;
-
+      //  Habit newHabit = null;
         if (extras != null){
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
                 HabitsList = (ArrayList<Habit>) extras.getSerializable("habitEdited");
                 Log.d("normal", "normal part");
                 user = (FirebaseUser) extras.get("currentUser");
+
+
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
                 Log.d("elsePart", "else part");
+
+
                 habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                for (Habit eachHabit : habitCreated){
-                    HabitsList.add(eachHabit);
-                }
+
+//
+//                for (Habit eachHabit : habitCreated){
+//                    HabitsList.add(eachHabit);
+//
+//                }
+                Habit newHabit = habitCreated.get(0);
                 user = (FirebaseUser) extras.get("currentUser");
+
+                db = FirebaseFirestore.getInstance();
+
+                String email = user.getEmail();
+                Log.d("HABIT_TITLE", "onCreate: " + email);
+                DocumentReference docRef = db.collection("Habits")
+                        .document(email)
+                        .collection(email + "_habits")
+                        .document(newHabit.getTitle());
+
+                Log.d("HABIT_TITLE", "onCreate: " + newHabit.getTitle());
+
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "Document already exists!");
+                                Toast.makeText(MainActivity.this, "Habit already exists",
+                                        Toast.LENGTH_SHORT).show();
+
+                            } else {
+                                Log.d(TAG, "Document does not exist!");
+
+                                // write to db
+                                docRef.set(newHabit.generateAllHabitDBData())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                // These are a method which gets executed when the task is succeeded
+                                                Log.d("DATA_ADDED", "Data has been added successfully!");
+                                                HabitsList.add(newHabit);
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // These are a method which gets executed if there’s any problem
+                                                Log.d(TAG, "Data could not be added!" + e.toString());
+                                            }
+                                        });
+                            }
+                        } else {
+                            Log.d(TAG, "Failed with: ", task.getException());
+                        }
+                    }
+                });
+                try {
+                    TimeUnit.MILLISECONDS.sleep(400);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+
             }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
                 Log.d("elsePart", "else part");
                 habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
@@ -169,10 +238,10 @@ public class MainActivity extends AppCompatActivity {
         // setup the bottom navigation bar and maps with corresponding fragment
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("habitCreated", HabitsList);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("habitCreated", HabitsList);
         Fragment fragment1 = new HabitFragment();
-        fragment1.setArguments(bundle);
+//        fragment1.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
         bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
 

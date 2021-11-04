@@ -1,7 +1,10 @@
 package com.example.habithelper;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Habit implements Serializable {
 
@@ -10,6 +13,27 @@ public class Habit implements Serializable {
     private String dateStarted;
     private Boolean publicStatus;
 
+    /**
+     * This constructor takes in data from the database and converts it into a Habit object
+     * @param doc
+     *  the data pulled from the DB document
+     */
+    public Habit(DocumentSnapshot doc) {
+        ArrayList<String> DBData = new ArrayList<>();
+
+        this.title = (String) doc.get("habit_title");
+        this.reason = (String) doc.get("habit_reason");
+        this.dateStarted = (String) doc.get("habit_date");
+
+        String publicStatus_str = (String) doc.get("publicStatus");
+        if (publicStatus_str == "true"){
+            this.publicStatus = true;
+        }
+        else{
+            this.publicStatus = false;
+        }
+
+    }
 
     public Habit() {
     }
@@ -59,14 +83,30 @@ public class Habit implements Serializable {
         this.publicStatus = publicStatus;
     }
 
-    /**
-     * Put the object into a form usable in the DB
-     * @return the habit object in a form usable by the DB
-     */
-    public String generateDBData(){
-        ArrayList<String> DBData = new ArrayList<>();
-        DBData.add(this.title);
+//    /**
+//     * Put the object into a form usable in the DB
+//     * @return the habit object in a form usable by the DB
+//     */
+//    public String generateDBData(){
+//        ArrayList<String> DBData = new ArrayList<>();
+//        DBData.add(this.title);
+//
+//        return this.title;
+//    }
 
-        return this.title;
+    /**
+     * Translate all the data into a form usable by the DB
+     * @return a hashmap of all the data for this user
+     */
+    public HashMap<String, String> generateAllHabitDBData(){
+        HashMap<String, String> newHabitData = new HashMap<>();
+        newHabitData.put("habit_title", this.title);
+        newHabitData.put("habit_reason", this.reason);
+        newHabitData.put("habit_date", this.dateStarted);
+        newHabitData.put("publicStatus", this.publicStatus.toString());
+
+        return newHabitData;
     }
+
+
 }

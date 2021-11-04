@@ -161,13 +161,13 @@ public class User {
         return this.following;
     }
 
-    public ArrayList<String> generateHabitList(){
-        ArrayList<String> DBData = new ArrayList<>();
-        for (int i=0; i < this.habits.size();i++){
-            DBData.add(this.habits.get(i).generateDBData());
-        }
-        return DBData;
-    }
+//    public ArrayList<String> generateHabitList(){
+//        ArrayList<String> DBData = new ArrayList<>();
+//        for (int i=0; i < this.habits.size();i++){
+//            DBData.add(this.habits.get(i).generateDBData());
+//        }
+//        return DBData;
+//    }
 
     /**
      * @param FollowingId: Id of the user who sent the follow request

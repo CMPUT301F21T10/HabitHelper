@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +53,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
     RecyclerView recyclerView;
     RecyclerView.Adapter HabitsAdapter;
     FirebaseUser user;
+    FirebaseFirestore db;
 
     public HabitFragment() {
         // Required empty public constructor
@@ -78,6 +88,42 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 //        HabitsList.add(new Habit("Exercise", "To improve cardio", "09/11/2021", true));
 //        HabitsList.add(new Habit("Meditation", "To relax", "13/11/2021", true));
 
+        Intent intent = getActivity().getIntent();
+        db = FirebaseFirestore.getInstance();
+        user = (FirebaseUser) intent.getExtras().get("currentUser");
+
+        String email = user.getEmail();
+//        DocumentReference docRef = db.collection("Habits").document(email);
+
+        CollectionReference collectionRef = db.collection("Habits")
+                .document(email)
+                .collection(email+"_habits");
+
+        collectionRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("HAVE_HABIT", "haha");
+                                Habit retrievedHabit = new Habit(document);
+                                Log.d("HAVE", "onComplete: " + retrievedHabit.getTitle());
+                                HabitsList.add(retrievedHabit);
+                                Log.d("SIZE", "onComplete: " + HabitsList.size());
+                            }
+                            HabitsAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("NO_HABITS", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+//
+//        try {
+//            TimeUnit.MILLISECONDS.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -90,16 +136,23 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
         recyclerView = view.findViewById(R.id.habits_recycler_view);
 
-        if (getArguments() != null){
-            ArrayList<Habit> habits = new ArrayList<>();
-            habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
-            Intent intent = getActivity().getIntent();
-            user = (FirebaseUser) intent.getExtras().get("currentUser");
-            for (Habit eachHabit:habits){
-//                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
-                HabitsList.add(eachHabit);
-            }
+
+        Log.d("SIZE2", "onCreateView: " + HabitsList.size());
+        for (Habit eachHabit:HabitsList){
+            Log.d("LOLOLO", "onCreateView: "+ eachHabit.getTitle());
         }
+
+
+
+//        if (getArguments() != null){
+////            ArrayList<Habit> habits = new ArrayList<>();
+////            habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
+////
+////            for (Habit eachHabit:habits){
+//////                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
+////                HabitsList.add(eachHabit);
+////            }
+//        }
 
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -111,13 +164,6 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
         return view;
     }
-
-
-//    public void addHabit(Habit habit1) {
-//        HabitsList.add(habit1);
-//        HabitsAdapter.notifyDataSetChanged();
-//        Log.d("TEXT", "onAddHabit: "+String.valueOf(HabitsList.size()));
-//    }
 
 
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
