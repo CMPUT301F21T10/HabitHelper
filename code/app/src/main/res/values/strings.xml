@@ -3,7 +3,7 @@
 
     <string name="welcomeMessage">Welcome to HabitHelper</string>
     <string name="submitLogin">Login</string>
-    <string name="newUser"> <u>Sign Up</u> </string>
+    <string name="newUser">Sign Up</string>
     <string name="enterUsername">Username</string>
     <string name="enterName">Name</string>
     <string name="enterPassword">Password</string>

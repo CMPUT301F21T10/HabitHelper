@@ -69,15 +69,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            //reload();
-        }
-    }
 
     /**
      * OnClick event for sign up button
@@ -92,8 +83,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     /**
      * OnClick event for the OK Button in the NewUserFragment
      * Add the user created in the fragment to firestore
-     * Note: currently do not provide an ID so firestore randomly makes one, consult with
-     * TA if this is appropriate
+     * Need to create a user in both the DB and in the authentication service
      */
     @Override
     public void onOkPressed(User newUser){
@@ -187,6 +177,8 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 //If the sign in was successful, return to the main activity
                                 mainIntent.putExtra("currentUser", user);
                                 startActivity(mainIntent);
+                                Toast.makeText(LoginActivity.this, "Authentication succeeded.",
+                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.d(TAG, "signInWithEmail:failure", task.getException());
