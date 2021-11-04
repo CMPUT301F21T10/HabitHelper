@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 mainIntent.putExtra("currentUser", user);
+                                mainIntent.putExtra("classFrom", LoginActivity.class.toString());
                                 startActivity(mainIntent);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -191,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 //If the sign in was successful, return to the main activity
                                 mainIntent.putExtra("currentUser", user);
+                                mainIntent.putExtra("classFrom", LoginActivity.class.toString());
                                 startActivity(mainIntent);
                             } else {
                                 // If sign in fails, display a message to the user.
