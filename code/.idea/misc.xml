@@ -29,12 +29,15 @@
         <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/activity_create_habit_event.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14166666666666666" />
+        <entry key="app/src/main/res/layout/followers_content.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/fragment_habits.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/habit_event_row_contents.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/habit_row_contents.xml" value="0.14375" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.14375" />
         <entry key="app/src/main/res/menu/create_habit_menu.xml" value="0.14375" />
+        <entry key="app/src/main/res/menu/top_toolbar.xml" value="0.18958333333333333" />
         <entry key="app/src/main/res/menu/view_habit_menu.xml" value="0.1" />
       </map>
     </option>

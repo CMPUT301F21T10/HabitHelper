@@ -10,9 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitHelper">
         <activity
+            android:name=".ViewHabitsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateHabitEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateHabitActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity"/>
+            android:exported="true" />
         <activity
             android:name=".FollowersActivity"
             android:exported="true" />
