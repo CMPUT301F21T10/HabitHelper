@@ -64,8 +64,8 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
 
-        HabitEvents_list.add(new HabitEvent("Exercise event", "Exercised for 30 min", "03/11/2021"));
-        HabitEvents_list.add(new HabitEvent("Meditation event", "Meditated for 15 min", "03/11/2021"));
+//        HabitEvents_list.add(new HabitEvent("Exercise event", "Exercised for 30 min", "03/11/2021"));
+//        HabitEvents_list.add(new HabitEvent("Meditation event", "Meditated for 15 min", "03/11/2021"));
 
 
     }
@@ -78,14 +78,14 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
 
         Event_recyclerView = view.findViewById(R.id.habit_events_recycler_view);
 
-//        if (getArguments() != null){
-//            ArrayList<Habit> habits = new ArrayList<>();
-//            habits = (ArrayList<Habit>) getArguments().getSerializable("habitCreated");
-//            for (Habit eachHabit:habits){
-////                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
-//                HabitsList.add(eachHabit);
-//            }
-//        }
+        if (getArguments() != null){
+            ArrayList<HabitEvent> habits = new ArrayList<>();
+            habits = (ArrayList<HabitEvent>) getArguments().getSerializable("habitEventCreated");
+            for (HabitEvent eachHabit:habits){
+//                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
+                HabitEvents_list.add(eachHabit);
+            }
+        }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         Event_recyclerView.setLayoutManager(layoutManager);

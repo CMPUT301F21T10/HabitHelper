@@ -1,5 +1,6 @@
 package com.example.habithelper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,11 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
     TextView textViewHabitName;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         if (extras != null){
             habitCreated = (Habit) extras.getSerializable("habit");
             textViewHabitName.setText("Habit Name: "+habitCreated.getTitle());
+            user = (FirebaseUser) extras.get("currentUser");
 
         }
     }
@@ -52,25 +58,24 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
 
         switch (item.getItemId()){
-//            case R.id.createHabit:
-//                Bundle extras = getIntent().getExtras();
-//                ArrayList<Habit> habitCreated = new ArrayList<>();
-//
-//                if (extras != null){
-//                    habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-//                }
-//
-//
-//                String habitTitle = String.valueOf(editTextTitle.getText());
-//                String habitReason = String.valueOf(editTextReason.getText());
-//                String habitStartDate = String.valueOf(editTextStartDate.getText());;
-//                habitCreated.add(new Habit(habitTitle, habitReason, habitStartDate, true));
-//                Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
-//                intent.putExtra("habitCreated", habitCreated);
-//                startActivity(intent);
+            case R.id.createHabit:
+                Bundle extras = getIntent().getExtras();
+                ArrayList<Habit> habitsCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                ArrayList<HabitEvent> habitEventCreated = new ArrayList<>();
+
+                String habitTitle = String.valueOf(editTextTitle.getText());
+                String habitReason = String.valueOf(editTextReason.getText());
+                String habitStartDate = String.valueOf(editTextStartDate.getText());;
+                habitEventCreated.add(new HabitEvent(habitTitle, habitReason, habitStartDate));
+                Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
+                intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
+                intent.putExtra("habitEventCreated", habitEventCreated);
+                intent.putExtra("currentUser", user);
+                intent.putExtra("habitCreated", habitsCreated);
+                startActivity(intent);
 
 
-//                return true;
+                return true;
 
             case R.id.goBack:
                 onBackPressed();

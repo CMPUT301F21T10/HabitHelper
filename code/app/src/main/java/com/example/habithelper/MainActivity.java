@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton floatingActionButton;
     ArrayList<Habit> HabitsList = new ArrayList<>();
+    ArrayList<HabitEvent> HabitEventsList = new ArrayList<>();
 
     FirebaseFirestore db;
     FirebaseUser user;
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle extras = getIntent().getExtras();
-        ArrayList<Habit> habitCreated = new ArrayList<>();
+        ArrayList<Habit> habitCreated;
+        ArrayList<HabitEvent> habitEventCreated;
 
         if (extras != null){
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
@@ -65,7 +67,18 @@ public class MainActivity extends AppCompatActivity {
                     HabitsList.add(eachHabit);
                 }
                 user = (FirebaseUser) extras.get("currentUser");
-            }else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
+            }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
+                Log.d("elsePart", "else part");
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                for (Habit eachHabit : habitCreated){
+                    HabitsList.add(eachHabit);
+                }
+                habitEventCreated = (ArrayList<HabitEvent>) extras.getSerializable("habitEventCreated");
+                for (HabitEvent eachHabit : habitEventCreated){
+                    HabitEventsList.add(eachHabit);
+                }
+                user = (FirebaseUser) extras.get("currentUser");
+            } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
 //              loginIntent = new Intent(this, LoginActivity.class);
 
@@ -211,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.events_fragment:
                         bundle = new Bundle();
-                        bundle.putSerializable("habitCreated", HabitsList);
+                        bundle.putSerializable("habitEventCreated", HabitEventsList);
                         fragment = new EventsFragment();
                         fragment.setArguments(bundle);
                         break;
