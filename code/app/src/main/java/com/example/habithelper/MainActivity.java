@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public FloatingActionButton floatingActionButton;
 
     FirebaseFirestore db;
-    Intent loginIntent;
+//    Intent loginIntent;
 
     //This should only be used for the collectUserData method
     private User userToReturn;
@@ -46,29 +46,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        loginIntent = new Intent(this, LoginActivity.class);
+//        loginIntent = new Intent(this, LoginActivity.class);
 
         //Initialize the database
         db = FirebaseFirestore.getInstance();
         final CollectionReference userCollectionReference = db.collection("Users");
 
 
-        //If the user has not been logged in yet
-        if (!intent.hasExtra("currentUser")){
-            //Open up the login screen
-            startActivity(loginIntent);
+//        //If the user has not been logged in yet
+//        if (!intent.hasExtra("currentUser")){
+//            //Open up the login screen
+//            startActivity(loginIntent);
+//        }
+//        //if a user has been logged in, access their information
+//        else{
+//            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+//            if (user != null) {
+//                //All data will be attached to the user's email
+//                String email = user.getEmail();
+//                collectUserData(email);
+//            }else{
+//                throw new NullPointerException("There is no FirebaseUser!");
+//            }
+//        }
+
+        FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+        if (user != null) {
+            //All data will be attached to the user's email
+            String email = user.getEmail();
+            collectUserData(email);
+        }else{
+            throw new NullPointerException("There is no FirebaseUser!");
         }
-        //if a user has been logged in, access their information
-        else{
-            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-            if (user != null) {
-                //All data will be attached to the user's email
-                String email = user.getEmail();
-                collectUserData(email);
-            }else{
-                throw new NullPointerException("There is no FirebaseUser!");
-            }
-        }
+
+
+        setUpInterface();
 
     }
 
@@ -110,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
         if (newUser == null){
             throw new NullPointerException("There is no user logged in!");
         }
-        setUpInterface();
     }
 
     /**

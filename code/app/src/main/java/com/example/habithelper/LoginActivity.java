@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
 
-
+        //Initialize the database
         db = FirebaseFirestore.getInstance();
         userCollectionReference = db.collection("Users");
 
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                         }
                     });
         }else{
-            Toast.makeText(LoginActivity.this, "Inavlid Fields.",
+            Toast.makeText(LoginActivity.this, "Invalid Fields.",
                     Toast.LENGTH_SHORT).show();
 
         }
