@@ -11,9 +11,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
 
-public class CreateHabitActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class CreateHabitActivity extends AppCompatActivity implements Serializable{
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +27,9 @@ public class CreateHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_habit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); removed back button from toolbar
         getSupportActionBar().setTitle("Create Habit");
+
 
         Button mon_btn = findViewById(R.id.mon_btn);
         final boolean[] mon_clicked = {false};
@@ -153,11 +160,41 @@ public class CreateHabitActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        EditText editTextTitle = findViewById(R.id.editTextTitle);
+        EditText editTextReason = findViewById(R.id.editTextReason);
+        EditText editTextStartDate = findViewById(R.id.editTextStartDate);
+
+
+
         switch (item.getItemId()){
             case R.id.createHabit:
-                Toast.makeText(this, "Habit Created", Toast.LENGTH_LONG).show();
+                Bundle extras = getIntent().getExtras();
+                ArrayList<Habit> habitCreated = new ArrayList<>();
+
+
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                FirebaseUser user = (FirebaseUser) extras.get("currentUser");
+
+
+
+                String habitTitle = String.valueOf(editTextTitle.getText());
+                String habitReason = String.valueOf(editTextReason.getText());
+                String habitStartDate = String.valueOf(editTextStartDate.getText());;
+                habitCreated.add(new Habit(habitTitle, habitReason, habitStartDate, true));
+//                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
+                intent.putExtra("classFrom", CreateHabitActivity.class.toString());
+                intent.putExtra("habitCreated", habitCreated);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
+
+
+                return true;
+
+            case R.id.goBack:
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);

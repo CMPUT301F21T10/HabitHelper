@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,14 +28,19 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
     public FloatingActionButton floatingActionButton;
+    ArrayList<Habit> HabitsList = new ArrayList<>();
+    ArrayList<HabitEvent> HabitEventsList = new ArrayList<>();
 
     FirebaseFirestore db;
-    Intent loginIntent;
+    FirebaseUser user;
+//    Intent loginIntent;
 
     //This should only be used for the collectUserData method
     private User userToReturn;
@@ -44,31 +51,74 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bundle extras = getIntent().getExtras();
+        ArrayList<Habit> habitCreated;
+        ArrayList<HabitEvent> habitEventCreated;
 
-        Intent intent = getIntent();
-        loginIntent = new Intent(this, LoginActivity.class);
+        if (extras != null){
+            if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
+                HabitsList = (ArrayList<Habit>) extras.getSerializable("habitEdited");
+                Log.d("normal", "normal part");
+                user = (FirebaseUser) extras.get("currentUser");
+            }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
+                Log.d("elsePart", "else part");
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                for (Habit eachHabit : habitCreated){
+                    HabitsList.add(eachHabit);
+                }
+                user = (FirebaseUser) extras.get("currentUser");
+            }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
+                Log.d("elsePart", "else part");
+                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
+                for (Habit eachHabit : habitCreated){
+                    HabitsList.add(eachHabit);
+                }
+                habitEventCreated = (ArrayList<HabitEvent>) extras.getSerializable("habitEventCreated");
+                for (HabitEvent eachHabit : habitEventCreated){
+                    HabitEventsList.add(eachHabit);
+                }
+                user = (FirebaseUser) extras.get("currentUser");
+            } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
+                Intent intent = getIntent();
+//              loginIntent = new Intent(this, LoginActivity.class);
 
-        //Initialize the database
-        db = FirebaseFirestore.getInstance();
-        final CollectionReference userCollectionReference = db.collection("Users");
-
-
-        //If the user has not been logged in yet
-        if (!intent.hasExtra("currentUser")){
-            //Open up the login screen
-            startActivity(loginIntent);
-        }
-        //if a user has been logged in, access their information
-        else{
-            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-            if (user != null) {
-                //All data will be attached to the user's email
-                String email = user.getEmail();
-                collectUserData(email);
-            }else{
-                throw new NullPointerException("There is no FirebaseUser!");
+                //Initialize the database
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference userCollectionReference = db.collection("Users");
+                user = (FirebaseUser) intent.getExtras().get("currentUser");
+                if (user != null) {
+                    //All data will be attached to the user's email
+                    String email = user.getEmail();
+                    collectUserData(email);
+                }else{
+                    throw new NullPointerException("There is no FirebaseUser!");
+                }
             }
         }
+
+
+
+//        //If the user has not been logged in yet
+//        if (!intent.hasExtra("currentUser")){
+//            //Open up the login screen
+//            startActivity(loginIntent);
+//        }
+//        //if a user has been logged in, access their information
+//        else{
+//            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+//            if (user != null) {
+//                //All data will be attached to the user's email
+//                String email = user.getEmail();
+//                collectUserData(email);
+//            }else{
+//                throw new NullPointerException("There is no FirebaseUser!");
+//            }
+//        }
+
+
+
+
+        setUpInterface();
 
     }
 
@@ -110,19 +160,27 @@ public class MainActivity extends AppCompatActivity {
         if (newUser == null){
             throw new NullPointerException("There is no user logged in!");
         }
-        setUpInterface();
     }
 
     /**
      * Set up the bottom interface bar
      */
     public void setUpInterface(){
-        //NOTE: What does this do
+        // setup the bottom navigation bar and maps with corresponding fragment
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragmentContainerView);
-        NavController navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("habitCreated", HabitsList);
+        Fragment fragment1 = new HabitFragment();
+        fragment1.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
+        bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
+
+
+//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.fragmentContainerView);
+//        NavController navController = navHostFragment.getNavController();
+//        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         //Draw a notification badge over the friends icon
         bottomNavigationView.setBackground(null);
@@ -137,7 +195,51 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateHabitActivity.class);
+                intent.putExtra("habitCreated", HabitsList);
+                intent.putExtra("currentUser", user);
                 startActivity(intent);
+            }
+        });
+
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+
+                switch (item.getItemId()) {
+                    case R.id.habits_fragment:
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("habitCreated", HabitsList);
+                        fragment = new HabitFragment();
+                        fragment.setArguments(bundle);
+                        break;
+
+                    case R.id.today_fragment:
+                        bundle = new Bundle();
+                        bundle.putSerializable("habitCreated", HabitsList);
+                        fragment = new TodayFragment();
+                        fragment.setArguments(bundle);
+                        break;
+
+                    case R.id.events_fragment:
+                        bundle = new Bundle();
+                        bundle.putSerializable("habitEventCreated", HabitEventsList);
+                        fragment = new EventsFragment();
+                        fragment.setArguments(bundle);
+                        break;
+
+                    case R.id.friends_fragment:
+                        bundle = new Bundle();
+                        bundle.putSerializable("habitCreated", HabitsList);
+                        fragment = new FriendsFragment();
+                        fragment.setArguments(bundle);
+                        break;
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commit();
+
+                return true;
             }
         });
     }
