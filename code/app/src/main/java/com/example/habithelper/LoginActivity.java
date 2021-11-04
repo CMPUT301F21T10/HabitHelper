@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
 
-
+        //Initialize the database
         db = FirebaseFirestore.getInstance();
         userCollectionReference = db.collection("Users");
 
@@ -118,6 +118,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 mainIntent.putExtra("currentUser", user);
+                                mainIntent.putExtra("classFrom", LoginActivity.class.toString());
                                 startActivity(mainIntent);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -128,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                         }
                     });
         }else{
-            Toast.makeText(LoginActivity.this, "Inavlid Fields.",
+            Toast.makeText(LoginActivity.this, "Invalid Fields.",
                     Toast.LENGTH_SHORT).show();
 
         }
@@ -186,6 +187,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 //If the sign in was successful, return to the main activity
                                 mainIntent.putExtra("currentUser", user);
+                                mainIntent.putExtra("classFrom", LoginActivity.class.toString());
                                 startActivity(mainIntent);
                             } else {
                                 // If sign in fails, display a message to the user.
