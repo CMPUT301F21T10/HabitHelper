@@ -90,9 +90,7 @@ public class User {
      *  A new habit to attach to this user
      */
     public void addUserHabit(Habit newHabit){
-        //this.habits.add(newHabit);
-        //habits.size();
-        //habits.add(newHabit);
+        this.habits.add(newHabit);
     }
 
     /**
@@ -161,13 +159,6 @@ public class User {
         return this.following;
     }
 
-//    public ArrayList<String> generateHabitList(){
-//        ArrayList<String> DBData = new ArrayList<>();
-//        for (int i=0; i < this.habits.size();i++){
-//            DBData.add(this.habits.get(i).generateDBData());
-//        }
-//        return DBData;
-//    }
 
     /**
      * @param FollowingId: Id of the user who sent the follow request
@@ -195,7 +186,34 @@ public class User {
         }
     }
 
+    /**
+     * Get the list of followers for this user
+     * @return an arraylist containing the emails of this user's followers
+     */
     public ArrayList<String> getFollowers() {
         return followers;
+    }
+
+    /**
+     * Count how many followers this user has
+     * @return the integer count of followers
+     */
+    public Integer countFollowers(){
+        return this.followers.size();
+    }
+
+    /**
+     * Count how many other users this user is following
+     * @return the integer count of users being followed
+     */
+    public Integer countFollowing(){
+        return this.following.size();
+    }
+    /**
+     * Count how many habits this user is associated with
+     * @return the integer count of habits for this user
+     */
+    public Integer countHabits(){
+        return this.habits.size();
     }
 }
