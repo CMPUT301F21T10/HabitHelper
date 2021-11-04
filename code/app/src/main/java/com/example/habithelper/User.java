@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class User {
@@ -104,6 +105,20 @@ public class User {
         this.requests.add(userEmail);
     }
 
+    /**
+     * Translate all the data into a form usable by the DB
+     * @return a hashmap of all the data for this user
+     */
+    public HashMap<String, ArrayList<String>> generateAllDBData(){
+        HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
+        newUserData.put("UserData", this.generateDBData());
+        newUserData.put("Requests", this.generateRequestList());
+        newUserData.put("Followers", this.generateFollowersList());
+        newUserData.put("Following", this.generateFollowingList());
+        //newUserData.put("Habits", this.generateHabitList());
+
+        return newUserData;
+    }
     /**
      * Format the User data in a way usable in Firestore
      * @return An array list with all the necessary data to construct a User object

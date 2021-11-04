@@ -141,12 +141,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     public void createDBUser(User newUser){
         //Put the data from the suer object into a specific data structure
-        HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
-        newUserData.put("UserData", newUser.generateDBData());
-        newUserData.put("Requests", newUser.generateRequestList());
-        newUserData.put("Followers", newUser.generateFollowersList());
-        newUserData.put("Following", newUser.generateFollowingList());
-        newUserData.put("Habits", newUser.generateHabitList());
+        HashMap<String, ArrayList<String>> newUserData = newUser.generateAllDBData();
         userCollectionReference
                 .document(newUser.email)
                 .set(newUserData)
