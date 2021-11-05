@@ -133,6 +133,8 @@ public class FriendsFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
                     followersDataList.addAll((ArrayList<String>) document.get("Followers"));
+                    followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+                    followersListView.setAdapter(followersAdapter);
                     // notifyDataSetChanged here AND in onclick below to have the listview change correctly
                     followersAdapter.notifyDataSetChanged();
                 }
@@ -163,6 +165,8 @@ public class FriendsFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
                     followersDataList.addAll((ArrayList<String>) document.get("Following"));
+                    followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+                    followersListView.setAdapter(followersAdapter);
                     // notifyDataSetChanged here AND in onclick below to have the listview change correctly
                     followersAdapter.notifyDataSetChanged();
                 }
@@ -185,19 +189,25 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
-
+        followSearch = view.findViewById(R.id.search_bar);
 
         // OnClickListener to call onFollowersSelect and change the recycler view to followers list
         Button followersButton = (Button) view.findViewById(R.id.followersButton);
         Button followingButton = (Button) view.findViewById(R.id.followingButton);
+
+        //initial colors for the buttons (represents the friends tab starting on followers first)
+        followersButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
+        followingButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // clear search bar on button click, get followers and set button colors
                 onFollowersSelect();
-                //followersAdapter.getFilter().filter(null);
-                followersButton.setBackgroundColor(Color.GREEN);
-                followingButton.setBackgroundColor(Color.RED);
+                followersButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
+                followingButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
                 followersAdapter.notifyDataSetChanged();
+                followSearch.setQuery("", false);
             }
         });
 
@@ -205,11 +215,12 @@ public class FriendsFragment extends Fragment {
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // clear search bar on button click, get following and set button colors
                 onFollowingSelect();
-                //followersAdapter.getFilter().filter(null);
-                followersButton.setBackgroundColor(Color.RED);
-                followingButton.setBackgroundColor(Color.GREEN);
+                followingButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
+                followersButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
                 followersAdapter.notifyDataSetChanged();
+                followSearch.setQuery("", false);
             }
         });
 
@@ -221,7 +232,8 @@ public class FriendsFragment extends Fragment {
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
 
-        followSearch = view.findViewById(R.id.search_bar);
+
+        // implement search bar and filter the list of followers/following by entry
         followSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
