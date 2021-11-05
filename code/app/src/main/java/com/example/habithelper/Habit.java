@@ -1,6 +1,16 @@
 package com.example.habithelper;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -161,5 +171,58 @@ public class Habit implements Serializable {
         return newHabitData;
     }
 
+
+    /**
+     * Add a habit object to the database
+     * @param habit
+     *      the habit object to be added
+     * @param email
+     *      the email of the user for which the habit is to be added
+     * @param db
+     *      the database firestore instance
+     */
+    public void addHabitToDB(Habit habit, String email, FirebaseFirestore db){
+        DocumentReference docRefAdd = db.collection("Habits")
+                .document(email)
+                .collection(email + "_habits")
+                .document(habit.getTitle());
+        // write to db
+        docRefAdd.set(habit.generateAllHabitDBData())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d("DATA_ADDED", "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    }
+                });
+    }
+
+    public void deleteHabitFromDB(Habit habit, String email, FirebaseFirestore db){
+        DocumentReference docRefDelete = db.collection("Habits")
+                .document(email)
+                .collection(email + "_habits")
+                .document(habit.getTitle());
+
+        docRefDelete.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("DELETED", "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ERROR_DELETE", "Error deleting document", e);
+                    }
+                });
+    }
 
 }

@@ -14,6 +14,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -21,6 +23,7 @@ import java.util.Calendar;
  * This class is responsible to create a new habit
  */
 public class CreateHabitActivity extends AppCompatActivity implements Serializable{
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true); removed back button from toolbar
         getSupportActionBar().setTitle("Create Habit");
+
+        db = FirebaseFirestore.getInstance();
 
 
         //Setting up the days buttons (for selecting days)
@@ -203,8 +208,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 String habitTitle = String.valueOf(editTextTitle.getText());
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
-                //Create the new habit object to pass it to MainActivity
+                //Create the new habit object
                 Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true);
+
+                //adding the new edited habit to the database
+                habitCreated.addHabitToDB(habitCreated, user.getEmail(), db);
+
+
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitActivity.class.toString());
                 intent.putExtra("habitCreated", habitCreated);

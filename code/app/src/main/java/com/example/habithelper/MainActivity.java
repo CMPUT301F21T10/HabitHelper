@@ -55,48 +55,9 @@ public class MainActivity extends AppCompatActivity {
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
-                //Getting the habit object and adding it to the habits collection in the database
-                Habit newHabit =  (Habit) extras.getSerializable("habitCreated");
                 user = (FirebaseUser) extras.get("currentUser");
-                db = FirebaseFirestore.getInstance();
-                String email = user.getEmail();
-                DocumentReference docRef = db.collection("Habits")
-                        .document(email)
-                        .collection(email + "_habits")
-                        .document(newHabit.getTitle());
-                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            //checking whether the habit already exists
-                            if (document.exists()) {
-                                Toast.makeText(MainActivity.this, "Habit already exists", Toast.LENGTH_SHORT).show();
-                            } else {
-                                //otherwise add the habit object to the database
-                                docRef.set(newHabit.generateAllHabitDBData())
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                // These are a method which gets executed when the task is succeeded
-                                                HabitsList.add(newHabit);
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                // These are a method which gets executed if there’s any problem
-                                                Log.d(TAG, "Data could not be added!" + e.toString());
-                                            }
-                                        });
-                            }
-                        } else {
-                            Log.d(TAG, "Failed with: ", task.getException());
-                        }
-                    }
-                });
                 try {
-                    TimeUnit.MILLISECONDS.sleep(400);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
