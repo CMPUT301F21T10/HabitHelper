@@ -9,6 +9,7 @@
         android:id="@+id/addFriendsRecyclerUserItem"
         android:layout_width="match_parent"
         android:layout_height="47dp"
+        android:layout_marginStart="8dp"
         android:text="TextView"
         android:gravity="center_vertical"
         android:textSize="25dp" />

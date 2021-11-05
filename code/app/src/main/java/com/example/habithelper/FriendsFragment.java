@@ -311,11 +311,27 @@ public class FriendsFragment extends Fragment {
 
         requestAlert = view.findViewById(R.id.requestAlert);
 
-        int requests = 5; //YEVEHEN PUT NUMBER OF REQUESTS HERE.
+        Intent intent = getActivity().getIntent();
+        db = FirebaseFirestore.getInstance();
 
-        if(requests > 0){
-            requestAlert.setVisibility(View.VISIBLE);
-        }
+        FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+        String email = user.getEmail();
+        DocumentReference docRef = db.collection("Users").document(email);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    int requests = ((ArrayList<String>) document.get("RequestsReceived")).size();
+                    if(requests > 0){
+                        requestAlert.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+
         requestAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,8 +341,6 @@ public class FriendsFragment extends Fragment {
                 fr.commit();
             }
         });
-
-
         return view;
     }
 }
