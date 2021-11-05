@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,12 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CreateHabitActivity extends AppCompatActivity implements Serializable{
 
@@ -149,6 +153,32 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 }
             }
         });
+
+        TextView dateStarted = findViewById(R.id.editTextStartDate);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog.OnDateSetListener setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                String date = year + "-" + month + "-" + dayOfMonth;
+                dateStarted.setText(date);
+            }
+        };
+        DatePickerDialog.OnDateSetListener finalSetListener = setListener;
+        dateStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitActivity.this,
+                        finalSetListener,
+                        year,
+                        month,
+                        day);
+                datePickerDialog.show();
+            }
+        });
     }
 
     @Override
@@ -163,7 +193,8 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
 
         EditText editTextTitle = findViewById(R.id.editTextTitle);
         EditText editTextReason = findViewById(R.id.editTextReason);
-        EditText editTextStartDate = findViewById(R.id.editTextStartDate);
+        TextView dateStarted = findViewById(R.id.editTextStartDate);
+
 
 
 
@@ -180,7 +211,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
 
                 String habitTitle = String.valueOf(editTextTitle.getText());
                 String habitReason = String.valueOf(editTextReason.getText());
-                String habitStartDate = String.valueOf(editTextStartDate.getText());;
+                String habitStartDate = String.valueOf(dateStarted.getText());;
                 habitCreated.add(new Habit(habitTitle, habitReason, habitStartDate, true));
 //                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
 

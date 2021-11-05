@@ -1,11 +1,15 @@
 package com.example.habithelper;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ViewHabitsActivity extends AppCompatActivity implements Serializable {
 
@@ -44,6 +49,32 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         editTextTitle.setText(habitEditing.getTitle());
         editTextStartDate.setText(habitEditing.getDateStarted());
         editTextReason.setText(habitEditing.getReason());
+
+        TextView dateStarted = findViewById(R.id.editTextStartDate);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog.OnDateSetListener setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                String date = year + "-" + month + "-" + dayOfMonth;
+                dateStarted.setText(date);
+            }
+        };
+        DatePickerDialog.OnDateSetListener finalSetListener = setListener;
+        dateStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ViewHabitsActivity.this,
+                        finalSetListener,
+                        year,
+                        month,
+                        day);
+                datePickerDialog.show();
+            }
+        });
     }
 
     @Override
