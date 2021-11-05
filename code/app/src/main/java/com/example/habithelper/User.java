@@ -68,7 +68,7 @@ public class User {
      *  the data pulled from the DB document
      */
     public User(DocumentSnapshot doc){
-        System.out.println("KFJGHFDGHDFKJGHJDFKGHDFJGLKDFHGHKDJF===========================================================================");
+
         ArrayList<String> DBData = new ArrayList<>();
         DBData = (ArrayList<String>) doc.get("UserData");
         //Log.d("GETTASK", "DBDATA: " + DBData.get(0));
