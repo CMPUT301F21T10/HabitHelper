@@ -12,31 +12,48 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * This class is an adapter for the recycler view in habits fragment
+ */
 public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyViewHolder> {
 
     private ArrayList<Habit> habits_list;
     private Context context;
     private ItemClickListener clickListener;
 
-
+    /**
+     * Interface to implement method onItemClick when a habit is clicked on the recycler view
+     */
     public interface ItemClickListener {
         public void onItemClick(Habit habit);
     }
 
+    /**
+     * Constructor for habitsCustomList
+     * @param habits_list
+     * List of all the habit objects to be displayed
+     * @param context
+     * The context to display the habits
+     * @param clickListener
+     * ItemClickListener object to listen to "habit click"
+     */
     public habitsCustomList(ArrayList<Habit> habits_list, Context context, ItemClickListener clickListener) {
         this.habits_list = habits_list;
         this.context = context;
         this.clickListener = clickListener;
     }
 
-//    public habitsCustomList(List<Habit> habits_list) {
-//        this.habits_list = habits_list;
-//    }
 
+    /**
+     * Inflate habit_row_contents to display a habit object details as a cardview element on recyclerview
+     * @param parent
+     * @param viewType
+     * @return
+     *  MyViewHolder object
+     */
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.habit_row_contents, parent,false);
 
         View view = LayoutInflater.from(context).inflate(R.layout.habit_row_contents, parent,false);
 
@@ -58,6 +75,11 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
 
     }
 
+    /**
+     * Returns the count of the number of elements in the recycler view
+     * @return
+     *  The number of elements in the recycler view
+     */
     @Override
     public int getItemCount() {
         return habits_list.size();

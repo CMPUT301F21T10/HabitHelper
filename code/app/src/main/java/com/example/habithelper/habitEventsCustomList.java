@@ -12,17 +12,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+
+/**
+ * This class is an adapter for the recycler view in events fragment
+ */
 public class habitEventsCustomList extends RecyclerView.Adapter<habitEventsCustomList.MyEventViewHolder>{
 
     private ArrayList<HabitEvent> habitEvents_list;
     private Context context;
     private EventClickListener event_clickListener;
 
-
+    /**
+     * Interface to implement method onEventItemClick when a habitEvent is clicked on the recycler view
+     */
     public interface EventClickListener {
         public void onEventItemClick(HabitEvent habit_event);
     }
 
+    /**
+     * Constructor for habitEventsCustomList
+     * @param habitEvents_list
+     *  List of all habit events to be displayed
+     * @param context
+     *  The context to display the habit events
+     * @param event_clickListener
+     * EventClickListener object to listen to "habitEvent click"
+     */
     public habitEventsCustomList(ArrayList<HabitEvent> habitEvents_list, Context context, EventClickListener event_clickListener) {
         this.habitEvents_list = habitEvents_list;
         this.context = context;
@@ -30,10 +45,16 @@ public class habitEventsCustomList extends RecyclerView.Adapter<habitEventsCusto
     }
 
 
+    /**
+     * Inflate habit_event_row_contents to display a habit object details as a cardview element on recyclerview
+     * @param parent
+     * @param viewType
+     * @return
+     *  MyEventViewHolder object
+     */
     @NonNull
     @Override
     public MyEventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.habit_row_contents, parent,false);
 
         View view = LayoutInflater.from(context).inflate(R.layout.habit_event_row_contents, parent,false);
 
@@ -55,11 +76,16 @@ public class habitEventsCustomList extends RecyclerView.Adapter<habitEventsCusto
         });
     }
 
-
+    /**
+     * Returns the count of the number of elements in the recycler view
+     * @return
+     *  The number of elements in the recycler view
+     */
     @Override
     public int getItemCount() {
         return habitEvents_list.size();
     }
+
 
     public class MyEventViewHolder extends RecyclerView.ViewHolder {
 
@@ -73,7 +99,5 @@ public class habitEventsCustomList extends RecyclerView.Adapter<habitEventsCusto
 
         }
     }
-
-
 
 }

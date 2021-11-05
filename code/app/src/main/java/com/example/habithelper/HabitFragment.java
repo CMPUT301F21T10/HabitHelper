@@ -43,6 +43,9 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
     FirebaseUser user;
     FirebaseFirestore db;
 
+    /**
+     * Empty constructor for HabitFragment
+     */
     public HabitFragment() {
         // Required empty public constructor
     }
@@ -69,6 +72,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get user data from db
         Intent intent = getActivity().getIntent();
         db = FirebaseFirestore.getInstance();
         user = (FirebaseUser) intent.getExtras().get("currentUser");
@@ -78,6 +82,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
                 .document(email)
                 .collection(email+"_habits");
 
+        // retrieve all habits for current user from database and notify the recyclerview adapter
         collectionRef
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -85,11 +90,10 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("HAVE_HABIT", "haha");
+
                                 Habit retrievedHabit = new Habit(document);
                                 Log.d("HAVE", "onComplete: " + retrievedHabit.getTitle());
                                 HabitsList.add(retrievedHabit);
-                                Log.d("SIZE", "onComplete: " + HabitsList.size());
                             }
                             HabitsAdapter.notifyDataSetChanged();
                         } else {
