@@ -29,7 +29,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
+/**
+ * Fragment that shows the profile of a different user.
+ */
 public class DifferentProfileFragment extends Fragment implements Serializable, habitsCustomList.ItemClickListener {
 
     private FirebaseFirestore db;
@@ -62,13 +64,22 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
     private String mParam1;
     private String mParam2;
 
+    /**
+     * The constructor for this fragment.
+     * @param selectedUserEmail: The ID of the user that has been tapped.
+     * @param currentUserEmail: The ID of the user that is currently Logged in
+     */
     public DifferentProfileFragment(String selectedUserEmail, String currentUserEmail) {
         // Required empty public constructor
         this.selectedUserEmail = selectedUserEmail;
         this.currentUserEmail = currentUserEmail;
-
     }
 
+    /**
+     * Populates the Habits list of the selectedUser.
+     * Calls collectUser data to display to correct content on the user profile.
+     * @param savedInstanceState
+     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +88,7 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //All data will be attached to the user's email
+
         System.out.println("Selected User Email: " + selectedUserEmail);
         System.out.println("current User Email: " + currentUserEmail);
 
@@ -112,15 +123,19 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
                     }
                 });
 
-
-
         System.out.println(selectedUserEmail);
         collectUserData(currentUserEmail, selectedUserEmail);
-
     }
 
 
-
+    /**
+     * Sets up the Habits RecyclerView and adapter to show the Habits in the correct format.
+     * Initializes all the components of the fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,41 +148,14 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         Hobbies = view.findViewById(R.id.userHobbies); //WILL BE CHANGED
         habitsRecyclerView = view.findViewById(R.id.habitsRecyclerView);
 
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         habitsRecyclerView.setLayoutManager(layoutManager);
-
         HabitsAdapter = new habitsCustomList(HabitsList, getContext(), this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(habitsRecyclerView);
         habitsRecyclerView.setAdapter(HabitsAdapter);
-
-
         return view;
     }
 
-    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        /**
-         * On user swipe on a habit item, starts the create habit event activity
-         * @param viewHolder
-         *      The is the recycler view holder
-         * @param direction
-         *      This is the swiping direction (to the right)
-         */
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            Intent intent = new Intent(getContext(), CreateHabitEventActivity.class);
-            Habit habitEvent = HabitsList.get(viewHolder.getAdapterPosition());
-            intent.putExtra("habit", habitEvent);
-            intent.putExtra("currentUser", currentUserEmail);
-            intent.putExtra("habitCreated", HabitsList);
-            startActivity(intent);
-            HabitsAdapter.notifyDataSetChanged();
-        }
-    };
     /**
      * Get the document information from the DB on the user passed to the function as an email
      * And convert it into a user object
@@ -211,6 +199,10 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         return;
     }
 
+    /**
+     * Correctly shows the content of another user's profile depending on the follow status.
+     * @param currentNewUser, selectedNewUser
+     */
     public void afterUserLoad(User currentNewUser, User selectedNewUser){
 
         currentUser = currentNewUser;
@@ -221,7 +213,11 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
 
         if (currentUser.getFollowing().indexOf(selectedUserEmail) >= 0) {
             //If current user is following selected user, show the hobbies.
-            Hobbies.setVisibility(View.VISIBLE);
+            if(HabitsList.size() == 0){
+                Hobbies.setText("This user has no habits");
+                Hobbies.setVisibility(View.VISIBLE);
+            }
+
             System.out.println("HABITS VISIBLE");
 
             habitsRecyclerView.setVisibility(View.VISIBLE);
@@ -280,9 +276,6 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
 
     @Override
     public void onItemClick(Habit habit) {
-        Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
-        intent.putExtra("habit", habit);
-        intent.putExtra("currentUser", currentUserEmail);
-        startActivity(intent);
+
     }
 }
