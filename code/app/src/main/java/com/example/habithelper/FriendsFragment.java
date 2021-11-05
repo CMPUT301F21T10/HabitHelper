@@ -3,16 +3,19 @@ package com.example.habithelper;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,6 +44,7 @@ public class FriendsFragment extends Fragment {
     ListView followersListView;
     ArrayAdapter<String> followersAdapter;
     ArrayList<String> followersDataList;
+    Button addFriendsButton;
     //ArrayList<String> Followers;
 
     //This should only be used for the collectUserData method
@@ -183,22 +188,26 @@ public class FriendsFragment extends Fragment {
 
         // OnClickListener to call onFollowersSelect and change the recycler view to followers list
         Button followersButton = (Button) view.findViewById(R.id.followersButton);
+        Button followingButton = (Button) view.findViewById(R.id.followingButton);
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFollowersSelect();
                 //followersAdapter.getFilter().filter(null);
+                followersButton.setBackgroundColor(Color.GREEN);
+                followingButton.setBackgroundColor(Color.RED);
                 followersAdapter.notifyDataSetChanged();
             }
         });
 
         // OnClickListener to call onFollowingSelect and change the recycler view to following list
-        Button followingButton = (Button) view.findViewById(R.id.followingButton);
         followingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFollowingSelect();
                 //followersAdapter.getFilter().filter(null);
+                followersButton.setBackgroundColor(Color.RED);
+                followingButton.setBackgroundColor(Color.GREEN);
                 followersAdapter.notifyDataSetChanged();
             }
         });
@@ -223,6 +232,31 @@ public class FriendsFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 followersAdapter.getFilter().filter(newText);
                 return false;
+            }
+        });
+
+        followersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = getActivity().getIntent();
+                db = FirebaseFirestore.getInstance();
+                FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+                String currentUserEmail = user.getEmail();
+                String selectedUser = (String)adapterView.getItemAtPosition(i); //THESE ARE IDS FOR NOW, should be EMAIL
+                FragmentTransaction fr = getParentFragmentManager().beginTransaction();
+                //CREATE PROFILE OBJECT, pass selectedUserEmail and currentUserEmail. hardcoded for now
+                fr.replace(R.id.fragmentContainerView, new DifferentProfileFragment(selectedUser, currentUserEmail));
+                fr.commit();
+            }
+        });
+
+        addFriendsButton = view.findViewById(R.id.addFriendsButton);
+        addFriendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fr = getParentFragmentManager().beginTransaction();
+                fr.replace(R.id.fragmentContainerView, new AddFriendsFragment());
+                fr.commit();
             }
         });
 

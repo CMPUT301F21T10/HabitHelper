@@ -39,13 +39,23 @@
         app:layout_constraintStart_toEndOf="@+id/followingButton"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/addFriendsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="Add friends"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ListView
         android:id="@+id/following_List"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="128dp"
+        android:layout_width="410dp"
+        android:layout_height="601dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editName"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar"
         tools:ignore="DuplicateClickableBoundsCheck">
 
     </ListView>
