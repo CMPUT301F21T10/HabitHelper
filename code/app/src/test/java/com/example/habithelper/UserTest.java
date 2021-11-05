@@ -84,7 +84,7 @@ public class UserTest {
         assertEquals(0, (int) user.countHabits());
         user.addUserHabit(new Habit("TEST1"));
         assertEquals(1, (int) user.countHabits());
-        //assertEquals("TEST1", user.habits.get(0).title);
+        assertEquals("TEST1", user.habits.get(0).getTitle());
     }
 
 
