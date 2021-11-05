@@ -179,7 +179,7 @@ public class Habit implements Serializable {
      * @param email
      *      the email of the user for which the habit is to be added
      * @param db
-     *      the database firestore instance
+     *      the firestore instance
      */
     public void addHabitToDB(Habit habit, String email, FirebaseFirestore db){
         DocumentReference docRefAdd = db.collection("Habits")
@@ -204,6 +204,15 @@ public class Habit implements Serializable {
                 });
     }
 
+    /**
+     *
+     * @param habit
+     *      the habit object to be deleted
+     * @param email
+     *      the email of the user for which the habit is to be deleted
+     * @param db
+     *      the firestore instance
+     */
     public void deleteHabitFromDB(Habit habit, String email, FirebaseFirestore db){
         DocumentReference docRefDelete = db.collection("Habits")
                 .document(email)
