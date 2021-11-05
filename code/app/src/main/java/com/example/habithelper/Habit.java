@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * This is a class that represents a Habit object
+ * */
 public class Habit implements Serializable {
 
     private String title;
@@ -35,9 +38,23 @@ public class Habit implements Serializable {
 
     }
 
+    /**
+     * Empty constructor for the Habit class
+     * */
     public Habit() {
     }
 
+    /**
+     * Constructor for the Habit class that has all the attributes as parameters
+     * @param title
+     * The habit title/name
+     * @param reason
+     * The reason of doing the habit
+     * @param dateStarted
+     * The date the habit started
+     * @param publicStatus
+     * Denotes whether the habit is public or not
+     */
     public Habit(String title, String reason, String dateStarted, Boolean publicStatus) {
         this.title = title;
         this.reason = reason;
@@ -45,12 +62,19 @@ public class Habit implements Serializable {
         this.publicStatus = publicStatus;
     }
 
+    /**
+     * Constructor for Habit class, with only title as parameter
+     * @param title
+     * The habit title/name
+     */
     public Habit(String title) {
         this.title = title;
     }
 
-
-
+    /**
+     * Returns the title of a habit object
+     * @return
+     */
     public String getTitle() {
         return title;
     }
