@@ -143,9 +143,6 @@ public class User {
      */
     public ArrayList<String> generateFollowersList(){
         ArrayList<String> DBData = new ArrayList<>();
-        DBData.add("Raj");
-        DBData.add("Yevhen");
-        DBData.add("Emily");
 
         return DBData;
     }
