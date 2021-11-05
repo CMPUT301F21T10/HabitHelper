@@ -127,7 +127,6 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         recyclerView = view.findViewById(R.id.habits_recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-
         HabitsAdapter = new habitsCustomList(HabitsList, getContext(), this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(HabitsAdapter);

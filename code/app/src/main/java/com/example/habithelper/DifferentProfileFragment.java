@@ -6,7 +6,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +19,22 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class DifferentProfileFragment extends Fragment {
+public class DifferentProfileFragment extends Fragment implements Serializable, habitsCustomList.ItemClickListener {
 
     private FirebaseFirestore db;
     private Intent loginIntent;
+
     private TextView name;
     private View view;
     private Button acceptRequest;
@@ -34,8 +43,13 @@ public class DifferentProfileFragment extends Fragment {
     private TextView Hobbies;
     private User selectedUser;
     private User currentUser;
+    ArrayList<Habit> HabitsList = new ArrayList<>();
+    RecyclerView habitsRecyclerView;
+    RecyclerView.Adapter HabitsAdapter;
+
     private String currentUserEmail;
     private String selectedUserEmail;
+
     private ArrayList<String> selectedUserData = new ArrayList<>();
 
 
@@ -71,6 +85,35 @@ public class DifferentProfileFragment extends Fragment {
         loginIntent = new Intent(getActivity(), LoginActivity.class);
         db = FirebaseFirestore.getInstance();
 
+        CollectionReference collectionRef = db.collection("Habits")
+                .document(selectedUserEmail)
+                .collection(selectedUserEmail+"_habits");
+
+        // retrieve all habits for current user from database and notify the recyclerview adapter
+        collectionRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Habit retrievedHabit = new Habit(document);
+                                Log.d("HAVE", "onComplete: " + retrievedHabit.getTitle());
+                                HabitsList.add(retrievedHabit);
+                            }
+                            for(Habit i : HabitsList){
+                                System.out.println(i.getTitle());
+                            }
+                            HabitsAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("NO_HABITS", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+
         System.out.println(selectedUserEmail);
         collectUserData(currentUserEmail, selectedUserEmail);
 
@@ -82,14 +125,49 @@ public class DifferentProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = LayoutInflater.from(getActivity()).inflate(R.layout.different_profile_fragment, null);
+
         name = view.findViewById(R.id.profileDisplayName);
         acceptRequest = (Button) view.findViewById(R.id.acceptRequest);
         declineRequest = (Button) view.findViewById(R.id.declineRequest);
         sendRequest = (Button) view.findViewById(R.id.sendRequest);
         Hobbies = view.findViewById(R.id.userHobbies); //WILL BE CHANGED
+        habitsRecyclerView = view.findViewById(R.id.habitsRecyclerView);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        habitsRecyclerView.setLayoutManager(layoutManager);
+
+        HabitsAdapter = new habitsCustomList(HabitsList, getContext(), this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(habitsRecyclerView);
+        habitsRecyclerView.setAdapter(HabitsAdapter);
+
 
         return view;
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        /**
+         * On user swipe on a habit item, starts the create habit event activity
+         * @param viewHolder
+         *      The is the recycler view holder
+         * @param direction
+         *      This is the swiping direction (to the right)
+         */
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            Intent intent = new Intent(getContext(), CreateHabitEventActivity.class);
+            Habit habitEvent = HabitsList.get(viewHolder.getAdapterPosition());
+            intent.putExtra("habit", habitEvent);
+            intent.putExtra("currentUser", currentUserEmail);
+            intent.putExtra("habitCreated", HabitsList);
+            startActivity(intent);
+            HabitsAdapter.notifyDataSetChanged();
+        }
+    };
     /**
      * Get the document information from the DB on the user passed to the function as an email
      * And convert it into a user object
@@ -134,22 +212,19 @@ public class DifferentProfileFragment extends Fragment {
     }
 
     public void afterUserLoad(User currentNewUser, User selectedNewUser){
-        System.out.println("====================================");
+
         currentUser = currentNewUser;
         name.setText(selectedNewUser.getName());
         name.setVisibility(View.VISIBLE);
         System.out.println("SELECTED USER EMAIL: "+selectedUserEmail);
 
-        //Remove all elements first
 
-
-
-        //If current user is gollowing selected user, show the hobbies.
-        for (int i = 0; i < currentUser.getFollowing().size(); i++){
-            System.out.println("FOLLOWING FROM FRAGMENT: " + currentUser.getFollowing().get(i) + currentUser.getFollowing().indexOf(selectedUserEmail));
-        }
         if (currentUser.getFollowing().indexOf(selectedUserEmail) >= 0) {
+            //If current user is following selected user, show the hobbies.
             Hobbies.setVisibility(View.VISIBLE);
+            System.out.println("HABITS VISIBLE");
+
+            habitsRecyclerView.setVisibility(View.VISIBLE);
         }
         if (currentUser.getRequestsReceived().indexOf(selectedUserEmail) >= 0) {
             //If current user received request from
@@ -165,8 +240,9 @@ public class DifferentProfileFragment extends Fragment {
             sendRequest.setVisibility(View.VISIBLE);
         }
         if (currentUser.getFollowing().indexOf(selectedUserEmail) < 0){
-
+            //If current user is not following the user, show send request button
             sendRequest.setVisibility(View.VISIBLE);
+            habitsRecyclerView.setVisibility(View.GONE);
         }
 
         //Call the accept request method with true value for the User when the Accept button is pressed.
@@ -177,6 +253,7 @@ public class DifferentProfileFragment extends Fragment {
                 acceptRequest.setVisibility(View.INVISIBLE);
                 declineRequest.setVisibility(View.INVISIBLE);
                 Hobbies.setVisibility(View.VISIBLE);
+                habitsRecyclerView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -199,5 +276,13 @@ public class DifferentProfileFragment extends Fragment {
                 sendRequest.setEnabled(false);
             }
         });
+    }
+
+    @Override
+    public void onItemClick(Habit habit) {
+        Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
+        intent.putExtra("habit", habit);
+        intent.putExtra("currentUser", currentUserEmail);
+        startActivity(intent);
     }
 }

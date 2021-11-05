@@ -86,7 +86,7 @@ public class RequestsListFragment extends Fragment {
         FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
         String currentUserEmail = user.getEmail();
         System.out.println("CURRENT USER EMAIL: "+currentUserEmail);
-        generateRequestsList(currentUserEmail); //Populate RequestsList
+        generateRequestsList(currentUserEmail); //Populate RequestsList and call adapter
 
 
 
