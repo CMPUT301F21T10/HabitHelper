@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 
@@ -42,8 +44,10 @@ public class FriendsFragment extends Fragment {
 
     SearchView followSearch;
     ListView followersListView;
-    ArrayAdapter<String> followersAdapter;
-    ArrayList<String> followersDataList;
+    CustomFollowersList followersAdapter;
+    ArrayList<ArrayList<String>> followersDataList;
+    ArrayList<String> followersEmailList;
+    ArrayList<String> followersDataName;
     Button addFriendsButton;
     FloatingActionButton requestAlert;
     //ArrayList<String> Followers;
@@ -132,14 +136,28 @@ public class FriendsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
-                    followersDataList.addAll((ArrayList<String>) document.get("Followers"));
-                    followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+                    followersAdapter = new CustomFollowersList(getContext(), followersDataList);
                     followersListView.setAdapter(followersAdapter);
-                    // notifyDataSetChanged here AND in onclick below to have the listview change correctly
-                    followersAdapter.notifyDataSetChanged();
+
+                    followersEmailList = (ArrayList<String>) document.get("Followers");
+                    for(String userEmail : followersEmailList) {
+                        DocumentReference docRefUsers = db.collection("Users").document(userEmail);
+                        docRefUsers.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    followersDataList.add((ArrayList<String>) document.get("UserData"));
+                                    followersAdapter.notifyDataSetChanged();
+                                    System.out.println(followersDataList);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
+
     }
 
     /**
@@ -164,11 +182,24 @@ public class FriendsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
-                    followersDataList.addAll((ArrayList<String>) document.get("Following"));
-                    followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+                    followersAdapter = new CustomFollowersList(getContext(), followersDataList);
                     followersListView.setAdapter(followersAdapter);
-                    // notifyDataSetChanged here AND in onclick below to have the listview change correctly
-                    followersAdapter.notifyDataSetChanged();
+
+                    followersEmailList = (ArrayList<String>) document.get("Following");
+                    for(String userEmail : followersEmailList) {
+                        DocumentReference docRefUsers = db.collection("Users").document(userEmail);
+                        docRefUsers.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    followersDataList.add((ArrayList<String>) document.get("UserData"));
+                                    followersAdapter.notifyDataSetChanged();
+                                    System.out.println(followersDataList);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -228,7 +259,10 @@ public class FriendsFragment extends Fragment {
         // the same datalist and adapter is used for both followers and following, only
         // the content of the datalist gets changed to avoid using two datalist, adapters and hiding them
         followersDataList = new ArrayList<>();
-        followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+        followersEmailList = new ArrayList<>();
+        followersDataName = new ArrayList<>();
+        //followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+        followersAdapter = new CustomFollowersList(getContext(), followersDataList);
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
 
@@ -255,11 +289,11 @@ public class FriendsFragment extends Fragment {
                 db = FirebaseFirestore.getInstance();
                 FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
                 String currentUserEmail = user.getEmail();
-                String selectedUser = (String)adapterView.getItemAtPosition(i); //THESE ARE IDS FOR NOW, should be EMAIL
+
+                followersDataName = (ArrayList<String>) adapterView.getItemAtPosition(i);
+                String selectedUser = followersDataName.get(1);
                 FragmentTransaction fr = getParentFragmentManager().beginTransaction();
 
-                //CREATE PROFILE OBJECT, pass selectedUserEmail and currentUserEmail. hardcoded for now
-                //YEVEHEN RETURN THE ID OF SELECTEDUSER
                 fr.replace(R.id.fragmentContainerView, new DifferentProfileFragment(selectedUser, currentUserEmail));
                 fr.commit();
             }
