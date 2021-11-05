@@ -212,7 +212,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true);
 
                 //adding the new edited habit to the database
-                habitCreated.addHabitToDB(habitCreated, user.getEmail(), db);
+                habitCreated.addHabitToDB(user.getEmail(), db);
 
 
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);

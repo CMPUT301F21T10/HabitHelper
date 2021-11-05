@@ -174,20 +174,18 @@ public class Habit implements Serializable {
 
     /**
      * Add a habit object to the database
-     * @param habit
-     *      the habit object to be added
      * @param email
      *      the email of the user for which the habit is to be added
      * @param db
      *      the firestore instance
      */
-    public void addHabitToDB(Habit habit, String email, FirebaseFirestore db){
+    public void addHabitToDB(String email, FirebaseFirestore db){
         DocumentReference docRefAdd = db.collection("Habits")
                 .document(email)
                 .collection(email + "_habits")
-                .document(habit.getTitle());
+                .document(this.title);
         // write to db
-        docRefAdd.set(habit.generateAllHabitDBData())
+        docRefAdd.set(this.generateAllHabitDBData())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -206,18 +204,16 @@ public class Habit implements Serializable {
 
     /**
      *
-     * @param habit
-     *      the habit object to be deleted
      * @param email
      *      the email of the user for which the habit is to be deleted
      * @param db
      *      the firestore instance
      */
-    public void deleteHabitFromDB(Habit habit, String email, FirebaseFirestore db){
+    public void deleteHabitFromDB(String email, FirebaseFirestore db){
         DocumentReference docRefDelete = db.collection("Habits")
                 .document(email)
                 .collection(email + "_habits")
-                .document(habit.getTitle());
+                .document(this.title);
 
         docRefDelete.delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

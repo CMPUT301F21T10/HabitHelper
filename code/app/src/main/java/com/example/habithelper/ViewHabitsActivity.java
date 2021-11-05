@@ -96,10 +96,10 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 String emailToEdit = user.getEmail();
 
                 //adding the new edited habit to the database
-                newEditedHabit.addHabitToDB(newEditedHabit, emailToEdit, db);
+                newEditedHabit.addHabitToDB(emailToEdit, db);
 
                 //deleting the old habit from the database
-                newEditedHabit.deleteHabitFromDB(habitEditing, emailToEdit, db);
+                newEditedHabit.deleteHabitFromDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
@@ -110,7 +110,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
             case R.id.delete:
                 String email = user.getEmail();
                 //deleting the habit from the database
-                habitEditing.deleteHabitFromDB(habitEditing, email, db);
+                habitEditing.deleteHabitFromDB(email, db);
 
 //                try {
 //                    TimeUnit.MILLISECONDS.sleep(400);
