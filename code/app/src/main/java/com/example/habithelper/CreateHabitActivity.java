@@ -201,18 +201,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         switch (item.getItemId()){
             case R.id.createHabit:
                 Bundle extras = getIntent().getExtras();
-                ArrayList<Habit> habitCreated = new ArrayList<>();
 
-
-                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
                 FirebaseUser user = (FirebaseUser) extras.get("currentUser");
-
-
 
                 String habitTitle = String.valueOf(editTextTitle.getText());
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
-                habitCreated.add(new Habit(habitTitle, habitReason, habitStartDate, true));
+                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true);
 //                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);

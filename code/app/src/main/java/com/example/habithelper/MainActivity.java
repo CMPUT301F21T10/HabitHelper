@@ -70,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("elsePart", "else part");
 
 
-                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                Habit newHabit = habitCreated.get(0);
+                Habit newHabit =  (Habit) extras.getSerializable("habitCreated");
                 user = (FirebaseUser) extras.get("currentUser");
 
                 db = FirebaseFirestore.getInstance();
