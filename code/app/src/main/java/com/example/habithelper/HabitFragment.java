@@ -93,7 +93,6 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         user = (FirebaseUser) intent.getExtras().get("currentUser");
 
         String email = user.getEmail();
-//        DocumentReference docRef = db.collection("Habits").document(email);
 
         CollectionReference collectionRef = db.collection("Habits")
                 .document(email)
@@ -186,9 +185,8 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
     @Override
     public void onItemClick(Habit habit) {
-        HabitsList.add(habit);
         Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
-        intent.putExtra("habit", HabitsList);
+        intent.putExtra("habit", habit);
         intent.putExtra("currentUser", user);
         startActivity(intent);
     }

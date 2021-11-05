@@ -56,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         ArrayList<Habit> habitCreated;
         ArrayList<HabitEvent> habitEventCreated;
-      //  Habit newHabit = null;
+
         if (extras != null){
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
-                HabitsList = (ArrayList<Habit>) extras.getSerializable("habitEdited");
+
                 Log.d("normal", "normal part");
+
                 user = (FirebaseUser) extras.get("currentUser");
+
 
 
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
@@ -69,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                 habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-
-//
-//                for (Habit eachHabit : habitCreated){
-//                    HabitsList.add(eachHabit);
-//
-//                }
                 Habit newHabit = habitCreated.get(0);
                 user = (FirebaseUser) extras.get("currentUser");
 
