@@ -1,22 +1,14 @@
 package com.example.habithelper;
-
 import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,17 +21,13 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-
     public FloatingActionButton floatingActionButton;
     ArrayList<Habit> HabitsList = new ArrayList<>();
     ArrayList<HabitEvent> HabitEventsList = new ArrayList<>();
-
     FirebaseFirestore db;
     FirebaseUser user;
 
@@ -58,54 +46,40 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<HabitEvent> habitEventCreated;
 
         if (extras != null){
+            /**
+             * classFrom: the class from which MainActivity is being called
+             * currentUser: the current user
+             * newHabit: the habit object being parsed to MainActivity
+             * email: the current user's email
+             */
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
-
-                Log.d("normal", "normal part");
-
                 user = (FirebaseUser) extras.get("currentUser");
-
-
-
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
-                Log.d("elsePart", "else part");
-
-
+                //Getting the habit object and adding it to the habits collection in the database
                 Habit newHabit =  (Habit) extras.getSerializable("habitCreated");
                 user = (FirebaseUser) extras.get("currentUser");
-
                 db = FirebaseFirestore.getInstance();
-
                 String email = user.getEmail();
-                Log.d("HABIT_TITLE", "onCreate: " + email);
                 DocumentReference docRef = db.collection("Habits")
                         .document(email)
                         .collection(email + "_habits")
                         .document(newHabit.getTitle());
-
-                Log.d("HABIT_TITLE", "onCreate: " + newHabit.getTitle());
-
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
+                            //checking whether the habit already exists
                             if (document.exists()) {
-                                Log.d(TAG, "Document already exists!");
-                                Toast.makeText(MainActivity.this, "Habit already exists",
-                                        Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText(MainActivity.this, "Habit already exists", Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.d(TAG, "Document does not exist!");
-
-                                // write to db
+                                //otherwise add the habit object to the database
                                 docRef.set(newHabit.generateAllHabitDBData())
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 // These are a method which gets executed when the task is succeeded
-                                                Log.d("DATA_ADDED", "Data has been added successfully!");
                                                 HabitsList.add(newHabit);
-
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -126,13 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-
-
-
-
             }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
-                Log.d("elsePart", "else part");
+                //Habit events have not been implemented in the database for Part 3
                 habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
                 for (Habit eachHabit : habitCreated){
                     HabitsList.add(eachHabit);
@@ -144,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 user = (FirebaseUser) extras.get("currentUser");
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
-
                 //Initialize the database
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference userCollectionReference = db.collection("Users");
@@ -158,10 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        
-
         setUpInterface();
-
     }
 
     /**
@@ -208,14 +173,11 @@ public class MainActivity extends AppCompatActivity {
      * Set up the bottom interface bar
      */
     public void setUpInterface(){
-
         // setup the bottom navigation bar and maps with corresponding fragment
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-
         Fragment fragment1 = new HabitFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
         bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
-
 
         // only for testing for the time being, not implemented dynamically yet
         //Draw a notification badge over the friends icon
@@ -237,12 +199,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-
                 switch (item.getItemId()) {
                     case R.id.habits_fragment:
                         Bundle bundle = new Bundle();
@@ -272,9 +232,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment.setArguments(bundle);
                         break;
                 }
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commit();
-
                 return true;
             }
         });
