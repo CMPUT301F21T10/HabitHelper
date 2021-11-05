@@ -41,7 +41,7 @@ public class CreateHabitEventActivitytest {
     }
 
     /**
-     * Check if siwping on habit works
+     * Check if swiping on habit works
      * Create a habit event
      * Check if the habit event has been added
      */

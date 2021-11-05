@@ -1,9 +1,7 @@
 package com.example.habithelper;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,47 +13,42 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.google.firebase.auth.FirebaseUser;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * This class is responsible to create a new habit
+ */
 public class CreateHabitActivity extends AppCompatActivity implements Serializable{
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_habit);
+        //Setting up the toolbar with create habit and cancel menu items
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true); removed back button from toolbar
         getSupportActionBar().setTitle("Create Habit");
 
 
+        //Setting up the days buttons (for selecting days)
         Button mon_btn = findViewById(R.id.mon_btn);
         final boolean[] mon_clicked = {false};
-
         Button tue_btn = findViewById(R.id.tue_btn);
         final boolean[] tue_clicked = {false};
-
         Button wed_btn = findViewById(R.id.wed_btn);
         final boolean[] wed_clicked = {false};
-
         Button thur_btn = findViewById(R.id.thur_btn);
         final boolean[] thur_clicked = {false};
-
         Button fri_btn = findViewById(R.id.fri_btn);
         final boolean[] fri_clicked = {false};
-
         Button sat_btn = findViewById(R.id.sat_btn);
         final boolean[] sat_clicked = {false};
-
         Button sun_btn = findViewById(R.id.sun_btn);
         final boolean[] sun_clicked = {false};
 
+        //Checking if monday has been clicked
         mon_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +63,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if tuesday has been clicked
         tue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +78,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if wednesday has been clicked
         wed_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +93,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if thursday has been clicked
         thur_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +108,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if friday has been clicked
         fri_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +123,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if saturday has been clicked
         sat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +138,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Checking if sunday has been clicked
         sun_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,6 +153,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             }
         });
 
+        //Setting up date picker dialogue
         TextView dateStarted = findViewById(R.id.editTextStartDate);
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -172,10 +172,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitActivity.this,
-                        finalSetListener,
-                        year,
-                        month,
-                        day);
+                        finalSetListener, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -190,35 +187,32 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        //Getting the habit title, reason, and start date edit texts of the habit being created
         EditText editTextTitle = findViewById(R.id.editTextTitle);
         EditText editTextReason = findViewById(R.id.editTextReason);
         TextView dateStarted = findViewById(R.id.editTextStartDate);
 
-
-
-
         switch (item.getItemId()){
+            //When create habit is selected in the menu
             case R.id.createHabit:
+                //Get the current user from MainActivity to pass it back to MainActivity
                 Bundle extras = getIntent().getExtras();
-
                 FirebaseUser user = (FirebaseUser) extras.get("currentUser");
 
+                //Get the habit details of the habit being created
                 String habitTitle = String.valueOf(editTextTitle.getText());
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
+                //Create the new habit object to pass it to MainActivity
                 Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true);
-//                Toast.makeText(CreateHabitActivity.this, habitTitle, Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitActivity.class.toString());
                 intent.putExtra("habitCreated", habitCreated);
                 intent.putExtra("currentUser", user);
                 startActivity(intent);
-
-
                 return true;
 
+            //When cancel is selected in the menu
             case R.id.goBack:
                 onBackPressed();
                 return true;
