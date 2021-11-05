@@ -1,10 +1,13 @@
 package com.example.habithelper;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -16,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
@@ -39,6 +43,32 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
             user = (FirebaseUser) extras.get("currentUser");
 
         }
+
+        TextView dateStarted = findViewById(R.id.editTextDateCompleted);
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog.OnDateSetListener setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                String date = year + "-" + month + "-" + dayOfMonth;
+                dateStarted.setText(date);
+            }
+        };
+        DatePickerDialog.OnDateSetListener finalSetListener = setListener;
+        dateStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitEventActivity.this,
+                        finalSetListener,
+                        year,
+                        month,
+                        day);
+                datePickerDialog.show();
+            }
+        });
     }
 
     @Override
@@ -51,9 +81,9 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        EditText editTextTitle = findViewById(R.id.editTextDateCompleted);
-        EditText editTextReason = findViewById(R.id.editTextOptionalComments);
-        EditText editTextStartDate = findViewById(R.id.editTextOptionalLocation);
+        TextView dateStarted = findViewById(R.id.editTextDateCompleted);
+        EditText editTextComments = findViewById(R.id.editTextOptionalComments);
+        EditText editTextTLocation = findViewById(R.id.editTextOptionalLocation);
 
 
 
@@ -63,10 +93,10 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 ArrayList<Habit> habitsCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
                 ArrayList<HabitEvent> habitEventCreated = new ArrayList<>();
 
-                String habitTitle = String.valueOf(editTextTitle.getText());
-                String habitReason = String.valueOf(editTextReason.getText());
-                String habitStartDate = String.valueOf(editTextStartDate.getText());;
-                habitEventCreated.add(new HabitEvent(habitTitle, habitReason, habitStartDate));
+                String habitLocation = String.valueOf(editTextTLocation.getText());
+                String habitComment = String.valueOf(editTextComments.getText());
+                String habitStartDate = String.valueOf(dateStarted.getText());;
+                habitEventCreated.add(new HabitEvent(habitLocation, habitComment, habitStartDate));
                 Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
                 intent.putExtra("habitEventCreated", habitEventCreated);

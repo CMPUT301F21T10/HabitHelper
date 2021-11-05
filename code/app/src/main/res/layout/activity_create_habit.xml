@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/editTextStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,11 +37,12 @@
         android:background="@drawable/ic_edit_text"
         android:ems="10"
         android:hint="Starting Date"
-        android:inputType="textPersonName"
+        android:inputType="date|textPersonName"
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
         android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
