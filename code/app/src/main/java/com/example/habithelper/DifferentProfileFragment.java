@@ -136,7 +136,8 @@ public class DifferentProfileFragment extends Fragment {
     public void afterUserLoad(User currentNewUser, User selectedNewUser){
         System.out.println("====================================");
         currentUser = currentNewUser;
-        name.setText(currentUser.getName());
+        name.setText(selectedNewUser.getName());
+        name.setVisibility(View.VISIBLE);
         System.out.println("SELECTED USER EMAIL: "+selectedUserEmail);
 
         //Remove all elements first
@@ -149,17 +150,22 @@ public class DifferentProfileFragment extends Fragment {
         }
         if (currentUser.getFollowing().indexOf(selectedUserEmail) >= 0) {
             Hobbies.setVisibility(View.VISIBLE);
-        } else if (currentUser.getRequestsReceived().indexOf(selectedUserEmail) >= 0) {
+        }
+        if (currentUser.getRequestsReceived().indexOf(selectedUserEmail) >= 0) {
             //If current user received request from
             //selectedUser, show accept and decline buttons.
             acceptRequest.setVisibility(View.VISIBLE);
             declineRequest.setVisibility(View.VISIBLE);
-        } else if (currentUser.getRequestsSent().indexOf(selectedUserEmail) >= 0) {
+        }
+        if (currentUser.getRequestsSent().indexOf(selectedUserEmail) >= 0) {
             //If current user sent a request to the
             //selectedUser, show accept and decline buttons.
             sendRequest.setEnabled(false);
             sendRequest.setText("Request Sent");
-        } else if (currentUser.getFollowing().indexOf(selectedUserEmail) < 0){
+            sendRequest.setVisibility(View.VISIBLE);
+        }
+        if (currentUser.getFollowing().indexOf(selectedUserEmail) < 0){
+
             sendRequest.setVisibility(View.VISIBLE);
         }
 

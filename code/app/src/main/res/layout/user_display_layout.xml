@@ -7,7 +7,9 @@
 
     <TextView
         android:id="@+id/addFriendsRecyclerUserItem"
-        android:layout_width="408dp"
-        android:layout_height="26dp"
-        android:text="TextView" />
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:text="TextView"
+        android:gravity="center_vertical"
+        android:textSize="25dp" />
 </LinearLayout>

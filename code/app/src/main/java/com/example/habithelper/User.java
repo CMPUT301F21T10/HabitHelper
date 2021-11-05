@@ -49,7 +49,7 @@ public class User {
      *  the data pulled from the DB document
      */
     public User(DocumentSnapshot doc){
-
+        System.out.println("KFJGHFDGHDFKJGHJDFKGHDFJGLKDFHGHKDJF===========================================================================");
         ArrayList<String> DBData = new ArrayList<>();
         DBData = (ArrayList<String>) doc.get("UserData");
         //Log.d("GETTASK", "DBDATA: " + DBData.get(0));
@@ -67,6 +67,10 @@ public class User {
         this.requestsSent = (ArrayList<String>) doc.get("RequestsSent");
         this.requestsReceived = (ArrayList<String>) doc.get("RequestsReceived");
 
+    }
+
+    public String getEmail(){
+        return this.email;
     }
 
     /**
@@ -221,13 +225,16 @@ public class User {
      */
     public void acceptRequest(String FollowerId, boolean accept){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference receiverDocRef = db.collection("Users").document(FollowerId);
-        DocumentReference senderDocRef = db.collection("Users").document(this.email);
-        senderDocRef.update("RequestsSent", FieldValue.arrayRemove(FollowerId));
-        receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove(this.email));
+        DocumentReference receiverDocRef = db.collection("Users").document(this.email);
+        DocumentReference senderDocRef = db.collection("Users").document(FollowerId);
+        senderDocRef.update("RequestsSent", FieldValue.arrayRemove(this.email));
+        receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove(FollowerId));
         if(accept){
-            senderDocRef.update("Following", FieldValue.arrayUnion(this.email));
+            System.out.println("AcceptedREQUEST");
+            System.out.println(this.email + " " + FollowerId);
             receiverDocRef.update("Followers", FieldValue.arrayUnion(FollowerId));
+            senderDocRef.update("Following", FieldValue.arrayUnion(this.email));
+
         }
     }
 

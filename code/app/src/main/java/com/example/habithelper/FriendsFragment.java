@@ -45,6 +45,7 @@ public class FriendsFragment extends Fragment {
     ArrayAdapter<String> followersAdapter;
     ArrayList<String> followersDataList;
     Button addFriendsButton;
+    FloatingActionButton requestAlert;
     //ArrayList<String> Followers;
 
     //This should only be used for the collectUserData method
@@ -244,7 +245,9 @@ public class FriendsFragment extends Fragment {
                 String currentUserEmail = user.getEmail();
                 String selectedUser = (String)adapterView.getItemAtPosition(i); //THESE ARE IDS FOR NOW, should be EMAIL
                 FragmentTransaction fr = getParentFragmentManager().beginTransaction();
+
                 //CREATE PROFILE OBJECT, pass selectedUserEmail and currentUserEmail. hardcoded for now
+                //YEVEHEN RETURN THE ID OF SELECTEDUSER
                 fr.replace(R.id.fragmentContainerView, new DifferentProfileFragment(selectedUser, currentUserEmail));
                 fr.commit();
             }
@@ -256,6 +259,23 @@ public class FriendsFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction fr = getParentFragmentManager().beginTransaction();
                 fr.replace(R.id.fragmentContainerView, new AddFriendsFragment());
+                fr.commit();
+            }
+        });
+
+        requestAlert = view.findViewById(R.id.requestAlert);
+
+        int requests = 5; //YEVEHEN PUT NUMBER OF REQUESTS HERE.
+
+        if(requests > 0){
+            requestAlert.setVisibility(View.VISIBLE);
+        }
+        requestAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("requests button clicked");
+                FragmentTransaction fr = getParentFragmentManager().beginTransaction();
+                fr.replace(R.id.fragmentContainerView, new RequestsListFragment());
                 fr.commit();
             }
         });

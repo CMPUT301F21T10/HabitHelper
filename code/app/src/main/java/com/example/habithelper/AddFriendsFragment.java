@@ -1,10 +1,13 @@
 package com.example.habithelper;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +15,8 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +25,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.common.data.DataBufferSafeParcelable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,16 +41,22 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.AEADBadTagException;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddFriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class AddFriendsFragment extends Fragment {
-    private View view;
-    private ListView allUsers;
-    private ArrayList<User> allUsersList;
-    private FirebaseFirestore db;
+    protected View view;
+    protected ListView allUsersListView;
+    protected ArrayList<User> allUsersList = new ArrayList<>();
+    protected FirebaseFirestore db;
+    protected ArrayAdapter<User> userArrayAdapter;
+
+    private ArrayList<String> allUserIds = new ArrayList<>();
+    User userToShow;
     List<DocumentSnapshot> documentList;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,62 +95,50 @@ public class AddFriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_friends, null);
-        allUsers = (ListView) view.findViewById(R.id.allUsersList);
+        allUsersListView = (ListView) view.findViewById(R.id.allUsersList);
         db = FirebaseFirestore.getInstance();
         CollectionReference cdb = db.collection("Users");
         System.out.println("CONTEXT: "+this.getContext());
+        Context context = this.getContext();
+
 
         cdb.get().addOnCompleteListener((new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot d = task.getResult();
                 documentList = d.getDocuments();
+                System.out.println("IDDD:"+documentList.get(0).getId());
+
+                for(DocumentSnapshot dox : documentList){
+                  userToShow = new User(dox);
+                  allUsersList.add(userToShow);
+                }
+                for(User i : allUsersList){
+                    System.out.println("WORKING!!:"+i.getName());
+                }
+                userArrayAdapter = new customUserList(context, allUsersList);
+                allUsersListView.setAdapter(userArrayAdapter);
 
             }
         }));
 
+        allUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = getActivity().getIntent();
+                db = FirebaseFirestore.getInstance();
+                FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+                String currentUserEmail = user.getEmail();
+                User selectedUser = (User)adapterView.getItemAtPosition(i); //THESE ARE IDS FOR NOW, should be EMAIL
+                FragmentTransaction fr = getParentFragmentManager().beginTransaction();
+                //CREATE PROFILE OBJECT, pass selectedUserEmail and currentUserEmail. hardcoded for now
+                System.out.println(selectedUser.getEmail() + "  " + currentUserEmail );
+                fr.replace(R.id.fragmentContainerView, new DifferentProfileFragment(selectedUser.getEmail(), currentUserEmail));
+                fr.commit();
+            }
+        });
+
 
         return view;
     }
-    /**
-     * Get the document information from the DB on the user passed to the function as an email
-     * And convert it into a user object
-     * @param email
-     * @return
-     */
-    public void collectUserData(String email){
-        DocumentReference docRef = db.collection("Users").document(email);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                User newUser = null;
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        newUser = new User(document);
-                    } else {
-                        throw new RuntimeException("Invalid Firestore ID Given");
-                    }
-                } else {
-                    throw new RuntimeException("Firestore retrieval failed");
-                }
-                afterUserLoad(newUser);
-            }
-        });
-        return;
-    }
-
-    /**
-     * Everything to be done after the user has logged in should go here
-     * This will only happen after a user has been loaded in
-     * @param newUser
-     */
-    public void afterUserLoad(User newUser){
-        //Ensure we do actually have a user
-        if (newUser == null){
-            throw new NullPointerException("There is no user logged in!");
-        }
-    }
-
-
 }
