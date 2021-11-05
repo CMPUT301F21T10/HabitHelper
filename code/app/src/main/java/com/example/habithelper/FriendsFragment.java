@@ -33,29 +33,37 @@ import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 
+// FriednsFragment is responsible for showing the user their followers/following lists in the same fragment
+// buttons change color on click to signal being pressed, and the list content changes. User names are displayed
+// but a custom adapter is used and in the background the userid (email) is also stored to allow clicking on profiles.
+// Search bar is implemented but does not currently filter correctly after implementing custom adapter.
+// Clicking on profiles from the list shows the correct profile and allows to view the selected user's and list of habits
+// Add Friedns button takes the user to a page loaded with all firebase user that can be clicked and requested to be followed.
+// A new followers requests button shows up when friends fragment is clicked and a requests exists in firebase, the user is then
+// able to click it to go to the requests lists and accept, decline and send requests back to the user.
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class FriendsFragment extends Fragment {
-    FirebaseFirestore db;
-    Intent loginIntent;
+    private FirebaseFirestore db;
+    private Intent loginIntent;
 
-    SearchView followSearch;
-    ListView followersListView;
-    CustomFollowersList followersAdapter;
-    ArrayList<ArrayList<String>> followersDataList;
-    ArrayList<String> followersEmailList;
-    ArrayList<String> followersDataName;
-    Button addFriendsButton;
-    FloatingActionButton requestAlert;
-    //ArrayList<String> Followers;
+    private SearchView followSearch;
+    private ListView followersListView;
+    private CustomFollowersList followersAdapter;
+    private ArrayList<ArrayList<String>> followersDataList;
+    private ArrayList<String> followersEmailList;
+    private ArrayList<String> followersDataName;
+    private Button addFriendsButton;
+    private FloatingActionButton requestAlert;
 
     //This should only be used for the collectUserData method
-    FirebaseUser userInfo;
+    private FirebaseUser userInfo;
     //This can be used for other purposes
-    User currentUser;
+    private User currentUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -118,6 +126,8 @@ public class FriendsFragment extends Fragment {
      * onFollowersSelect retrieves the current user of the app from the database
      * and takes a DocumentSnapshot to set the DataList to the content of the
      * Followers collection on the Firebase, then updates the adapter for changes.
+     * While setting the list, the user id(email) is stored with the username to
+     * display the username on the listview but keep id for future onItemClicks.
      *
      * This method is called during onCreate and anytime the Followers button is pressed.
      */
@@ -149,7 +159,6 @@ public class FriendsFragment extends Fragment {
                                     DocumentSnapshot document = task.getResult();
                                     followersDataList.add((ArrayList<String>) document.get("UserData"));
                                     followersAdapter.notifyDataSetChanged();
-                                    System.out.println(followersDataList);
                                 }
                             }
                         });
@@ -164,6 +173,8 @@ public class FriendsFragment extends Fragment {
      * onFollowingSelect retrieves the current user of the app from the database
      * and takes a DocumentSnapshot to set the DataList to the content of the
      * Following collection on the Firebase, then updates the adapter for changes.
+     * While setting the list, the user id(email) is stored with the username to
+     * display the username on the listview but keep id for future onItemClicks.
      *
      * This method is called when the Following button is pressed and not in onCreate.
      */
@@ -195,7 +206,6 @@ public class FriendsFragment extends Fragment {
                                     DocumentSnapshot document = task.getResult();
                                     followersDataList.add((ArrayList<String>) document.get("UserData"));
                                     followersAdapter.notifyDataSetChanged();
-                                    System.out.println(followersDataList);
                                 }
                             }
                         });
@@ -209,7 +219,10 @@ public class FriendsFragment extends Fragment {
     /**
      * Sets up the initial layout, button onClickListeners and initializes the arraylist and its adapter.
      * Allows the user to click back and forth between the lists and changes the content of the
-     * view based on the database follower/following information of the current user.
+     * view based on the database follower/following information of the current user. Sets up the button
+     * colors and search bar that can be used to filter the lists for users. Sets up onItemClick to handle
+     * selecting profiles from the list and opening then in a new fragment. Places the add followers and
+     * check requests buttons (later only if requests exists when FriendsFragment is clicked).
      * @param inflater
      * @param container
      * @param savedInstanceState
