@@ -96,7 +96,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 String habitLocation = String.valueOf(editTextTLocation.getText());
                 String habitComment = String.valueOf(editTextComments.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
-                habitEventCreated.add(new HabitEvent(habitLocation, habitComment, habitStartDate));
+                habitEventCreated.add(new HabitEvent(habitComment, habitLocation, habitStartDate));
                 Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
                 intent.putExtra("habitEventCreated", habitEventCreated);
