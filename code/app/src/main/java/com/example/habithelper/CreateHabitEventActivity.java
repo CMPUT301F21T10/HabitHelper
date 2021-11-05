@@ -1,5 +1,4 @@
 package com.example.habithelper;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,25 +9,27 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.google.firebase.auth.FirebaseUser;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+
+/**
+ * This class is responsible to create new habit events
+ */
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
     TextView textViewHabitName;
-    FirebaseUser user;
+    FirebaseUser user; //Current user
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_habit_event);
+        //Setting up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Create Habit Event");
@@ -38,12 +39,14 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         Habit habitCreated;
 
         if (extras != null){
+            //Get the habit for which a habit event is to be created
             habitCreated = (Habit) extras.getSerializable("habit");
             textViewHabitName.setText("Habit Name: "+habitCreated.getTitle());
+            //Get the current user
             user = (FirebaseUser) extras.get("currentUser");
-
         }
 
+        //Setting up date picker dialogue
         TextView dateStarted = findViewById(R.id.editTextDateCompleted);
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -62,10 +65,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitEventActivity.this,
-                        finalSetListener,
-                        year,
-                        month,
-                        day);
+                        finalSetListener, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -80,19 +80,19 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        //Getting the habit event details edit texts of the habit event being created
         TextView dateStarted = findViewById(R.id.editTextDateCompleted);
         EditText editTextComments = findViewById(R.id.editTextOptionalComments);
         EditText editTextTLocation = findViewById(R.id.editTextOptionalLocation);
 
-
-
         switch (item.getItemId()){
+            //When create is selected in the menu
             case R.id.createHabit:
                 Bundle extras = getIntent().getExtras();
+                //NOTE: NOT YET IMPLEMENTED. HABIT EVENTS NOT CONNECTED TO DATABASE. THIS WORKS OFFLINE
+                //KEEP LISTS OF HABIT EVENTS, AND HABITS AND PARSE TO MAINACTIVITY
                 ArrayList<Habit> habitsCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
                 ArrayList<HabitEvent> habitEventCreated = new ArrayList<>();
-
                 String habitLocation = String.valueOf(editTextTLocation.getText());
                 String habitComment = String.valueOf(editTextComments.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
@@ -103,10 +103,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 intent.putExtra("currentUser", user);
                 intent.putExtra("habitCreated", habitsCreated);
                 startActivity(intent);
-
-
                 return true;
-
+            //When cancel is selected in the menu
             case R.id.goBack:
                 onBackPressed();
                 return true;

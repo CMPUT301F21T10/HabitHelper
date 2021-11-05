@@ -42,13 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     FirebaseUser user;
-//    Intent loginIntent;
 
     //This should only be used for the collectUserData method
     private User userToReturn;
     private Boolean getUserDone = false;
     //This can be used for other purposes
     User currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 user = (FirebaseUser) extras.get("currentUser");
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
-//              loginIntent = new Intent(this, LoginActivity.class);
 
                 //Initialize the database
                 db = FirebaseFirestore.getInstance();
@@ -159,28 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
-
-
-//        //If the user has not been logged in yet
-//        if (!intent.hasExtra("currentUser")){
-//            //Open up the login screen
-//            startActivity(loginIntent);
-//        }
-//        //if a user has been logged in, access their information
-//        else{
-//            FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-//            if (user != null) {
-//                //All data will be attached to the user's email
-//                String email = user.getEmail();
-//                collectUserData(email);
-//            }else{
-//                throw new NullPointerException("There is no FirebaseUser!");
-//            }
-//        }
-
-
-
+        
 
         setUpInterface();
 
@@ -230,22 +208,16 @@ public class MainActivity extends AppCompatActivity {
      * Set up the bottom interface bar
      */
     public void setUpInterface(){
+
         // setup the bottom navigation bar and maps with corresponding fragment
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("habitCreated", HabitsList);
         Fragment fragment1 = new HabitFragment();
-//        fragment1.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
         bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
 
 
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.fragmentContainerView);
-//        NavController navController = navHostFragment.getNavController();
-//        NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
+        // only for testing for the time being, not implemented dynamically yet
         //Draw a notification badge over the friends icon
         bottomNavigationView.setBackground(null);
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.friends_fragment);
