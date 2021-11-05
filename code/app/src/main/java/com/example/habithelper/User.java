@@ -18,7 +18,8 @@ public class User {
     public ArrayList<Habit> habits;
     public ArrayList<String> followers;
     public ArrayList<String> following;
-    public ArrayList<String> requests;
+    public ArrayList<String> requestsSent;
+    public ArrayList<String> requestsReceived;
 
     /**
      * Basic constructor for when a user does not yet have an ID defined in the database
@@ -38,7 +39,8 @@ public class User {
         this.followers = new ArrayList<>();
         this.following = new ArrayList<>();
         this.habits = new ArrayList<Habit>();
-        this.requests = new ArrayList<>();
+        this.requestsSent = new ArrayList<>();
+        this.requestsReceived = new ArrayList<>();
     }
 
     /**
@@ -62,9 +64,43 @@ public class User {
         this.followers = (ArrayList<String>) doc.get("Followers");
         this.following = (ArrayList<String>) doc.get("Following");
         this.habits = new ArrayList<Habit>();
-        this.requests = (ArrayList<String>) doc.get("Requests");
+        this.requestsSent = (ArrayList<String>) doc.get("RequestsSent");
+        this.requestsReceived = (ArrayList<String>) doc.get("RequestsReceived");
 
     }
+
+    /**
+     * Get the list of followers for this user
+     * @return the name of this user
+     */
+    public String getName(){
+        return this.name;
+    }
+
+    public ArrayList<String> getRequestsSent(){
+        return this.requestsSent;
+    }
+
+    public ArrayList<String> getRequestsReceived(){
+        return this.requestsReceived;
+    }
+
+    /**
+     * Get the list of followers for this user
+     * @return an arraylist containing the emails of users that this user follows
+     */
+    public ArrayList<String> getFollowing(){
+        return this.following;
+    }
+
+    /**
+     * Get the list of followers for this user
+     * @return an arraylist containing the emails of this user's followers
+     */
+    public ArrayList<String> getFollowers() {
+        return followers;
+    }
+
 
     /**
      * Add a follower to this user's follower list
@@ -100,7 +136,7 @@ public class User {
      *  The email of a user attempting to follow the current user
      */
     public void addRequest(String userEmail){
-        this.requests.add(userEmail);
+        this.requestsReceived.add(userEmail);
     }
 
     /**
@@ -110,7 +146,8 @@ public class User {
     public HashMap<String, ArrayList<String>> generateAllDBData(){
         HashMap<String, ArrayList<String>> newUserData = new HashMap<>();
         newUserData.put("UserData", this.generateDBData());
-        newUserData.put("Requests", this.generateRequestList());
+        newUserData.put("RequestsReceived", this.generateRequestReceivedList());
+        newUserData.put("RequestsSent", this.generateRequestReceivedList());
         newUserData.put("Followers", this.generateFollowersList());
         newUserData.put("Following", this.generateFollowingList());
         //newUserData.put("Habits", this.generateHabitList());
@@ -131,10 +168,18 @@ public class User {
 
     /**
      * Format the Request data in a way usable in Firestore
+     * @return An array list of the requests sent from this user
+     */
+    public ArrayList<String> generateRequestSentList(){
+        return this.requestsSent;
+    }
+
+    /**
+     * Format the Request data in a way usable in Firestore
      * @return An array list of the requests to this user
      */
-    public ArrayList<String> generateRequestList(){
-        return this.requests;
+    public ArrayList<String> generateRequestReceivedList(){
+        return this.requestsReceived;
     }
 
     /**
@@ -156,40 +201,37 @@ public class User {
         return this.following;
     }
 
-
     /**
-     * @param FollowingId: Id of the user who sent the follow request
+     * @param FollowingId: Id of the user receiving the follow request
      * Sends request by adding FollowingId to list of requests of the receiver's Requests list.
      */
     public void sendRequest(String FollowingId){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("Users").document(FollowingId);
-        docRef.update("Requests", FieldValue.arrayUnion(FollowingId));
+        DocumentReference receiverDocRef = db.collection("Users").document(FollowingId);
+        DocumentReference senderDocRef = db.collection("Users").document(this.email);
+        senderDocRef.update("RequestsSent", FieldValue.arrayUnion(FollowingId));
+        receiverDocRef.update("RequestsReceived", FieldValue.arrayUnion(this.email));
     }
 
     /**
      * @param FollowerId
-     *  Id of the user who received the request
+     *  Id of the user who sent the request
      * @param accept
      *  True if the current user is accepting the request, false otherwise
      */
     public void acceptRequest(String FollowerId, boolean accept){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("Users").document(FollowerId);
-        docRef.update("Requests", FieldValue.arrayRemove(FollowerId));
+        DocumentReference receiverDocRef = db.collection("Users").document(FollowerId);
+        DocumentReference senderDocRef = db.collection("Users").document(this.email);
+        senderDocRef.update("RequestsSent", FieldValue.arrayRemove(FollowerId));
+        receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove(this.email));
         if(accept){
-            docRef.update("Following", FieldValue.arrayUnion(FollowerId));
-            docRef.update("Followers", FieldValue.arrayUnion(this.email));
+            senderDocRef.update("Following", FieldValue.arrayUnion(this.email));
+            receiverDocRef.update("Followers", FieldValue.arrayUnion(FollowerId));
         }
     }
 
-    /**
-     * Get the list of followers for this user
-     * @return an arraylist containing the emails of this user's followers
-     */
-    public ArrayList<String> getFollowers() {
-        return followers;
-    }
+
 
     /**
      * Count how many followers this user has
