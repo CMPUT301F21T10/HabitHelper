@@ -13,6 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+/*
+EventsFragment hold all the pertinent data for all habit events of a user.
+ */
 package com.example.habithelper;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;

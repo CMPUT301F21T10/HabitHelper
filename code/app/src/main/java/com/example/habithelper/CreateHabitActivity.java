@@ -13,6 +13,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
  */
+/*
+CreateHabitActivity hold all the pertinent data for the habit being created.
+ */
 package com.example.habithelper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
