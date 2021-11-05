@@ -14,10 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-Login Activity handles sign in and initiates sign up of users to the broader application
- */
-
 package com.example.habithelper;
 
 import static android.content.ContentValues.TAG;
@@ -52,7 +48,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Login Activity handles sign in and initiates sign up of users to the broader application
+ */
 public class LoginActivity extends AppCompatActivity implements NewUserFragment.OnFragmentInteractionListener{
 
     Intent mainIntent;

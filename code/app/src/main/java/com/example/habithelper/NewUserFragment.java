@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-NewUserFragment holds the fields for the user to input data when creating a new account
- */
 package com.example.habithelper;
 
 import android.app.AlertDialog;
@@ -32,6 +29,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * NewUserFragment holds the fields for the user to input data when creating a new account
+ */
 public class NewUserFragment extends DialogFragment{
 
     private OnFragmentInteractionListener listener;

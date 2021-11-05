@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-MainActivity sets up all the interfaces for other activities; basically a hub activity.
- */
 package com.example.habithelper;
 import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
@@ -43,6 +40,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * MainActivity sets up all the interfaces for other activities; basically a hub activity.
+ */
 public class MainActivity extends AppCompatActivity {
     public FloatingActionButton floatingActionButton;
     ArrayList<Habit> HabitsList = new ArrayList<>();

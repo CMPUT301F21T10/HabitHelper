@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-Each object holds all the pertinent data for a user
- */
 
 package com.example.habithelper;
 
@@ -30,7 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Each object holds all the pertinent data for a user
+ */
 public class User {
     public String email;
     public String password;

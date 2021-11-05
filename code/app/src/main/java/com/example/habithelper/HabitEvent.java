@@ -14,9 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-HabitEvent holds all the pertinent data for a habit event.
- */
 package com.example.habithelper;
 
 import java.io.Serializable;

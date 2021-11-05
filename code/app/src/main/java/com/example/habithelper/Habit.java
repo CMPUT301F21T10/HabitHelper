@@ -14,10 +14,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-/*
-Habits hold all the pertinent data for a given habit.
- */
-
 package com.example.habithelper;
 
 import static android.content.ContentValues.TAG;
