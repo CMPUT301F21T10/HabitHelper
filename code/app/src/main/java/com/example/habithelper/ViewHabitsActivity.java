@@ -117,7 +117,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 newEditedHabit.addHabitToDB(emailToEdit, db);
 
                 //deleting the old habit from the database
-                newEditedHabit.deleteHabitFromDB(emailToEdit, db);
+                habitEditing.deleteHabitFromDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());

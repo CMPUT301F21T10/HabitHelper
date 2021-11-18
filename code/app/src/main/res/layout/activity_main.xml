@@ -8,6 +8,15 @@
     tools:context=".MainActivity"
     android:background="#4d4365">
 
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/main_top_toolbar"
+        android:background="#D81B60"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleMarginStart="40dp"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -47,9 +56,10 @@
         android:layout_height="669dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/main_top_toolbar"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/main_top_toolbar"
+        app:layout_constraintTop_toTopOf="@id/main_top_toolbar"
+        android:paddingTop="?attr/actionBarSize"
         app:navGraph="@navigation/navigation_bar" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
