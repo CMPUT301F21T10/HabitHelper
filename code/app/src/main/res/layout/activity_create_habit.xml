@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateHabitActivity"
-    android:background="#4d4365">
+    android:background="@color/teal1">
 
     <include
         android:id="@+id/toolbar"
@@ -85,6 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="36dp"
+        android:backgroundTint="@color/red2"
         android:text="Mon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectDays"/>
@@ -93,6 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:backgroundTint="@color/red2"
         android:text="Tue"
         app:layout_constraintBaseline_toBaselineOf="@+id/mon_btn"
         app:layout_constraintStart_toEndOf="@+id/mon_btn" />
@@ -102,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:backgroundTint="@color/red2"
         android:text="Wed"
         app:layout_constraintBaseline_toBaselineOf="@+id/tue_btn"
         app:layout_constraintStart_toEndOf="@+id/tue_btn" />
@@ -111,6 +114,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:backgroundTint="@color/red2"
         android:text="Thur"
         app:layout_constraintBaseline_toBaselineOf="@+id/wed_btn"
         app:layout_constraintStart_toEndOf="@+id/wed_btn" />
@@ -120,6 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:backgroundTint="@color/red2"
         android:text="Sat"
         app:layout_constraintBaseline_toBaselineOf="@+id/fri_btn"
         app:layout_constraintStart_toEndOf="@+id/fri_btn" />
@@ -130,6 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="57dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@color/red2"
         android:text="Fri"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mon_btn" />
@@ -140,6 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="57dp"
+        android:backgroundTint="@color/red2"
         android:text="Sun"
         app:layout_constraintBaseline_toBaselineOf="@+id/sat_btn"
         app:layout_constraintEnd_toEndOf="parent"

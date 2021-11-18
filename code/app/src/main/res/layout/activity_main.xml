@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#4d4365">
+    android:background="@color/teal1">
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -17,7 +17,7 @@
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="10dp"
         app:fabCradleVerticalOffset="10dp"
-        android:background="#2196f3">
+        android:background="@color/white">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
+        android:background="@color/red2"
         app:layout_anchor="@id/bottomAppBar"
         tools:ignore="SpeakableTextPresentCheck" />
 

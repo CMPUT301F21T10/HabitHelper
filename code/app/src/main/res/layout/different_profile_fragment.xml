@@ -16,7 +16,7 @@
         android:layout_marginTop="108dp"
         android:gravity="center"
         android:text="Name"
-        android:textColor="@color/accent2"
+        android:textColor="@color/teal2"
         android:textSize="50dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

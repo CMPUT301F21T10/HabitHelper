@@ -15,7 +15,7 @@
         android:text="Follow Requests:"
         android:textSize="30dp"
         android:gravity="center"
-        android:textColor="@color/accent2"/>
+        android:textColor="@color/teal2"/>
 
     <ListView
         android:id="@+id/fragRequestsListView"

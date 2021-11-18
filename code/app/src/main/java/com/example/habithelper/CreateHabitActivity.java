@@ -75,11 +75,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!mon_clicked[0]){
                     mon_clicked[0] = true;
-                    mon_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     mon_clicked[0] = false;
-                    mon_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -90,11 +90,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!tue_clicked[0]){
                     tue_clicked[0] = true;
-                    tue_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     tue_clicked[0] = false;
-                    tue_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -105,11 +105,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!wed_clicked[0]){
                     wed_clicked[0] = true;
-                    wed_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     wed_clicked[0] = false;
-                    wed_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -120,11 +120,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!thur_clicked[0]){
                     thur_clicked[0] = true;
-                    thur_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     thur_clicked[0] = false;
-                    thur_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -135,11 +135,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!fri_clicked[0]){
                     fri_clicked[0] = true;
-                    fri_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     fri_clicked[0] = false;
-                    fri_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -150,11 +150,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!sat_clicked[0]){
                     sat_clicked[0] = true;
-                    sat_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     sat_clicked[0] = false;
-                    sat_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });
@@ -165,11 +165,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
             public void onClick(View view) {
                 if (!sun_clicked[0]){
                     sun_clicked[0] = true;
-                    sun_btn.setBackgroundColor(getResources().getColor(R.color.button_clicked));
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
                 else {
                     sun_clicked[0] = false;
-                    sun_btn.setBackgroundColor(getResources().getColor(R.color.purple_500));
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
             }
         });

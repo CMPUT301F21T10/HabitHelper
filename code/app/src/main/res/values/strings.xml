@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">HabitHelper</string>
 
-    <string name="welcomeMessage">Welcome to HabitHelper</string>
+    <string name="welcomeMessage">HabitHelper</string>
     <string name="submitLogin">Login</string>
     <string name="newUser">Sign Up</string>
     <string name="enterUsername">Username</string>
