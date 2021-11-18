@@ -16,7 +16,22 @@ limitations under the License.
 
 package com.example.habithelper;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -28,7 +43,25 @@ public class HabitEvent implements Serializable {
     private String EventComment;
     private String EventDateCompleted;
     private String EventLocation;
-    private String AssociatedHabitId;
+    private String EventPhoto;
+    private String AssociatedHabitTitle;
+    private String EventId;
+
+
+    /**
+     * This constructor takes in data from the database and converts it into a HabitEvent object
+     * @param doc
+     *  the data pulled from the DB document
+     */
+    public HabitEvent(DocumentSnapshot doc) {
+        this.EventTitle = (String) doc.get("event_title");
+        this.EventComment = (String) doc.get("event_comment");
+        this.EventDateCompleted = (String) doc.get("event_date_completed");
+        this.EventLocation = (String) doc.get("event_location");
+        this.EventPhoto = (String) doc.get("event_photo");
+        this.AssociatedHabitTitle = (String) doc.get("event_associated_habit");
+        this.EventId = (String) doc.get("event_id");
+    }
 
     /**
      * Constructor for HabitEvent class
@@ -39,11 +72,32 @@ public class HabitEvent implements Serializable {
      * @param eventDateCompleted
      * The date the habit event was completed
      */
-    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted) {
-        EventTitle = eventTitle;
-        EventComment = eventComment;
-        EventDateCompleted = eventDateCompleted;
+    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle) {
+        this.EventTitle = eventTitle;
+        this.EventComment = eventComment;
+        this.EventDateCompleted = eventDateCompleted;
+        this.AssociatedHabitTitle = associatedHabitTitle;
     }
+
+    /**
+     * Constructor for HabitEvent class
+     * @param eventTitle
+     *  The title/name of the habit event
+     * @param eventComment
+     *  The comment for the habit event
+     * @param eventDateCompleted
+     *  The date the habit event was completed
+     * @param eventLocation
+     *  The location of the habit event
+     */
+    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle, String eventLocation) {
+        this.EventTitle = eventTitle;
+        this.EventComment = eventComment;
+        this.EventDateCompleted = eventDateCompleted;
+        this.AssociatedHabitTitle = associatedHabitTitle;
+        this.EventLocation = eventLocation;
+    }
+
 
     /**
      * Get the title/name of the habit event
@@ -118,20 +172,114 @@ public class HabitEvent implements Serializable {
     }
 
     /**
-     * Returns the id of the event associated with this event
+     * Returns the habit associated with this event
      * @return
      * The id of the habit associated with this event
      */
-    public String getAssociatedHabitId() {
-        return AssociatedHabitId;
+    public String getAssociatedHabitTitle() {
+        return AssociatedHabitTitle;
     }
 
     /**
-     * Set the id associated with this event
-     * @param associatedHabitId
+     * Set the habit associated with this event
+     * @param associatedHabitTitle
      * The id of the habit associated with this event
      */
-    public void setAssociatedHabitId(String associatedHabitId) {
-        AssociatedHabitId = associatedHabitId;
+    public void setAssociatedHabitTitle(String associatedHabitTitle) {
+        this.AssociatedHabitTitle = associatedHabitTitle;
     }
+
+    /**
+     * Gets the id used in db for this event
+     * @return
+     *  the id used in db for this event
+     */
+    public String getEventId() {
+        return EventId;
+    }
+
+    /**
+     * Translate all the data into a form usable by the DB
+     * @return
+     * a hashmap of all the data for this habit Event
+     */
+    public HashMap<String, String> generateAllHabitEventDBData(String id){
+        HashMap<String, String> newHabitData = new HashMap<>();
+        newHabitData.put("event_title", this.EventTitle);   //??????????
+        newHabitData.put("event_comment", this.EventComment);
+        newHabitData.put("event_date_completed", this.EventDateCompleted);
+        newHabitData.put("event_location", this.EventLocation);
+        newHabitData.put("event_photo", this.EventPhoto);
+        newHabitData.put("event_associated_habit", this.AssociatedHabitTitle);
+        newHabitData.put("event_id", id);
+
+        return newHabitData;
+    }
+
+    /**
+     * Add a HabitEvent object to the database
+     * @param email
+     *      the email of the user for which the HabitEvent is to be added
+     * @param db
+     *      the firestore instance
+     */
+    public void addHabitEventToDB(String email, FirebaseFirestore db){
+        CollectionReference colRef = db.collection("Habits")
+                .document(email)
+                .collection(email + "_habits")
+                .document(this.AssociatedHabitTitle).collection("HabitEvents");
+
+        String id = colRef.document().getId();
+        DocumentReference docRefAdd = colRef.document(id);
+
+        // write to db
+        docRefAdd.set(this.generateAllHabitEventDBData(id))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        // These are a method which gets executed when the task is succeeded
+                        Log.d("DATA_ADDED", "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    }
+                });
+    }
+
+
+    /**
+     * Delete a HabitEvent object to database
+     * @param email
+     *      the email of the user for which the HabitEvent is to be deleted
+     * @param db
+     *      the firestore instance
+     */
+    public void deleteHabitEventFromDB(String email, FirebaseFirestore db){
+        DocumentReference docRefDelete = db.collection("Habits")
+                .document(email)
+                .collection(email + "_habits")
+                .document(this.AssociatedHabitTitle).collection("HabitEvents")
+                .document(this.EventId);
+
+        docRefDelete.delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("DELETED", "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("ERROR_DELETE", "Error deleting document", e);
+                    }
+                });
+    }
+
 }
+
+

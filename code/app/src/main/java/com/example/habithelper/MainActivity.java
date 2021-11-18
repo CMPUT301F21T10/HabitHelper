@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
              */
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
+
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
                 try {
@@ -86,17 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
-                //Habit events have not been implemented in the database for Part 3
-                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                for (Habit eachHabit : habitCreated){
-                    HabitsList.add(eachHabit);
-                }
-                habitEventCreated = (ArrayList<HabitEvent>) extras.getSerializable("habitEventCreated");
-                for (HabitEvent eachHabit : habitEventCreated){
-                    HabitEventsList.add(eachHabit);
-                }
                 user = (FirebaseUser) extras.get("currentUser");
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
                 //Initialize the database

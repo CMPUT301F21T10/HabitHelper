@@ -167,8 +167,8 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             Intent intent = new Intent(getContext(), CreateHabitEventActivity.class);
-            Habit habitEvent = HabitsList.get(viewHolder.getAdapterPosition());
-            intent.putExtra("habit", habitEvent);
+            Habit habit_to_create_event = HabitsList.get(viewHolder.getAdapterPosition());
+            intent.putExtra("habit", habit_to_create_event);
             intent.putExtra("currentUser", user);
             intent.putExtra("habitCreated", HabitsList);
             startActivity(intent);
