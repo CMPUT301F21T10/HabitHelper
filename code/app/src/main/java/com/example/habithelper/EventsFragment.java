@@ -165,5 +165,9 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
     @Override
     public void onEventItemClick(HabitEvent habit_event) {
         Log.d("EDIT_EVENT", "onEventItemClick: " + habit_event.getEventTitle());
+        Intent intent = new Intent(getContext(), ViewHabitEventsActivity.class);
+        intent.putExtra("habit", habit_event);
+        intent.putExtra("currentUser", user);
+        startActivity(intent);
     }
 }
