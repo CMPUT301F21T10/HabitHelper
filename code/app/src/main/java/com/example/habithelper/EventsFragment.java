@@ -17,7 +17,10 @@ limitations under the License.
 EventsFragment hold all the pertinent data for all habit events of a user.
  */
 package com.example.habithelper;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +29,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -48,6 +60,8 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
     ArrayList<HabitEvent> HabitEvents_list = new ArrayList<>();
     RecyclerView Event_recyclerView;
     RecyclerView.Adapter HabitEventsAdapter;
+    FirebaseUser user;
+    FirebaseFirestore db;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -74,14 +88,62 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
+
+        // get user data from db
+        Intent intent = getActivity().getIntent();
+        db = FirebaseFirestore.getInstance();
+        user = (FirebaseUser) intent.getExtras().get("currentUser");
+        String email = user.getEmail();
+
+
+        CollectionReference collectionRef = db.collection("Habits")
+                .document(email)
+                .collection(email+"_habits");
+
+
+        // for each habit for current user, retrieve all habit events from database and notify the recyclerview adapter
+        collectionRef
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                Log.d("DOC_ID", "onComplete: " + document.getId());
+
+                                CollectionReference eventCollectionRef = collectionRef
+                                        .document(document.getId())
+                                        .collection("HabitEvents");
+
+                                //bug here to fix!
+                                eventCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+                                        if (task2.isSuccessful()) {
+                                            for (QueryDocumentSnapshot eventDoc : task2.getResult()) {
+                                                HabitEvent retrievedHabitEvent = new HabitEvent(eventDoc);
+                                                Log.d("HAVE2", "onComplete: " + retrievedHabitEvent.getEventTitle()
+                                                        + " " + retrievedHabitEvent.getEventId());
+                                                HabitEvents_list.add(retrievedHabitEvent);
+                                            }
+                                        }
+
+                                    }
+                                });
+                            }
+                            HabitEventsAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("NO_HABITS_EVENTS", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+//        try {
+//            TimeUnit.MILLISECONDS.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
 //        }
-
-//        HabitEvents_list.add(new HabitEvent("Exercise event", "Exercised for 30 min", "03/11/2021"));
-//        HabitEvents_list.add(new HabitEvent("Meditation event", "Meditated for 15 min", "03/11/2021"));
-
 
     }
 
@@ -92,25 +154,11 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
         Event_recyclerView = view.findViewById(R.id.habit_events_recycler_view);
-
-        if (getArguments() != null){
-            ArrayList<HabitEvent> habits = new ArrayList<>();
-            habits = (ArrayList<HabitEvent>) getArguments().getSerializable("habitEventCreated");
-            for (HabitEvent eachHabit:habits){
-//                Toast.makeText(getContext(), eachHabit.getDateStarted(), Toast.LENGTH_SHORT).show();
-                HabitEvents_list.add(eachHabit);
-            }
-        }
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         Event_recyclerView.setLayoutManager(layoutManager);
 
         HabitEventsAdapter = new habitEventsCustomList(HabitEvents_list, getContext(), this);
-//        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-
         Event_recyclerView.setAdapter(HabitEventsAdapter);
-
-
         return view;
     }
 

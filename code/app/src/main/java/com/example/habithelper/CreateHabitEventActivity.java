@@ -31,6 +31,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +44,11 @@ import java.util.Calendar;
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
     TextView textViewHabitName;
-    FirebaseUser user; //Current user
+//    FirebaseUser user; //Current user
+
+    FirebaseFirestore db;
+    Habit habit_to_create_event;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +58,19 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Create Habit Event");
 
+        db = FirebaseFirestore.getInstance();
+
         textViewHabitName = findViewById(R.id.textViewHabitName);
         Bundle extras = getIntent().getExtras();
-        Habit habitCreated;
+
 
         if (extras != null){
             //Get the habit for which a habit event is to be created
-            habitCreated = (Habit) extras.getSerializable("habit");
-            textViewHabitName.setText("Habit Name: "+habitCreated.getTitle());
-            //Get the current user
-            user = (FirebaseUser) extras.get("currentUser");
+            habit_to_create_event = (Habit) extras.getSerializable("habit");
+            textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
+
+//            //Get the current user
+//            user = (FirebaseUser) extras.get("currentUser");
         }
 
         //Setting up date picker dialogue
@@ -99,29 +108,38 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Getting the habit event details edit texts of the habit event being created
-        TextView dateStarted = findViewById(R.id.editTextDateCompleted);
+        TextView editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
         EditText editTextComments = findViewById(R.id.editTextOptionalComments);
         EditText editTextTLocation = findViewById(R.id.editTextOptionalLocation);
 
         switch (item.getItemId()){
             //When create is selected in the menu
             case R.id.createHabit:
+
+                //Get the current user from MainActivity to pass it back to MainActivity
                 Bundle extras = getIntent().getExtras();
-                //NOTE: NOT YET IMPLEMENTED. HABIT EVENTS NOT CONNECTED TO DATABASE. THIS WORKS OFFLINE
-                //KEEP LISTS OF HABIT EVENTS, AND HABITS AND PARSE TO MAINACTIVITY
-                ArrayList<Habit> habitsCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                ArrayList<HabitEvent> habitEventCreated = new ArrayList<>();
-                String habitLocation = String.valueOf(editTextTLocation.getText());
-                String habitComment = String.valueOf(editTextComments.getText());
-                String habitStartDate = String.valueOf(dateStarted.getText());;
-                habitEventCreated.add(new HabitEvent(habitComment, habitLocation, habitStartDate));
+                FirebaseUser user = (FirebaseUser) extras.get("currentUser");
+
+                //Get the habit details of the habit being created
+                String associatedHabitTitle = habit_to_create_event.getTitle();
+                String EventTitle = associatedHabitTitle + " Event";
+                String EventComment = String.valueOf(editTextComments.getText());
+                String EventDateCompleted = String.valueOf(editTextDateCompleted.getText());
+                String EventLocation = String.valueOf(editTextTLocation.getText());
+
+                //Create the new habit event object
+                HabitEvent newHabitEvent = new HabitEvent(EventTitle, EventComment, EventDateCompleted, associatedHabitTitle, EventLocation);
+
+                //adding the new habit event to the database
+                newHabitEvent.addHabitEventToDB(user.getEmail(), db);
+
                 Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
-                intent.putExtra("habitEventCreated", habitEventCreated);
+                intent.putExtra("habitEventCreated", newHabitEvent);
                 intent.putExtra("currentUser", user);
-                intent.putExtra("habitCreated", habitsCreated);
                 startActivity(intent);
                 return true;
+
             //When cancel is selected in the menu
             case R.id.goBack:
                 onBackPressed();

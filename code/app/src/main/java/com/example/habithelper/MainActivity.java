@@ -18,10 +18,12 @@ package com.example.habithelper;
 import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -60,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar main_toolbar = findViewById(R.id.main_top_toolbar);
+        setSupportActionBar(main_toolbar);
+
         Bundle extras = getIntent().getExtras();
         ArrayList<Habit> habitCreated;
         ArrayList<HabitEvent> habitEventCreated;
@@ -73,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
              */
             if (extras.getString("classFrom").equals(ViewHabitsActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
+
             }else if (extras.getString("classFrom").equals(CreateHabitActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
                 try {
@@ -80,17 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
             }else if (extras.getString("classFrom").equals(CreateHabitEventActivity.class.toString())){
-                //Habit events have not been implemented in the database for Part 3
-                habitCreated = (ArrayList<Habit>) extras.getSerializable("habitCreated");
-                for (Habit eachHabit : habitCreated){
-                    HabitsList.add(eachHabit);
-                }
-                habitEventCreated = (ArrayList<HabitEvent>) extras.getSerializable("habitEventCreated");
-                for (HabitEvent eachHabit : habitEventCreated){
-                    HabitEventsList.add(eachHabit);
-                }
                 user = (FirebaseUser) extras.get("currentUser");
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
                 //Initialize the database
@@ -187,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.habits_fragment:
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("habitCreated", HabitsList);
+                        getSupportActionBar().setTitle("HabitHelper");
                         fragment = new HabitFragment();
                         fragment.setArguments(bundle);
                         break;
@@ -194,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.today_fragment:
                         bundle = new Bundle();
                         bundle.putSerializable("habitCreated", HabitsList);
+                        getSupportActionBar().setTitle("Today");
                         fragment = new TodayFragment();
                         fragment.setArguments(bundle);
                         break;
@@ -201,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.events_fragment:
                         bundle = new Bundle();
                         bundle.putSerializable("habitEventCreated", HabitEventsList);
+                        getSupportActionBar().setTitle("Habit Events");
                         fragment = new EventsFragment();
                         fragment.setArguments(bundle);
                         break;
@@ -208,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.friends_fragment:
                         bundle = new Bundle();
                         bundle.putSerializable("habitCreated", HabitsList);
+                        getSupportActionBar().setTitle("Friends");
                         fragment = new FriendsFragment();
                         fragment.setArguments(bundle);
                         break;
@@ -216,5 +226,28 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_toolbar, menu);
+
+//        return super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            //When create habit is selected in the menu
+            case R.id.profile:
+                Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.log_out:
+                Toast.makeText(getApplicationContext(), "Log out clicked", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

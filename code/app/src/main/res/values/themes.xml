@@ -23,4 +23,9 @@
     <style name="Theme.HabitHelper.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.HabitHelper.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary" >
+        <!-- text color -->
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

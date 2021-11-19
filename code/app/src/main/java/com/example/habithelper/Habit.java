@@ -48,7 +48,6 @@ public class Habit implements Serializable {
      *  the data pulled from the DB document
      */
     public Habit(DocumentSnapshot doc) {
-        ArrayList<String> DBData = new ArrayList<>();
 
         this.title = (String) doc.get("habit_title");
         this.reason = (String) doc.get("habit_reason");
