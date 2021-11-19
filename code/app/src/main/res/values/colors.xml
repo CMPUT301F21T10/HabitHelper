@@ -12,4 +12,8 @@
     <color name="accent2">#FF0E7C7B</color>
     <color name="accent3">#FFFF5E5B</color>
     <color name="accent4">#FFD62246</color>
+
+    <color name="background">#FFd4f4dd</color>
+    <color name="button1">#FF17BEBB</color>
+    <color name="textDark">#FF1B1B1E</color>
 </resources>

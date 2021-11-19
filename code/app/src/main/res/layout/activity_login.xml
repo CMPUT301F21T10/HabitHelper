@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     android:orientation="vertical"
     android:gravity="center"
 
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:fontFamily="@font/cabin_medium"
         android:text="Welcome To"
-        android:textColor="@color/black"
+        android:textColor="@color/textDark"
         android:textSize="@dimen/fontSubTitleSize" />
 
 
@@ -30,7 +30,7 @@
         android:gravity="center"
         android:fontFamily="@font/cabin_medium"
         android:text="@string/welcomeMessage"
-        android:textColor="@color/teal2"
+        android:textColor="@color/accent2"
         android:textSize="@dimen/fontTitleSize" />
 
 
@@ -53,7 +53,7 @@
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/fontEditSize" />
 
@@ -65,7 +65,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/fontEditSize" />
 
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/baseMargin"
-            android:backgroundTint="@color/teal1"
+            android:backgroundTint="@color/button1"
             android:onClick="onLoginSignInClick"
             android:text="@string/submitLogin" />
 
@@ -88,7 +88,7 @@
             android:gravity="right"
             android:onClick="onLoginSignUpClick"
             android:text="@string/newUser"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize" />
 
     </LinearLayout>

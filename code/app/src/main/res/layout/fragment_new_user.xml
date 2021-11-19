@@ -19,7 +19,7 @@
             android:clickable="true"
             android:onClick="onTextClick"
             android:text="@string/enterName"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize" />
 
         <EditText
@@ -29,13 +29,13 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Name"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:textCursorDrawable = "@null"/>
 
         <TextView
             android:id="@+id/textView5"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:clickable="true"
             android:onClick="onTextClick"
@@ -50,13 +50,13 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Username"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:textCursorDrawable = "@null"/>
 
         <TextView
             android:id="@+id/textView3"
-            android:textColor="@color/black"
+            android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:clickable="true"
             android:onClick="onTextClick"
@@ -71,7 +71,7 @@
             android:ems="10"
             android:inputType="textPassword"
             android:hint="Password"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:textCursorDrawable = "@null"/>
     </LinearLayout>

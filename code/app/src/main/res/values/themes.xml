@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.HabitHelper" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/teal2</item>
-        <item name="colorPrimaryVariant">@color/teal1</item>
+        <item name="colorPrimary">@color/teal1</item>
+        <item name="colorPrimaryVariant">@color/teal2</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/red2</item>

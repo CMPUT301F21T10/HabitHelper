@@ -14,8 +14,9 @@
         android:layout_height="58dp"
         android:text="Follow Requests:"
         android:textSize="30dp"
+        android:fontFamily="@font/cabin_medium"
         android:gravity="center"
-        android:textColor="@color/teal2"/>
+        android:textColor="@color/accent2"/>
 
     <ListView
         android:id="@+id/fragRequestsListView"

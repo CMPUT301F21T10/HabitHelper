@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CreateHabitEventActivity"
-    android:background="#4d4365">
+    android:background="@color/background">
 
 
     <include
@@ -24,7 +24,7 @@
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textDark"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,7 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Habit Event Details"
-        android:textColor="@color/white"
+        android:textColor="@color/textDark"
+        android:fontFamily="@font/cabin_medium"
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Habit Name:"
-        android:textColor="@android:color/holo_orange_dark"
+        android:fontFamily="@font/cabin_medium"
+        android:textColor="@color/accent4"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

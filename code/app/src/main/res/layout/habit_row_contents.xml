@@ -23,6 +23,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="9dp"
             android:text="Exercise"
+            android:fontFamily="@font/cabin_medium"
+            android:textColor="@color/textDark"
             android:textSize="24sp"
             android:textStyle="bold" />
 

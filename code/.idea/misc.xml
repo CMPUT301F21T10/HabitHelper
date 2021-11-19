@@ -4,9 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_create_habit.xml" value="0.1" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_create_habit_event.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_homescreen.xml" value="0.1" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.268" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/activity_view_habits.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/different_profile_fragment.xml" value="0.1" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/followers_content.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/followers_custom_list.xml" value="0.1" />
@@ -15,6 +17,9 @@
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_friends.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_habits.xml" value="0.1" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_newUser.xml" value="0.1796875" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_new_user.xml" value="0.1796875" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_requests_list.xml" value="0.1796875" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/fragment_today.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/friend_list.xml" value="0.1796875" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/habit_event_row_contents.xml" value="0.1" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/habit_row_contents.xml" value="0.1" />

@@ -11,6 +11,8 @@
         android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:text="TextView"
+        android:fontFamily="@font/cabin_medium"
+        android:textColor="@color/textDark"
         android:gravity="center_vertical"
         android:textSize="25dp" />
 </LinearLayout>
