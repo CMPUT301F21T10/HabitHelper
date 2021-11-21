@@ -22,13 +22,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,8 +56,9 @@ import java.util.HashMap;
  * Login Activity handles sign in and initiates sign up of users to the broader application
  */
 public class LoginActivity extends AppCompatActivity implements NewUserFragment.OnFragmentInteractionListener{
-
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     Intent mainIntent;
+    ImageView imageView;
     Intent testIntent;
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
@@ -64,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        imageView = findViewById(R.id.imageView);
 
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
 
@@ -94,8 +100,34 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * @param view
      */
     public void onLoginSignUpClick(View view){
+
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        } catch (ActivityNotFoundException e) {
+            // display error state to the user
+            Toast.makeText(this, "Take picture Failed", Toast.LENGTH_LONG).show();
+
+        }
+        Log.d("MyCamera", "Dispatched");
+        /*
         //Show the user sign up fragment
         new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
+
+         */
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("MyCamera", "ActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Log.d("MyCamera", "ShowImage");
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+        }
     }
 
     /**

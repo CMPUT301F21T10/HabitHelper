@@ -93,6 +93,11 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/cameraImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 
 </LinearLayout>
