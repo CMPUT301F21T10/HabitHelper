@@ -26,6 +26,7 @@
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/new_user_fragment_layout.xml" value="0.2" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/toolbar.xml" value="0.1" />
         <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/layout/user_display_layout.xml" value="0.1" />
+        <entry key="..\:/Users/foosb/Documents/CMPUT301/Project/HabitHelper/code/app/src/main/res/xml/file_paths.xml" value="0.1796875" />
         <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/activity_create_habit.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/activity_create_habit_event.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/rajsh/Desktop/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
@@ -51,15 +52,9 @@
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/friend_list.xml" value="0.3824451410658307" />
         <entry key="..\:/Users/yevhe/Documents/GitHub/HabitHelper/code/app/src/main/res/layout/user_display_layout.xml" value="0.2" />
         <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/activity_create_habit.xml" value="0.25416666666666665" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/activity_create_habit_event.xml" value="0.23596014492753623" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/activity_main.xml" value="0.27790432801822323" />
         <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/activity_view_habits.xml" value="0.25416666666666665" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/fragment_friends.xml" value="0.25416666666666665" />
         <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/fragment_habits.xml" value="0.25416666666666665" />
         <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/habit_row_contents.xml" value="0.13020833333333334" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/layout/toolbar.xml" value="0.25416666666666665" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/menu/top_toolbar.xml" value="0.25416666666666665" />
         <entry key="..\:/sooda/Downloads/HabitHelper/code/app/src/main/res/menu/view_habit_menu.xml" value="0.13020833333333334" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/drawable-v24/ic_add.xml" value="0.2703125" />
         <entry key="..\:/sooda/OneDrive/Desktop/CMPUT 301/HabitHelper/code/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
@@ -68,8 +63,6 @@
         <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/activity_create_habit_event.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14166666666666666" />
-        <entry key="app/src/main/res/layout/activity_view_habit_events.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_view_habits.xml" value="0.1537037037037037" />
         <entry key="app/src/main/res/layout/followers_content.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.14375" />
         <entry key="app/src/main/res/layout/fragment_habits.xml" value="0.14375" />
@@ -83,7 +76,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
