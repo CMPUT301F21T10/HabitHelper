@@ -97,6 +97,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+            }else if (extras.getString("classFrom").equals(ViewHabitEventsActivity.class.toString())){
+                user = (FirebaseUser) extras.get("currentUser");
+                //Need to go to habit events fragment
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("habitEventCreated", HabitEventsList);
+//                getSupportActionBar().setTitle("Habit Events");
+//                Fragment fragment = new EventsFragment();
+//                fragment.setArguments(bundle);
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commit();
+
+
+
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
                 //Initialize the database

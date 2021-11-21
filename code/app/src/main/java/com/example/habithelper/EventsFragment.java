@@ -126,13 +126,13 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
                                                 Log.d("HAVE2", "onComplete: " + retrievedHabitEvent.getEventTitle()
                                                         + " " + retrievedHabitEvent.getEventId());
                                                 HabitEvents_list.add(retrievedHabitEvent);
+                                                HabitEventsAdapter.notifyDataSetChanged();
                                             }
                                         }
 
                                     }
                                 });
                             }
-                            HabitEventsAdapter.notifyDataSetChanged();
                         } else {
                             Log.d("NO_HABITS_EVENTS", "Error getting documents: ", task.getException());
                         }
