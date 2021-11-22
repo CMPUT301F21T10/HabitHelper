@@ -29,6 +29,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -40,6 +42,9 @@ import java.util.Calendar;
  */
 public class CreateHabitActivity extends AppCompatActivity implements Serializable{
     FirebaseFirestore db;
+    final boolean[] days_clicked = {false,false,false,false,false,false,false};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,31 +60,24 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
 
         //Setting up the days buttons (for selecting days)
         Button mon_btn = findViewById(R.id.mon_btn);
-        final boolean[] mon_clicked = {false};
         Button tue_btn = findViewById(R.id.tue_btn);
-        final boolean[] tue_clicked = {false};
         Button wed_btn = findViewById(R.id.wed_btn);
-        final boolean[] wed_clicked = {false};
         Button thur_btn = findViewById(R.id.thur_btn);
-        final boolean[] thur_clicked = {false};
         Button fri_btn = findViewById(R.id.fri_btn);
-        final boolean[] fri_clicked = {false};
         Button sat_btn = findViewById(R.id.sat_btn);
-        final boolean[] sat_clicked = {false};
         Button sun_btn = findViewById(R.id.sun_btn);
-        final boolean[] sun_clicked = {false};
 
         //Checking if monday has been clicked
         mon_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mon_clicked[0]){
-                    mon_clicked[0] = true;
-                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[0]){
+                    days_clicked[0] = true;
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    mon_clicked[0] = false;
-                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[0] = false;
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -88,13 +86,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         tue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!tue_clicked[0]){
-                    tue_clicked[0] = true;
-                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[1]){
+                    days_clicked[1] = true;
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    tue_clicked[0] = false;
-                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[1] = false;
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -103,13 +101,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         wed_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!wed_clicked[0]){
-                    wed_clicked[0] = true;
-                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[2]){
+                    days_clicked[2] = true;
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    wed_clicked[0] = false;
-                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[2] = false;
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -118,13 +116,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         thur_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!thur_clicked[0]){
-                    thur_clicked[0] = true;
-                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[3]){
+                    days_clicked[3] = true;
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    thur_clicked[0] = false;
-                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[3] = false;
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -133,13 +131,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         fri_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!fri_clicked[0]){
-                    fri_clicked[0] = true;
-                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[4]){
+                    days_clicked[4] = true;
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    fri_clicked[0] = false;
-                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[4] = false;
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -148,13 +146,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         sat_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!sat_clicked[0]){
-                    sat_clicked[0] = true;
-                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[5]){
+                    days_clicked[5] = true;
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    sat_clicked[0] = false;
-                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[5] = false;
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -163,13 +161,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         sun_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!sun_clicked[0]){
-                    sun_clicked[0] = true;
-                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                if (!days_clicked[6]){
+                    days_clicked[6] = true;
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
                 }
                 else {
-                    sun_clicked[0] = false;
-                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                    days_clicked[6] = false;
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
                 }
             }
         });
@@ -212,6 +210,15 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         EditText editTextTitle = findViewById(R.id.editTextTitle);
         EditText editTextReason = findViewById(R.id.editTextReason);
         TextView dateStarted = findViewById(R.id.editTextStartDate);
+        StringBuilder day = new StringBuilder();
+        //Setting up days
+        for (int days=0;days<7;days++){
+            if (days_clicked[days]){
+                day.append("1");
+            }else{
+                day.append("0");
+            }
+        }
 
         switch (item.getItemId()){
             //When create habit is selected in the menu
@@ -225,7 +232,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
                 //Create the new habit object
-                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true);
+                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true, day.toString());
 
                 //adding the new edited habit to the database
                 habitCreated.addHabitToDB(user.getEmail(), db);

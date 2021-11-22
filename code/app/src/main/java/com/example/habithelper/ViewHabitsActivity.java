@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
     Habit habitEditing;
     FirebaseFirestore db;
     FirebaseUser user;
+    final boolean[] days_clicked = {false,false,false,false,false,false,false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,14 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         editTextStartDate = findViewById(R.id.editTextStartDate);
         editTextReason = findViewById(R.id.editTextReason);
         db = FirebaseFirestore.getInstance();
+        //Setting up the days buttons (for selecting days)
+        Button mon_btn = findViewById(R.id.mon_btn);
+        Button tue_btn = findViewById(R.id.tue_btn);
+        Button wed_btn = findViewById(R.id.wed_btn);
+        Button thur_btn = findViewById(R.id.thur_btn);
+        Button fri_btn = findViewById(R.id.fri_btn);
+        Button sat_btn = findViewById(R.id.sat_btn);
+        Button sun_btn = findViewById(R.id.sun_btn);
 
         extras = getIntent().getExtras();
         //Getting the habit object being viewed, and the current user
@@ -69,6 +79,144 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         editTextTitle.setText(habitEditing.getTitle());
         editTextStartDate.setText(habitEditing.getDateStarted());
         editTextReason.setText(habitEditing.getReason());
+
+        String days = habitEditing.getHabitDays();
+
+        if (days.charAt(0)=='1'){
+            mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[0]=true;
+        }
+        if (days.charAt(1)=='1'){
+            tue_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[1]=true;
+        }
+        if (days.charAt(2)=='1'){
+            wed_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[2]=true;
+        }
+        if (days.charAt(3)=='1'){
+            thur_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[3]=true;
+        }
+        if (days.charAt(4)=='1'){
+            fri_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[4]=true;
+        }
+        if (days.charAt(5)=='1'){
+            sat_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[5]=true;
+        }
+        if (days.charAt(6)=='1'){
+            sun_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+            days_clicked[6]=true;
+        }
+
+        //Checking if monday has been clicked
+        mon_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[0]){
+                    days_clicked[0] = true;
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[0] = false;
+                    mon_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if tuesday has been clicked
+        tue_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[1]){
+                    days_clicked[1] = true;
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[1] = false;
+                    tue_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if wednesday has been clicked
+        wed_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[2]){
+                    days_clicked[2] = true;
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[2] = false;
+                    wed_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if thursday has been clicked
+        thur_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[3]){
+                    days_clicked[3] = true;
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[3] = false;
+                    thur_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if friday has been clicked
+        fri_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[4]){
+                    days_clicked[4] = true;
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[4] = false;
+                    fri_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if saturday has been clicked
+        sat_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[5]){
+                    days_clicked[5] = true;
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[5] = false;
+                    sat_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+        //Checking if sunday has been clicked
+        sun_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!days_clicked[6]){
+                    days_clicked[6] = true;
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
+                }
+                else {
+                    days_clicked[6] = false;
+                    sun_btn.setBackgroundColor(getResources().getColor(R.color.accent1));
+                }
+            }
+        });
+
+
 
         //Setting up date picker dialogue
         TextView dateStarted = findViewById(R.id.editTextStartDate);
@@ -110,14 +258,24 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 String habitTitle = String.valueOf(editTextTitle.getText());
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(editTextStartDate.getText());;
-                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, true);
+                StringBuilder day = new StringBuilder();
+                //Setting up days
+                for (int days=0;days<7;days++){
+                    if (days_clicked[days]){
+                        day.append("1");
+                    }else{
+                        day.append("0");
+                    }
+                }
+                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, true, day.toString());
                 String emailToEdit = user.getEmail();
+
 
                 //adding the new edited habit to the database
                 newEditedHabit.addHabitToDB(emailToEdit, db);
 
                 //deleting the old habit from the database
-                habitEditing.deleteHabitFromDB(emailToEdit, db);
+               // habitEditing.deleteHabitFromDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
