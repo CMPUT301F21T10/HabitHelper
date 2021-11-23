@@ -41,6 +41,7 @@ public class Habit implements Serializable {
     private String reason;
     private String dateStarted;
     private Boolean publicStatus;
+    private String habitDays;
 
     /**
      * This constructor takes in data from the database and converts it into a Habit object
@@ -61,6 +62,8 @@ public class Habit implements Serializable {
             this.publicStatus = false;
         }
 
+        this.habitDays = (String) doc.get("days");
+
     }
 
     /**
@@ -68,6 +71,27 @@ public class Habit implements Serializable {
      * */
     public Habit() {
     }
+
+
+    /**
+     * Constructor for the Habit class that has all the attributes as parameters
+     * @param title
+     * The habit title/name
+     * @param reason
+     * The reason of doing the habit
+     * @param dateStarted
+     * The date the habit started
+     * @param publicStatus
+     * Denotes whether the habit is public or not
+     */
+    public Habit(String title, String reason, String dateStarted, Boolean publicStatus, String habitDays) {
+        this.title = title;
+        this.reason = reason;
+        this.dateStarted = dateStarted;
+        this.publicStatus = publicStatus;
+        this.habitDays = habitDays;
+    }
+
 
     /**
      * Constructor for the Habit class that has all the attributes as parameters
@@ -170,6 +194,15 @@ public class Habit implements Serializable {
     }
 
 
+    public void setHabitDays(String daysSelected) {
+        this.habitDays = daysSelected;
+    }
+
+    public String getHabitDays() {
+        return habitDays;
+    }
+
+
 
     /**
      * Translate all the data into a form usable by the DB
@@ -182,6 +215,7 @@ public class Habit implements Serializable {
         newHabitData.put("habit_reason", this.reason);
         newHabitData.put("habit_date", this.dateStarted);
         newHabitData.put("publicStatus", this.publicStatus.toString());
+        newHabitData.put("days", this.habitDays);
 
         return newHabitData;
     }
