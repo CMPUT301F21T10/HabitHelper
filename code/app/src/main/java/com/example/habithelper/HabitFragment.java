@@ -171,6 +171,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
             intent.putExtra("habit", habit_to_create_event);
             intent.putExtra("currentUser", user);
             intent.putExtra("habitCreated", HabitsList);
+            intent.putExtra("classFrom", MainActivity.class.toString());
             startActivity(intent);
             HabitsAdapter.notifyDataSetChanged();
         }

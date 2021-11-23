@@ -46,6 +46,8 @@ public class HabitEvent implements Serializable {
     private String EventPhoto;
     private String AssociatedHabitTitle;
     private String EventId;
+    private Double Lat;
+    private Double Long;
 
 
     /**
@@ -61,6 +63,8 @@ public class HabitEvent implements Serializable {
         this.EventPhoto = (String) doc.get("event_photo");
         this.AssociatedHabitTitle = (String) doc.get("event_associated_habit");
         this.EventId = (String) doc.get("event_id");
+        this.Lat = Double.valueOf((String) doc.get("lat"));
+        this.Long = Double.valueOf((String) doc.get("long"));
     }
 
     /**
@@ -90,12 +94,39 @@ public class HabitEvent implements Serializable {
      * @param eventLocation
      *  The location of the habit event
      */
-    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle, String eventLocation) {
+    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle,
+                      String eventLocation) {
         this.EventTitle = eventTitle;
         this.EventComment = eventComment;
         this.EventDateCompleted = eventDateCompleted;
         this.AssociatedHabitTitle = associatedHabitTitle;
         this.EventLocation = eventLocation;
+    }
+
+    /**
+     * Constructor for HabitEvent class
+     * @param eventTitle
+     *  The title/name of the habit event
+     * @param eventComment
+     *  The comment for the habit event
+     * @param eventDateCompleted
+     *  The date the habit event was completed
+     * @param eventLocation
+     *  The location of the habit event
+     * @param Lat
+     *  Latitude of event location
+     * @param Long
+     *  Longitude of event location
+     */
+    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle,
+                      String eventLocation, Double Lat, Double Long) {
+        this.EventTitle = eventTitle;
+        this.EventComment = eventComment;
+        this.EventDateCompleted = eventDateCompleted;
+        this.AssociatedHabitTitle = associatedHabitTitle;
+        this.EventLocation = eventLocation;
+        this.Lat = Lat;
+        this.Long = Long;
     }
 
 
@@ -205,13 +236,15 @@ public class HabitEvent implements Serializable {
      */
     public HashMap<String, String> generateAllHabitEventDBData(String id){
         HashMap<String, String> newHabitData = new HashMap<>();
-        newHabitData.put("event_title", this.EventTitle);   //??????????
+        newHabitData.put("event_title", this.EventTitle);
         newHabitData.put("event_comment", this.EventComment);
         newHabitData.put("event_date_completed", this.EventDateCompleted);
         newHabitData.put("event_location", this.EventLocation);
         newHabitData.put("event_photo", this.EventPhoto);
         newHabitData.put("event_associated_habit", this.AssociatedHabitTitle);
         newHabitData.put("event_id", id);
+        newHabitData.put("lat", String.valueOf(this.Lat));
+        newHabitData.put("long", String.valueOf(this.Long));
 
         return newHabitData;
     }

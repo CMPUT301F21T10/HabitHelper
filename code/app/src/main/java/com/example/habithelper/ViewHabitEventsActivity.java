@@ -110,7 +110,8 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 String habitEventComment = String.valueOf(viewOptionalComments.getText());
                 String habitEventLocation = String.valueOf(viewOptionalLocation.getText());
 
-                HabitEvent newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate, habitEventEditing.getAssociatedHabitTitle(),habitEventLocation);
+                HabitEvent newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate, habitEventEditing.getAssociatedHabitTitle(),
+                        habitEventLocation);
                 String emailToEdit = user.getEmail();
 
                 //adding the new edited habit to the database

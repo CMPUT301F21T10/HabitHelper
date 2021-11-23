@@ -16,7 +16,7 @@
         android:id="@+id/editTextDateCompleted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_edit_text"
         android:ems="10"
         android:hint="Date Completed"
@@ -30,11 +30,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+    <!--    <EditText-->
+<!--        android:id="@+id/editTextOptionalLocation"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="28dp"-->
+<!--        android:background="@drawable/ic_edit_text"-->
+<!--        android:ems="10"-->
+<!--        android:hint="Location"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:minWidth="355dp"-->
+<!--        android:minHeight="55dp"-->
+<!--        android:padding="8dp"-->
+<!--        android:textColor="@color/textDark"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.517"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments" />-->
+
     <EditText
         android:id="@+id/editTextOptionalComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/ic_edit_text"
         android:ems="10"
         android:hint="Comments"
@@ -48,34 +66,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDateCompleted" />
 
-    <EditText
-        android:id="@+id/editTextOptionalLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/ic_edit_text"
-        android:ems="10"
-        android:hint="Location"
-        android:inputType="textPersonName"
-        android:minWidth="355dp"
-        android:minHeight="55dp"
-        android:padding="8dp"
-        android:textColor="@color/textDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/cabin_medium"
         android:text="Habit Event Details"
         android:textColor="@color/textDark"
-        android:fontFamily="@font/cabin_medium"
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -83,12 +84,13 @@
         android:id="@+id/textViewHabitName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Habit Name:"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/cabin_medium"
+        android:text="Habit Name:"
         android:textColor="@color/accent4"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -96,10 +98,53 @@
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHabitName"
         app:srcCompat="@drawable/ic_habits" />
+
+    <Button
+        android:id="@+id/buttonAddLocation"
+        android:layout_width="354dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_add_location"
+        android:text="Add Location"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments" />
+
+    <TextView
+        android:id="@+id/textView_addedLocation"
+        android:layout_width="354dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/ic_edit_text"
+        android:ems="10"
+        android:textColor="@color/textDark"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddLocation"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/textView_selectedLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Selected Location:"
+        android:textColor="@color/textDark"
+        app:layout_constraintBottom_toTopOf="@+id/textView_addedLocation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddLocation"
+        app:layout_constraintVertical_bias="0.0"
+        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
