@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.habithelper"
-    >
+    package="com.example.habithelper">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <application
@@ -11,6 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitHelper" >
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDlZbwawloxFH4MyqJQAQQAeKS7N0iGLIM" />
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".ViewHabitEventsActivity"
             android:exported="false" />
@@ -24,17 +35,23 @@
             android:name=".CreateHabitActivity"
             android:exported="true" />
         <activity
-            android:name=".FollowersActivity"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".CameraActivity"
             android:exported="true" />
         <activity
+            android:name=".LocationPickerActivity"
+            android:exported="false"/>
+
+        <activity
             android:name=".LoginActivity"
             android:exported="true">
+
+            <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyDlZbwawloxFH4MyqJQAQQAeKS7N0iGLIM" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,8 +66,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"
-                ></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
     </application>
