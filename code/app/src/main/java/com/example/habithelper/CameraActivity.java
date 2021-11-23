@@ -3,7 +3,6 @@ package com.example.habithelper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -38,7 +36,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        
+
         takePhotoButton = findViewById(R.id.camera_button);
         cameraImageView = findViewById(R.id.cameraImageView);
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -80,12 +78,10 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
+                getImageFileDestination(),  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
@@ -93,6 +89,12 @@ public class CameraActivity extends AppCompatActivity {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private String getImageFileDestination(){
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return "JPEG_" + timeStamp + "_";
     }
 
     @Override
@@ -144,7 +146,9 @@ public class CameraActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         cameraImageView.setImageBitmap(bitmap);
+        //Log.d(encodeFileToBase64Binary(currentPhotoPath));
     }
+
 
 
 }
