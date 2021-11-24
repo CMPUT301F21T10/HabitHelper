@@ -26,10 +26,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +45,7 @@ import java.util.Calendar;
 public class CreateHabitActivity extends AppCompatActivity implements Serializable{
     FirebaseFirestore db;
     final boolean[] days_clicked = {false,false,false,false,false,false,false};
+    boolean publicStatus = true;
 
 
     @Override
@@ -66,6 +69,20 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         Button fri_btn = findViewById(R.id.fri_btn);
         Button sat_btn = findViewById(R.id.sat_btn);
         Button sun_btn = findViewById(R.id.sun_btn);
+
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (toggleButton.isChecked()){
+                    publicStatus = false;
+                }else {
+                    publicStatus = true;
+                }
+            }
+        });
+
+
 
         //Checking if monday has been clicked
         mon_btn.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +249,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
                 //Create the new habit object
-                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, true, day.toString());
+                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString());
 
                 //adding the new edited habit to the database
                 habitCreated.addHabitToDB(user.getEmail(), db);

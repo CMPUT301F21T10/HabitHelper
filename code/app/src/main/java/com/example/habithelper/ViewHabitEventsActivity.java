@@ -110,7 +110,9 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 String habitEventComment = String.valueOf(viewOptionalComments.getText());
                 String habitEventLocation = String.valueOf(viewOptionalLocation.getText());
 
-                HabitEvent newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate, habitEventEditing.getAssociatedHabitTitle(),habitEventLocation);
+//???????????????                // save does not work for the time being because lat and long added!!!!!
+                HabitEvent newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate, habitEventEditing.getAssociatedHabitTitle(),
+                        habitEventLocation);
                 String emailToEdit = user.getEmail();
 
                 //adding the new edited habit to the database

@@ -20,13 +20,17 @@ package com.example.habithelper;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -44,10 +48,19 @@ import java.util.Calendar;
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
     TextView textViewHabitName;
-//    FirebaseUser user; //Current user
+    Button button_location_picker;
+    TextView locationText;
+    TextView editTextDateCompleted;
+    EditText editTextComments;
+    TextView selectedLocationText;
 
     FirebaseFirestore db;
+    FirebaseUser user;
     Habit habit_to_create_event;
+
+
+    String address = "";
+    Double Lat = 0.0, Long = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,21 +73,72 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
         db = FirebaseFirestore.getInstance();
 
+        button_location_picker = findViewById(R.id.buttonAddLocation);
+        locationText = findViewById(R.id.textView_addedLocation);
+        selectedLocationText = findViewById(R.id.textView_selectedLocation);
         textViewHabitName = findViewById(R.id.textViewHabitName);
+        editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
+        editTextComments = findViewById(R.id.editTextOptionalComments);
+
+
         Bundle extras = getIntent().getExtras();
-
-
         if (extras != null){
-            //Get the habit for which a habit event is to be created
-            habit_to_create_event = (Habit) extras.getSerializable("habit");
-            textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
+            Log.d("CLASS_FROM", "onCreate: " + extras.getString("classFrom"));
 
-//            //Get the current user
-//            user = (FirebaseUser) extras.get("currentUser");
+            if (extras.getString("classFrom").equals(LocationPickerActivity.class.toString())){
+
+                address = extras.getString("address");
+                Log.d("ADDRESS", "onCreate: " + address);
+                String date = extras.getString("date");
+                String comment = extras.getString("comment");
+                Lat = extras.getDouble("lat");
+                Long = extras.getDouble("long");
+
+                Toast.makeText(getApplicationContext(), "Lat: " + Lat + " Long: " + Long, Toast.LENGTH_SHORT).show();
+
+                //Get the habit for which a habit event is to be created
+                habit_to_create_event = (Habit) extras.getSerializable("habit");
+                textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
+                user = (FirebaseUser) extras.get("currentUser");
+
+                editTextDateCompleted.setText(date);
+                editTextComments.setText(comment);
+                locationText.setText(address);
+                locationText.setVisibility(View.VISIBLE);
+                selectedLocationText.setVisibility(View.VISIBLE);
+            }
+            else{ // from main activity (habit fragment)
+
+                //Get the habit for which a habit event is to be created
+                habit_to_create_event = (Habit) extras.getSerializable("habit");
+                textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
+                user = (FirebaseUser) extras.get("currentUser");
+            }
+
+
+
         }
 
+        button_location_picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(CreateHabitEventActivity.this, LocationPickerActivity.class);
+                mapIntent.putExtra("habit", habit_to_create_event);
+                mapIntent.putExtra("currentUser", user);
+
+                // store data already input to display again when back to this activity
+                String date = editTextDateCompleted.getText().toString();
+                String comment = editTextComments.getText().toString();
+
+                mapIntent.putExtra("date", date);
+                mapIntent.putExtra("comment", comment);
+
+                startActivity(mapIntent);
+            }
+        });
+
+
         //Setting up date picker dialogue
-        TextView dateStarted = findViewById(R.id.editTextDateCompleted);
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -84,11 +148,11 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 String date = year + "-" + month + "-" + dayOfMonth;
-                dateStarted.setText(date);
+                editTextDateCompleted.setText(date);
             }
         };
         DatePickerDialog.OnDateSetListener finalSetListener = setListener;
-        dateStarted.setOnClickListener(new View.OnClickListener() {
+        editTextDateCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitEventActivity.this,
@@ -108,9 +172,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Getting the habit event details edit texts of the habit event being created
-        TextView editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
-        EditText editTextComments = findViewById(R.id.editTextOptionalComments);
-        EditText editTextTLocation = findViewById(R.id.editTextOptionalLocation);
+        editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
+        editTextComments = findViewById(R.id.editTextOptionalComments);
 
         switch (item.getItemId()){
             //When create is selected in the menu
@@ -118,17 +181,18 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
                 //Get the current user from MainActivity to pass it back to MainActivity
                 Bundle extras = getIntent().getExtras();
-                FirebaseUser user = (FirebaseUser) extras.get("currentUser");
+                user = (FirebaseUser) extras.get("currentUser");
 
                 //Get the habit details of the habit being created
                 String associatedHabitTitle = habit_to_create_event.getTitle();
                 String EventTitle = associatedHabitTitle + " Event";
-                String EventComment = String.valueOf(editTextComments.getText());
-                String EventDateCompleted = String.valueOf(editTextDateCompleted.getText());
-                String EventLocation = String.valueOf(editTextTLocation.getText());
+                String EventComment = editTextComments.getText().toString();
+                String EventDateCompleted = editTextDateCompleted.getText().toString();
+                String EventLocation = locationText.getText().toString();
 
                 //Create the new habit event object
-                HabitEvent newHabitEvent = new HabitEvent(EventTitle, EventComment, EventDateCompleted, associatedHabitTitle, EventLocation);
+                HabitEvent newHabitEvent = new HabitEvent(EventTitle, EventComment, EventDateCompleted, associatedHabitTitle,
+                        EventLocation, Lat, Long);
 
                 //adding the new habit event to the database
                 newHabitEvent.addHabitEventToDB(user.getEmail(), db);
