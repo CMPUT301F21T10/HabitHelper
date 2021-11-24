@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".CameraActivity">
+
     <ImageView
         android:id="@+id/cameraImageView"
         android:layout_width="match_parent"
@@ -19,4 +20,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:text="Take Photo" />
+
+    <Button
+        android:id="@+id/photo_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+
+        android:text="Show Photo" />
 </RelativeLayout>

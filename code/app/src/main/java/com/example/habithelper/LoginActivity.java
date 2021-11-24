@@ -109,11 +109,11 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     public void onLoginSignUpClick(View view){
 
-        //takePicture();
+        takePicture();
 
 
         //Show the user sign up fragment
-        new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
+        //new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
 
 
     }

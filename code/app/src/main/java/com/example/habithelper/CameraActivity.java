@@ -17,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -58,9 +60,22 @@ public class CameraActivity extends AppCompatActivity {
                 onTakePhotoButtonClick(view);
             }
         });
+        findViewById(R.id.photo_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                locatePicture("fake-time.jpg", cameraImageView);
+                /*if (localFile != null) {
+                    Log.d("MyCamera", "FILEPATH: " + localFile.getAbsolutePath());
+                    //showImage(cameraImageView, localFile.getAbsolutePath());
+                    currentPhotoPath = localFile.getAbsolutePath();
+                    setPic();
+                }*/
+            }
+        });
 
-        cameraImageView.setImageBitmap(locatePicture("fake-time.jpg"));
+
     }
+
 
     public void onTakePhotoButtonClick(View view){
         dispatchTakePictureIntent();
@@ -138,30 +153,9 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void setPic() {
-        // Get the dimensions of the View
-        int targetW = cameraImageView.getWidth();
-        int targetH = cameraImageView.getHeight();
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW/targetW, photoH/targetH));
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        cameraImageView.setImageBitmap(bitmap);
-        savePicture("fake", bitmap);
+        Bitmap bitmap = showImage(cameraImageView, currentPhotoPath);
+        savePicture("faker1", bitmap);
         //Log.d(encodeFileToBase64Binary(currentPhotoPath));
 
     }
@@ -205,30 +199,59 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
-    private Bitmap locatePicture(String fileName){
+    private void locatePicture(String fileName, ImageView destination){
         StorageReference storageRef = storage.getReference();
-        StorageReference pictureRef = storageRef.child(fileName);
-        final Bitmap[] result = new Bitmap[1];
-        final long ONE_MEGABYTE = 1024 * 1024;
-        pictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        StorageReference pictureImagesRef = storageRef.child(fileName);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        }
+        catch (Exception e){
+            return;
+        }
+        File finalLocalFile = localFile;
+        pictureImagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(byte[] bytes) {
-                // Data for "images/island.jpg" is returns, use this as needed
-                result[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                Log.d("MyCamera", "ImageRetrival Success");
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                showImage(destination, finalLocalFile.getAbsolutePath());
+                Log.d("MyCamera", "Image Located");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-                Log.d("MyCamera", "ImageRetrival Failed");
-                result[0] = null;
             }
         });
-        return result[0];
+
+        Log.d("MyCamera", "Finish Locate Picture");
     }
 
-    private void showImage(ImageView destination, File file){
+    private Bitmap showImage(ImageView destination, String filePhotoPath){
 
+        // Get the dimensions of the View
+        int targetW = destination.getWidth();
+        int targetH = destination.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(filePhotoPath, bmOptions);
+
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.max(1, Math.min(photoW/(targetW), photoH/(targetH)));
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(filePhotoPath, bmOptions);
+        destination.setImageBitmap(bitmap);
+        return bitmap;
     }
 }
