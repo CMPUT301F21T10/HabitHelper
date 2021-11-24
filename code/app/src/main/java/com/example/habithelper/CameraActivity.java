@@ -43,6 +43,7 @@ public class CameraActivity extends AppCompatActivity {
     private ImageView cameraImageView;
 
     private FirebaseStorage storage;
+    private ImageProcessor processor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,11 @@ public class CameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        storage = FirebaseStorage.getInstance();
-
         takePhotoButton = findViewById(R.id.camera_button);
         cameraImageView = findViewById(R.id.cameraImageView);
+        processor = new ImageProcessor(CameraActivity.this,
+                cameraImageView, new User("test", "test@test.ca", "password"));
+
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,13 +65,7 @@ public class CameraActivity extends AppCompatActivity {
         findViewById(R.id.photo_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                locatePicture("fake-time.jpg", cameraImageView);
-                /*if (localFile != null) {
-                    Log.d("MyCamera", "FILEPATH: " + localFile.getAbsolutePath());
-                    //showImage(cameraImageView, localFile.getAbsolutePath());
-                    currentPhotoPath = localFile.getAbsolutePath();
-                    setPic();
-                }*/
+                processor.retrieveImage("test-20211124_151857.jpg");
             }
         });
 
@@ -88,7 +84,7 @@ public class CameraActivity extends AppCompatActivity {
             // Create the File where the photo should go
             File photoFile = null;
             try {
-                photoFile = createImageFile();
+                photoFile = processor.createImageFile();
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 Toast.makeText(CameraActivity.this, "File creation failed.",
@@ -107,25 +103,6 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-    private File createImageFile() throws IOException {
-
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                getImageFileDestination(),  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    private String getImageFileDestination(){
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return "JPEG_" + timeStamp + "_";
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,7 +120,7 @@ public class CameraActivity extends AppCompatActivity {
             }
             else{
                 Log.d("MyCamera", "extras null");
-                setPic();
+                processor.saveImage();
 
             }
 
@@ -152,106 +129,4 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-    private void setPic() {
-
-        Bitmap bitmap = showImage(cameraImageView, currentPhotoPath);
-        savePicture("faker1", bitmap);
-        //Log.d(encodeFileToBase64Binary(currentPhotoPath));
-
-    }
-
-    //From firebase storage tutorial
-    private void savePicture(String userID, Bitmap image){
-        // Create a storage reference from our app
-        StorageReference storageRef = storage.getReference();
-
-        String timeStamp = "time";
-        String fileName = userID + "-" + timeStamp + ".jpg";
-        // Create a reference to the image based upon the userID
-        StorageReference pictureRef = storageRef.child(fileName);
-
-        // Create a reference to 'images/mountains.jpg'
-        StorageReference pictureImagesRef = storageRef.child("images/" + fileName);
-
-        // While the file names are the same, the references point to different files
-        pictureRef.getName().equals(pictureImagesRef.getName());    // true
-        pictureRef.getPath().equals(pictureImagesRef.getPath());    // false
-
-        //Put the bitmap into a form usable by firestore
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        //Put the file into firestore storage
-        UploadTask uploadTask = pictureRef.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Toast.makeText(CameraActivity.this, "File save failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-            }
-        });
-    }
-
-    private void locatePicture(String fileName, ImageView destination){
-        StorageReference storageRef = storage.getReference();
-        StorageReference pictureImagesRef = storageRef.child(fileName);
-        File localFile = null;
-        try {
-            localFile = File.createTempFile("images", "jpg");
-        }
-        catch (Exception e){
-            return;
-        }
-        File finalLocalFile = localFile;
-        pictureImagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                showImage(destination, finalLocalFile.getAbsolutePath());
-                Log.d("MyCamera", "Image Located");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-
-        Log.d("MyCamera", "Finish Locate Picture");
-    }
-
-    private Bitmap showImage(ImageView destination, String filePhotoPath){
-
-        // Get the dimensions of the View
-        int targetW = destination.getWidth();
-        int targetH = destination.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeFile(filePhotoPath, bmOptions);
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW/(targetW), photoH/(targetH)));
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(filePhotoPath, bmOptions);
-        destination.setImageBitmap(bitmap);
-        return bitmap;
-    }
 }
