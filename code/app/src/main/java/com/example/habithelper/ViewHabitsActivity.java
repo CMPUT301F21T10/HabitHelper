@@ -25,9 +25,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +47,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
     TextView editTextStartDate;
     Bundle extras;
     Habit habitEditing;
+    boolean publicStatus;
     FirebaseFirestore db;
     FirebaseUser user;
     final boolean[] days_clicked = {false,false,false,false,false,false,false};
@@ -79,8 +84,31 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         editTextTitle.setText(habitEditing.getTitle());
         editTextStartDate.setText(habitEditing.getDateStarted());
         editTextReason.setText(habitEditing.getReason());
-
+        ToggleButton toggleButton = findViewById(R.id.toggleButton);
         String days = habitEditing.getHabitDays();
+        publicStatus = habitEditing.getPublicStatus();
+
+        if(publicStatus){
+            if (toggleButton.isChecked()){
+                toggleButton.setChecked(false);
+            }
+        }else{
+            if (!toggleButton.isChecked()){
+                toggleButton.setChecked(true);
+            }
+        }
+
+
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (toggleButton.isChecked()){
+                    publicStatus = false;
+                }else {
+                    publicStatus = true;
+                }
+            }
+        });
 
         if (days.charAt(0)=='1'){
             mon_btn.setBackgroundColor(getResources().getColor(R.color.accent2));
@@ -267,7 +295,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                         day.append("0");
                     }
                 }
-                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, true, day.toString());
+                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString());
                 String emailToEdit = user.getEmail();
 
 
