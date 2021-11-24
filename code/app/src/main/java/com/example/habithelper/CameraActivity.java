@@ -13,9 +13,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -32,10 +40,15 @@ public class CameraActivity extends AppCompatActivity {
     private String currentPhotoPath;
     private ImageView cameraImageView;
 
+    private FirebaseStorage storage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        storage = FirebaseStorage.getInstance();
 
         takePhotoButton = findViewById(R.id.camera_button);
         cameraImageView = findViewById(R.id.cameraImageView);
@@ -45,6 +58,8 @@ public class CameraActivity extends AppCompatActivity {
                 onTakePhotoButtonClick(view);
             }
         });
+
+        cameraImageView.setImageBitmap(locatePicture("fake-time.jpg"));
     }
 
     public void onTakePhotoButtonClick(View view){
@@ -146,9 +161,74 @@ public class CameraActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         cameraImageView.setImageBitmap(bitmap);
+        savePicture("fake", bitmap);
         //Log.d(encodeFileToBase64Binary(currentPhotoPath));
+
     }
 
+    //From firebase storage tutorial
+    private void savePicture(String userID, Bitmap image){
+        // Create a storage reference from our app
+        StorageReference storageRef = storage.getReference();
 
+        String timeStamp = "time";
+        String fileName = userID + "-" + timeStamp + ".jpg";
+        // Create a reference to the image based upon the userID
+        StorageReference pictureRef = storageRef.child(fileName);
 
+        // Create a reference to 'images/mountains.jpg'
+        StorageReference pictureImagesRef = storageRef.child("images/" + fileName);
+
+        // While the file names are the same, the references point to different files
+        pictureRef.getName().equals(pictureImagesRef.getName());    // true
+        pictureRef.getPath().equals(pictureImagesRef.getPath());    // false
+
+        //Put the bitmap into a form usable by firestore
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        //Put the file into firestore storage
+        UploadTask uploadTask = pictureRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Toast.makeText(CameraActivity.this, "File save failed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+            }
+        });
+    }
+
+    private Bitmap locatePicture(String fileName){
+        StorageReference storageRef = storage.getReference();
+        StorageReference pictureRef = storageRef.child(fileName);
+        final Bitmap[] result = new Bitmap[1];
+        final long ONE_MEGABYTE = 1024 * 1024;
+        pictureRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Data for "images/island.jpg" is returns, use this as needed
+                result[0] = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Log.d("MyCamera", "ImageRetrival Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+                Log.d("MyCamera", "ImageRetrival Failed");
+                result[0] = null;
+            }
+        });
+        return result[0];
+    }
+
+    private void showImage(ImageView destination, File file){
+
+    }
 }
