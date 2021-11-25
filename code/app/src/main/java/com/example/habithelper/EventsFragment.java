@@ -168,6 +168,7 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
         Intent intent = new Intent(getContext(), ViewHabitEventsActivity.class);
         intent.putExtra("habit", habit_event);
         intent.putExtra("currentUser", user);
+        intent.putExtra("classFrom", MainActivity.class.toString());
         startActivity(intent);
     }
 }

@@ -40,6 +40,9 @@
         <activity
             android:name=".LocationPickerActivity"
             android:exported="false"/>
+        <activity
+            android:name=".showLocationActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".LoginActivity"

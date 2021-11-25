@@ -1,6 +1,9 @@
 package com.example.habithelper;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,15 +21,14 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseUser;
 
-
-public class ConfirmAddress extends DialogFragment implements
-        android.view.View.OnClickListener, OnMapReadyCallback {
-
+public class ConfirmAddressFragment extends DialogFragment implements android.view.View.OnClickListener, OnMapReadyCallback {
     public Dialog d;
 
     private GoogleMap mMap;
@@ -47,11 +50,6 @@ public class ConfirmAddress extends DialogFragment implements
         Lat = getArguments().getDouble("lat");
         Long = getArguments().getDouble("long");
         Address = getArguments().getString("address");
-        habit = (Habit) getArguments().getSerializable("habit");
-        date = getArguments().getString("date");
-        comment = getArguments().getString("comment");
-        user = (FirebaseUser) getArguments().getParcelable("currentUser");
-
 
     }
     MapFragment mapFragment;
@@ -73,19 +71,6 @@ public class ConfirmAddress extends DialogFragment implements
                 Toast.makeText(getActivity(),myAddress.getText().toString(),Toast.LENGTH_LONG).show();
                 getFragmentManager().beginTransaction().remove(mapFragment).commit();
                 dismiss();
-
-                Intent intent = new Intent(getActivity(), CreateHabitEventActivity.class);
-                intent.putExtra("lat", Lat);
-                intent.putExtra("long", Long);
-                intent.putExtra("address", Address);
-                intent.putExtra("classFrom", LocationPickerActivity.class.toString());
-                intent.putExtra("habit", habit);
-                intent.putExtra("date", date);
-                intent.putExtra("comment", comment);
-                intent.putExtra("currentUser", user);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                getActivity().finish();
 
             }
         });

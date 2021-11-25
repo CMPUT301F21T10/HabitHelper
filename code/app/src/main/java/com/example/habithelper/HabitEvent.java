@@ -237,6 +237,22 @@ public class HabitEvent implements Serializable {
         EventPhoto = eventPhoto;
     }
 
+    public Double getLat() {
+        return Lat;
+    }
+
+    public void setLat(Double lat) {
+        Lat = lat;
+    }
+
+    public Double getLong() {
+        return Long;
+    }
+
+    public void setLong(Double aLong) {
+        Long = aLong;
+    }
+
     /**
      * Translate all the data into a form usable by the DB
      * @return
