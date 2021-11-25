@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,12 +44,17 @@ import java.util.Date;
 public class ViewHabitEventsActivity extends AppCompatActivity {
 
 
-    TextView viewDateCompleted, viewHabitName;
-    EditText viewOptionalComments, viewOptionalLocation;
+    private TextView viewDateCompleted, viewHabitName;
+    private EditText viewOptionalComments;
+    private TextView viewOptionalLocation;
     FirebaseFirestore db;
     FirebaseUser user;
     Bundle extras;
-    HabitEvent habitEventEditing;
+    private HabitEvent habitEventEditing;
+    private Button viewLocationButton;
+
+    private String address, date, comment;
+    private Double Lat, Long;
 
     ImageView eventImage;
     private FirebaseStorage storage;
@@ -60,7 +66,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_habit_events);
-        setContentView(R.layout.activity_view_habit_events);
+//        setContentView(R.layout.activity_view_habit_events);
         //Setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,6 +78,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
         viewDateCompleted = findViewById(R.id.viewDateCompleted);
         viewOptionalComments = findViewById(R.id.viewOptionalComments);
         viewOptionalLocation = findViewById(R.id.viewOptionalLocation);
+        viewLocationButton = findViewById(R.id.viewLocation_button);
 
         eventImage = findViewById(R.id.viewImage);
         currentPhotoFileName = "";
@@ -82,14 +89,41 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
         //Getting the habit object being viewed, and the current user
         if (extras != null){
-            habitEventEditing = (HabitEvent) extras.getSerializable("habit");
-            user = (FirebaseUser) extras.get("currentUser");
+            if (extras.getString("classFrom").equals(showLocationActivity.class.toString())){
+                address = extras.getString("address");
+                Lat = extras.getDouble("lat");
+                Long = extras.getDouble("long");
+                date = extras.getString("date");
+                comment = extras.getString("comment");
+
+                user = (FirebaseUser) extras.get("currentUser");
+                habitEventEditing = (HabitEvent) extras.getSerializable("habitEvent");
+
+                viewHabitName.setText(habitEventEditing.getEventTitle());
+                viewDateCompleted.setText(date);
+                viewOptionalComments.setText(comment);
+                viewOptionalLocation.setText(address);
+
+                habitEventEditing.setEventDateCompleted(date);
+                habitEventEditing.setEventComment(comment);
+                habitEventEditing.setEventLocation(address);
+                habitEventEditing.setLat(Lat);
+                habitEventEditing.setLong(Long);
+
+            }
+            else { // from main activity (Events fragment)
+                habitEventEditing = (HabitEvent) extras.getSerializable("habit");
+                user = (FirebaseUser) extras.get("currentUser");
+
+                viewHabitName.setText(habitEventEditing.getEventTitle());
+                viewDateCompleted.setText(habitEventEditing.getEventDateCompleted());
+                viewOptionalComments.setText(habitEventEditing.getEventComment());
+                viewOptionalLocation.setText(habitEventEditing.getEventLocation());
+            }
+
         }
 
-        viewHabitName.setText(habitEventEditing.getEventTitle());
-        viewDateCompleted.setText(habitEventEditing.getEventDateCompleted());
-        viewOptionalComments.setText(habitEventEditing.getEventComment());
-        viewOptionalLocation.setText(habitEventEditing.getEventLocation());
+
         if (habitEventEditing.getEventPhoto().length() > 0){
             Log.d("HABITEVENTPHOTO", habitEventEditing.getEventPhoto());
             currentPhotoFileName = habitEventEditing.getEventPhoto();
@@ -118,6 +152,29 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+
+        viewLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go to showLocationActivity
+                Lat = habitEventEditing.getLat();
+                Long = habitEventEditing.getLong();
+
+                Intent intent = new Intent(ViewHabitEventsActivity.this, showLocationActivity.class);
+                intent.putExtra("lat", Lat);
+                intent.putExtra("long", Long);
+                intent.putExtra("address", viewOptionalLocation.getText().toString());
+                intent.putExtra("date", viewDateCompleted.getText().toString());
+                intent.putExtra("comment", viewOptionalComments.getText().toString());
+
+                intent.putExtra("currentUser", user);
+                intent.putExtra("habitEvent", habitEventEditing);
+
+
+                startActivity(intent);
+
+            }
+        });
     }
 
 
@@ -134,23 +191,24 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
             case R.id.save:
 
 
-//                TextView viewHabitName = findViewById(R.id.viewHabitName);
-//                viewDateCompleted = findViewById(R.id.viewDateCompleted);
-//                EditText viewOptionalComments = findViewById(R.id.viewOptionalComments);
-//                EditText viewOptionalLocation = findViewById(R.id.viewOptionalLocation);
+                String habitEventsTitle = viewHabitName.getText().toString();
+                String habitEventDate = viewDateCompleted.getText().toString();;
+                String habitEventComment = viewOptionalComments.getText().toString();
+                String habitEventLocation = viewOptionalLocation.getText().toString();
 
-//                TextView viewDateCompleted, viewHabitName;
-//                EditText viewOptionalComments, viewOptionalLocation;
+                HabitEvent newEditedHabitEvent;
+                if (habitEventLocation.equals(habitEventEditing.getEventLocation())) {
+                    newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
+                            habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
+                            habitEventEditing.getLat(), habitEventEditing.getLong());
 
 
-                String habitEventsTitle = String.valueOf(viewHabitName.getText());
-                String habitEventDate = String.valueOf(viewDateCompleted.getText());;
-                String habitEventComment = String.valueOf(viewOptionalComments.getText());
-                String habitEventLocation = String.valueOf(viewOptionalLocation.getText());
-
-//???????????????                // save does not work for the time being because lat and long added!!!!!
-                HabitEvent newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate, habitEventEditing.getAssociatedHabitTitle(),
-                        habitEventLocation);
+                }
+                else{
+                    newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
+                            habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
+                            Lat, Long);
+                }
 
                 newEditedHabitEvent.setEventPhoto(currentPhotoFileName);
                 String emailToEdit = user.getEmail();

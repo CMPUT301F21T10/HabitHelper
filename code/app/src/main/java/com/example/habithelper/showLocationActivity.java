@@ -42,23 +42,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationPickerActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class showLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
-    FirebaseUser user;
-    Habit habit;
-    String date;
-    String comment;
-    Double Lat;
-    Double Long;
-    String address;
-    private LatLng markerPosition;
+    private FirebaseUser user;
+    private HabitEvent habitEvent;
+    private String date;
+    private String comment;
+    private Double Lat;
+    private Double Long;
+    private String address;
 
 
     private final static int PLACE_PICKER_REQUEST = 999;
     private final static int LOCATION_REQUEST_CODE = 23;
     private Marker marker;
+    private LatLng markerPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,30 +68,23 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         //Setting up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_location);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Location Picker");
+        getSupportActionBar().setTitle("View/Edit Location");
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            user = (FirebaseUser) extras.get("currentUser");
-            habit = (Habit) extras.getSerializable("habit");
-            date = extras.getString("date");
-            comment = extras.getString("comment");
+            address = extras.getString("address");
             Lat = extras.getDouble("lat");
             Long = extras.getDouble("long");
-            address = extras.getString("address");
+            date = extras.getString("date");
+            comment = extras.getString("comment");
+            user = (FirebaseUser) extras.get("currentUser");
+            habitEvent = (HabitEvent) extras.getSerializable("habitEvent");
+
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
-//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-//                    LOCATION_REQUEST_CODE);
-//        }
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                 LOCATION_REQUEST_CODE);
@@ -104,11 +97,9 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
-                Log.d("MARKER", "haha: ");
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.d("MARKER", "haha2: ");
-
 
                     if (Lat != 0 & Long != 0) {
                         mMap.clear();
@@ -120,9 +111,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
                                 markerPosition, 15);
                         mMap.animateCamera(location);
-                    }
-                    else{
-
+                    } else {
                         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             Toast.makeText(getApplicationContext(), "Location permission not given", Toast.LENGTH_SHORT).show();
                             onBackPressed();
@@ -138,17 +127,20 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                                 mMap.animateCamera(cameraUpdate);
                             }
                         });
-
                     }
 
 
                     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
+                            markerPosition = latLng;
                             MarkerOptions markerOptions = new MarkerOptions();
                             markerOptions.position(latLng);
 
-                            markerOptions.title(getAddress(latLng));
+                            address = getAddress(latLng);
+                            Lat = markerPosition.latitude;
+                            Long = markerPosition.longitude;
+                            markerOptions.title(address);
                             mMap.clear();
                             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
                                     latLng, 15);
@@ -156,6 +148,8 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                             mMap.addMarker(markerOptions);
                         }
                     });
+
+
 
                 } else {
                     // permission denied, Disable the
@@ -171,7 +165,6 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
     }
 
 
@@ -196,16 +189,13 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                 ft.remove(prev);
             }
             ft.addToBackStack(null);
-            DialogFragment dialogFragment = new ConfirmAddress();
+            DialogFragment dialogFragment = new ConfirmAddressFragment();
 
             Bundle args = new Bundle();
             args.putDouble("lat", latLng.latitude);
             args.putDouble("long", latLng.longitude);
             args.putString("address", address);
-            args.putSerializable("habit", habit);
-            args.putParcelable("currentUser", user);
-            args.putString("date", date);
-            args.putString("comment", comment);
+
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
             return address;
@@ -216,11 +206,10 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.location_picker_menu, menu);
+        inflater.inflate(R.menu.view_location_menu, menu);
         return true;
     }
 
@@ -231,6 +220,22 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
             case R.id.goBack:
                 onBackPressed();
                 return true;
+
+            case R.id.done:
+
+                Intent intent = new Intent(showLocationActivity.this, ViewHabitEventsActivity.class);
+                intent.putExtra("lat", Lat);
+                intent.putExtra("long", Long);
+                intent.putExtra("address", address);
+                intent.putExtra("classFrom", showLocationActivity.class.toString());
+                intent.putExtra("habitEvent", habitEvent);
+                intent.putExtra("date", date);
+                intent.putExtra("comment", comment);
+                intent.putExtra("currentUser", user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
         }
         return super.onOptionsItemSelected(item);
     }

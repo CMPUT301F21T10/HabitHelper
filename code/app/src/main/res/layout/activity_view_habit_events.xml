@@ -38,7 +38,7 @@
         android:background="@drawable/ic_edit_text"
         android:ems="10"
         android:hint="Comments"
-        android:inputType="textPersonName"
+        android:inputType="textMultiLine"
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
@@ -48,19 +48,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewDateCompleted" />
 
-    <EditText
+    <TextView
         android:id="@+id/viewOptionalLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
         android:background="@drawable/ic_edit_text"
-        android:ems="10"
+        android:maxEms="10"
+        android:layout_weight="1"
         android:hint="Location"
-        android:inputType="textPersonName"
         android:minWidth="355dp"
         android:minHeight="55dp"
         android:padding="8dp"
         android:textColor="@color/textDark"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,12 +71,13 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/cabin_medium"
         android:text="Habit Event Details"
         android:textColor="@color/textDark"
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -83,12 +85,13 @@
         android:id="@+id/viewHabitName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/cabin_medium"
         android:text="Habit Name:"
         android:textColor="@color/accent4"
         android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -96,8 +99,9 @@
         android:id="@+id/viewImage"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/viewHabitName"
         app:srcCompat="@drawable/ic_habits" />
@@ -141,5 +145,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/viewImage"
         app:layout_constraintEnd_toEndOf="@+id/viewImage"
         app:srcCompat="@drawable/ic_add" />
+
+    <Button
+        android:id="@+id/viewLocation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="View/Edit Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewOptionalLocation"
+        app:layout_constraintVertical_bias="0.466" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -125,8 +125,6 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 Lat = extras.getDouble("lat");
                 Long = extras.getDouble("long");
 
-                Toast.makeText(getApplicationContext(), "Lat: " + Lat + " Long: " + Long, Toast.LENGTH_SHORT).show();
-
                 //Get the habit for which a habit event is to be created
                 habit_to_create_event = (Habit) extras.getSerializable("habit");
                 textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
@@ -165,6 +163,9 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
                 mapIntent.putExtra("date", date);
                 mapIntent.putExtra("comment", comment);
+                mapIntent.putExtra("lat", Lat);
+                mapIntent.putExtra("long", Long);
+                mapIntent.putExtra("address", address);
 
                 startActivity(mapIntent);
             }
