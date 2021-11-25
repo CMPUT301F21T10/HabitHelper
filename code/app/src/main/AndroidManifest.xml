@@ -38,9 +38,6 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".CameraActivity"
-            android:exported="true" />
-        <activity
             android:name=".LocationPickerActivity"
             android:exported="false"/>
 

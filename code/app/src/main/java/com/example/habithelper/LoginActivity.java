@@ -66,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     static final int REQUEST_IMAGE_CAPTURE = 1;
     Intent mainIntent;
     ImageView imageView;
-    Intent testIntent;
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
     private FirebaseAuth mAuth;
@@ -78,7 +77,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
 
         imageView = findViewById(R.id.imageView);
 
-        testIntent = new Intent(LoginActivity.this, CameraActivity.class);
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
 
         //Initialize the database
@@ -108,20 +106,9 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * @param view
      */
     public void onLoginSignUpClick(View view){
-
-        takePicture();
-
-
         //Show the user sign up fragment
-        //new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
-
-
+        new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
     }
-    public void takePicture(){
-
-        startActivity(testIntent);
-    }
-
 
     /**
      * OnClick event for the OK Button in the NewUserFragment

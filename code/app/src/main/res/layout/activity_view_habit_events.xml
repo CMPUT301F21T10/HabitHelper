@@ -132,4 +132,14 @@
         app:layout_constraintBottom_toTopOf="@+id/viewDateCompleted"
         app:layout_constraintStart_toStartOf="@+id/viewDateCompleted" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="takePicture"
+        app:layout_constraintBottom_toBottomOf="@+id/viewImage"
+        app:layout_constraintEnd_toEndOf="@+id/viewImage"
+        app:srcCompat="@drawable/ic_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

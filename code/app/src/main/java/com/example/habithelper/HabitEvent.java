@@ -229,6 +229,14 @@ public class HabitEvent implements Serializable {
         return EventId;
     }
 
+    public String getEventPhoto() {
+        return EventPhoto;
+    }
+
+    public void setEventPhoto(String eventPhoto) {
+        EventPhoto = eventPhoto;
+    }
+
     /**
      * Translate all the data into a form usable by the DB
      * @return
