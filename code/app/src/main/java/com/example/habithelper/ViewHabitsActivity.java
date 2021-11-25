@@ -89,13 +89,9 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         publicStatus = habitEditing.getPublicStatus();
 
         if(publicStatus){
-            if (toggleButton.isChecked()){
-                toggleButton.setChecked(false);
-            }
+            toggleButton.setChecked(false);
         }else{
-            if (!toggleButton.isChecked()){
-                toggleButton.setChecked(true);
-            }
+            toggleButton.setChecked(true);
         }
 
 

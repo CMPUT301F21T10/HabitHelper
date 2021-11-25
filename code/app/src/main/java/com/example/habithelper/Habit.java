@@ -29,8 +29,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This is a class that represents a Habit object
@@ -55,7 +65,7 @@ public class Habit implements Serializable {
         this.dateStarted = (String) doc.get("habit_date");
 
         String publicStatus_str = (String) doc.get("publicStatus");
-        if (publicStatus_str == "true"){
+        if (publicStatus_str.equals("true")){
             this.publicStatus = true;
         }
         else{
@@ -252,7 +262,7 @@ public class Habit implements Serializable {
     }
 
     /**
-     *
+     * Delete a habit object from the database
      * @param email
      *      the email of the user for which the habit is to be deleted
      * @param db
@@ -277,6 +287,45 @@ public class Habit implements Serializable {
                         Log.w("ERROR_DELETE", "Error deleting document", e);
                     }
                 });
+    }
+
+
+    /**
+     * Count the number of times a habit is to be done weekly
+     * @return the frequency of doing habit object per week
+     */
+    public int frequencyWeekly(){
+        int sum = 0;
+        for (int i = 0; i<7; i++){
+            if (habitDays.charAt(i)==1){
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+
+    /**
+     * Calculate the total number of days the habit object should have been done
+     * @return the total number of days the habit should have been done
+     */
+    public int getTotalDays(){
+        int sum = 0;
+        long days = 0;
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        try {
+            Date date1 = myFormat.parse(currentDate);
+            Date date2 = myFormat.parse(dateStarted);
+            long diff = date2.getTime() - date1.getTime();
+            days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            days = days/7;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        sum = (int) (days * frequencyWeekly());
+        return sum;
     }
 
 }

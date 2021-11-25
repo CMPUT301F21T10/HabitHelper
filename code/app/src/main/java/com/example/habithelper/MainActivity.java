@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +42,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -258,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.log_out:
                 FirebaseAuth.getInstance().signOut();
+                deleteCache(this);
                 Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
 
                 Intent loginIntent =new Intent(MainActivity.this, LoginActivity.class);
@@ -266,5 +271,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //https://stackoverflow.com/questions/23908189/clear-cache-in-android-application-programmatically
+
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) { e.printStackTrace();}
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if(dir!= null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 }
