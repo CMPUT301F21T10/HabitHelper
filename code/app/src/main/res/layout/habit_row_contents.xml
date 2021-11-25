@@ -48,6 +48,21 @@
             android:layout_marginEnd="20dp"
             android:text="09/10/2021" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/habitDate_textView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:max="100"
+            android:minWidth="68dip"
+            android:minHeight="16dip"
+            android:progress="85"
+            android:progressTint="#4CAF50" />
+
     </RelativeLayout>
 
 
