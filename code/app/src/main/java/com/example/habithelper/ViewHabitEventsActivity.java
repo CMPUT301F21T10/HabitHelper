@@ -213,11 +213,11 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 newEditedHabitEvent.setEventPhoto(currentPhotoFileName);
                 String emailToEdit = user.getEmail();
 
-                //adding the new edited habit to the database
-                newEditedHabitEvent.addHabitEventToDB(emailToEdit, db);
-
                 //deleting the old habit from the database
                 habitEventEditing.deleteHabitEventFromDB(emailToEdit, db);
+
+                //adding the new edited habit to the database
+                newEditedHabitEvent.addHabitEventToDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitEventsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
