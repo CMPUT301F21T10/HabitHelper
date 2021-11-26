@@ -81,7 +81,10 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
         holder.habitTitle_textView.setText(habits_list.get(position).getTitle());
         holder.habitComment_textView.setText(habits_list.get(position).getReason());
         holder.habitDate_textView.setText(habits_list.get(position).getDateStarted());
-        int progress = (Integer.parseInt(habits_list.get(position).getNumHabitEvents())*100)/(habits_list.get(position).getTotalDays());
+        int progress;
+        if(habits_list.get(position).getTotalDays()==0){
+            progress = 0;
+        }else progress = (Integer.parseInt(habits_list.get(position).getNumHabitEvents())*100)/(habits_list.get(position).getTotalDays());
 
         holder.pb.setProgress(progress);
 
