@@ -20,6 +20,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -80,6 +81,10 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
         holder.habitTitle_textView.setText(habits_list.get(position).getTitle());
         holder.habitComment_textView.setText(habits_list.get(position).getReason());
         holder.habitDate_textView.setText(habits_list.get(position).getDateStarted());
+        int progress = (Integer.parseInt(habits_list.get(position).getNumHabitEvents())*100)/(habits_list.get(position).getTotalDays());
+
+        holder.pb.setProgress(progress);
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,12 +108,15 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView habitTitle_textView, habitComment_textView,habitDate_textView;
+        ProgressBar pb;
 
         public MyViewHolder (View view) {
             super(view);
             habitTitle_textView = view.findViewById(R.id.habitTitleTextView);
             habitComment_textView = view.findViewById(R.id.habitComment_textView);
             habitDate_textView = view.findViewById(R.id.habitDate_textView);
+            pb = view.findViewById(R.id.progressBar);
+
 
         }
     }

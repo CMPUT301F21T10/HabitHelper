@@ -249,7 +249,7 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
                 //Create the new habit object
-                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString());
+                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), 0);
 
                 //adding the new edited habit to the database
                 habitCreated.addHabitToDB(user.getEmail(), db);

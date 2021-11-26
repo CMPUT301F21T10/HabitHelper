@@ -43,10 +43,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -60,6 +68,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -84,6 +94,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     FirebaseFirestore db;
     FirebaseUser user;
     Habit habit_to_create_event;
+    String numHabitEvents;
 
 
     String address = "";
@@ -219,6 +230,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 Bundle extras = getIntent().getExtras();
                 user = (FirebaseUser) extras.get("currentUser");
 
+
                 //Get the habit details of the habit being created
                 String associatedHabitTitle = habit_to_create_event.getTitle();
                 String EventTitle = associatedHabitTitle + " Event";
@@ -234,8 +246,34 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 newHabitEvent.setEventPhoto(currentPhotoFileName);
                 newHabitEvent.addHabitEventToDB(user.getEmail(), db);
 
+
+
+                DocumentReference docRef = db.collection("Habits")
+                        .document(user.getEmail())
+                        .collection(user.getEmail()+"_habits").document(habit_to_create_event.getTitle());
+
+                docRef.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                numHabitEvents = (String) documentSnapshot.get("numHabitEvents");
+                                int numberOfHabitEvents = Integer.parseInt(numHabitEvents);
+                                numberOfHabitEvents++;
+                                numHabitEvents = String.valueOf(numberOfHabitEvents);
+
+                                Map<String, String> data = new HashMap<>();
+                                data.put("numHabitEvents", numHabitEvents);
+                                docRef.set(data, SetOptions.merge());
+                            }
+                        });
+
+//                Toast.makeText(CreateHabitEventActivity.this, ""+numHabitEvents, Toast.LENGTH_SHORT).show();
+
+
+
                 Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
+                intent.putExtra("habit", habit_to_create_event);
                 intent.putExtra("habitEventCreated", newHabitEvent);
                 intent.putExtra("currentUser", user);
                 startActivity(intent);

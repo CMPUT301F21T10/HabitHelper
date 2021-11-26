@@ -241,7 +241,6 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         });
 
 
-
         //Setting up date picker dialogue
         TextView dateStarted = findViewById(R.id.editTextStartDate);
         Calendar calendar = Calendar.getInstance();
@@ -265,6 +264,8 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 datePickerDialog.show();
             }
         });
+
+        Toast.makeText(ViewHabitsActivity.this, ""+habitEditing.getNumHabitEvents(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -283,6 +284,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(editTextStartDate.getText());;
                 StringBuilder day = new StringBuilder();
+                String numHabitEvents = habitEditing.getNumHabitEvents();
                 //Setting up days
                 for (int days=0;days<7;days++){
                     if (days_clicked[days]){
@@ -291,7 +293,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                         day.append("0");
                     }
                 }
-                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString());
+                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), Integer.parseInt(numHabitEvents));
                 String emailToEdit = user.getEmail();
 
 
@@ -299,7 +301,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 newEditedHabit.addHabitToDB(emailToEdit, db);
 
                 //deleting the old habit from the database
-               // habitEditing.deleteHabitFromDB(emailToEdit, db);
+                habitEditing.deleteHabitFromDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());

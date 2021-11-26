@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -109,17 +110,17 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
+                                Habit retrievedHabit = new Habit(document);
                                 Log.d("DOC_ID", "onComplete: " + document.getId());
 
                                 CollectionReference eventCollectionRef = collectionRef
                                         .document(document.getId())
                                         .collection("HabitEvents");
-
                                 //bug here to fix!
                                 eventCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task2) {
+
                                         if (task2.isSuccessful()) {
                                             for (QueryDocumentSnapshot eventDoc : task2.getResult()) {
                                                 HabitEvent retrievedHabitEvent = new HabitEvent(eventDoc);
@@ -129,7 +130,6 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
                                                 HabitEventsAdapter.notifyDataSetChanged();
                                             }
                                         }
-
                                     }
                                 });
                             }
