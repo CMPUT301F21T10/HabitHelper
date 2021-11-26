@@ -20,7 +20,8 @@ public class CreateHabitEventActivitytest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<LoginActivity> rule = new ActivityTestRule<>(LoginActivity.class, true, true);
+    public ActivityTestRule<LoginActivity> rule =
+            new ActivityTestRule<>(LoginActivity.class, true, true);
 
     /**
      * Runs before all tests and creates solo instance.
@@ -69,7 +70,7 @@ public class CreateHabitEventActivitytest {
         solo.setDatePicker(0,2021,12,14);
         solo.clickOnText("OK");
         solo.enterText((EditText) solo.getView(R.id.editTextOptionalComments), "Ran for 64 hours");
-        solo.enterText((EditText) solo.getView(R.id.editTextOptionalLocation), "Anfield Stadium");
+        //solo.enterText((EditText) solo.getView(R.id.editTextOptionalLocation), "Anfield Stadium");
         solo.waitForText("Mount Everest Peak");
         solo.clickOnView(solo.getView(R.id.createHabit));
 

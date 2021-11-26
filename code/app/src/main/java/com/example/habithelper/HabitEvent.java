@@ -70,42 +70,6 @@ public class HabitEvent implements Serializable {
     /**
      * Constructor for HabitEvent class
      * @param eventTitle
-     * The title/name of the habit event
-     * @param eventComment
-     * The comment for the habit event
-     * @param eventDateCompleted
-     * The date the habit event was completed
-     */
-    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle) {
-        this.EventTitle = eventTitle;
-        this.EventComment = eventComment;
-        this.EventDateCompleted = eventDateCompleted;
-        this.AssociatedHabitTitle = associatedHabitTitle;
-    }
-
-    /**
-     * Constructor for HabitEvent class
-     * @param eventTitle
-     *  The title/name of the habit event
-     * @param eventComment
-     *  The comment for the habit event
-     * @param eventDateCompleted
-     *  The date the habit event was completed
-     * @param eventLocation
-     *  The location of the habit event
-     */
-    public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle,
-                      String eventLocation) {
-        this.EventTitle = eventTitle;
-        this.EventComment = eventComment;
-        this.EventDateCompleted = eventDateCompleted;
-        this.AssociatedHabitTitle = associatedHabitTitle;
-        this.EventLocation = eventLocation;
-    }
-
-    /**
-     * Constructor for HabitEvent class
-     * @param eventTitle
      *  The title/name of the habit event
      * @param eventComment
      *  The comment for the habit event
@@ -127,6 +91,7 @@ public class HabitEvent implements Serializable {
         this.EventLocation = eventLocation;
         this.Lat = Lat;
         this.Long = Long;
+        this.EventPhoto = "";
     }
 
 
