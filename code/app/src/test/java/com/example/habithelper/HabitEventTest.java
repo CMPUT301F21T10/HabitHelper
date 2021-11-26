@@ -19,6 +19,10 @@ public class HabitEventTest {
                 1.0);
     }
 
+    /**
+     * Ensure that the data we will be passing to firestore is in the right format
+     * and everything we want to include is included
+     */
     @Test
     public void testGenerateAllHabitEventDBData(){
         HabitEvent event = mockHabitEvent();

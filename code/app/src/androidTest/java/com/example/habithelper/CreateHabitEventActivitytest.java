@@ -78,4 +78,30 @@ public class CreateHabitEventActivitytest {
         solo.clickOnView(solo.getView(R.id.events_fragment));
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
+
+    /**
+     * Check that the camera properly loads on clicking the desired button
+     */
+    @Test
+    public void testTakeHabitEventPicture(){
+        //User log in
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fake2@fake.ca");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "123456");
+        solo.clickOnButton("Login");
+
+        //Swiping
+        int fromX, toX, fromY, toY;
+        int[] location = new int[2];
+        View row = solo.getText("Running");
+        row.getLocationInWindow(location);
+        if (location.length == 0) fail("Could not find habit: Running");
+        fromX = location[0];
+        fromY = location[1];
+        toX = location[0]+1000;
+        toY = fromY;
+        solo.drag(fromX, toX, fromY, toY, 10);
+
+
+        solo.clickOnView(solo.getView(R.id.fab_createHabitEventPicture));
+        }
 }
