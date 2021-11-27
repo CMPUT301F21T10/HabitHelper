@@ -113,7 +113,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextOptionalComments"
+            app:cardCornerRadius="@dimen/buttonMargin"/>
 
         <TextView
             android:id="@+id/textView_addedLocation"

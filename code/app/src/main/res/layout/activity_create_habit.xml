@@ -113,21 +113,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Mon" />
+                    android:text="Mon"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
 
                 <Button
                     android:id="@+id/tue_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Tue" />
+                    android:text="Tue"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
 
                 <Button
                     android:id="@+id/wed_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Wed" />
+                    android:text="Wed"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
             </TableRow>
 
             <TableRow
@@ -140,21 +143,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Thu" />
+                    android:text="Thu"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
 
                 <Button
                     android:id="@+id/fri_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Fri" />
+                    android:text="Fri"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
 
                 <Button
                     android:id="@+id/sat_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
-                    android:text="Sat" />
+                    android:text="Sat"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
 
             </TableRow>
 
@@ -169,7 +175,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/buttonMargin"
 
-                    android:text="Sun" />
+                    android:text="Sun"
+                    app:cardCornerRadius="@dimen/buttonMargin"/>
             </TableRow>
 
         </TableLayout>
@@ -188,7 +195,8 @@
             android:textOn="PRIVATE"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/textView11"
+            app:cardCornerRadius="@dimen/buttonMargin"/>
 
         <TextView
             android:id="@+id/textView11"

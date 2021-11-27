@@ -184,7 +184,8 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewOptionalLocation"
-            app:layout_constraintVertical_bias="0.466" />
+            app:layout_constraintVertical_bias="0.466"
+            app:cardCornerRadius="@dimen/buttonMargin"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

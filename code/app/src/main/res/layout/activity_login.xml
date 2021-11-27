@@ -75,7 +75,8 @@
             android:layout_margin="@dimen/baseMargin"
             android:backgroundTint="@color/button1"
             android:onClick="onLoginSignInClick"
-            android:text="@string/submitLogin" />
+            android:text="@string/submitLogin"
+            app:cardCornerRadius="@dimen/buttonMargin"/>
 
 
         <TextView

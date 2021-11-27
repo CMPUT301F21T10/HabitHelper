@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_margin="10dp"
+    android:layout_marginTop="@dimen/baseMargin"
     android:elevation="12dp"
     app:cardCornerRadius="12dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp">
+        android:padding="6dp">
 
 
         <TextView
