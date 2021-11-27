@@ -1,178 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ViewHabitsActivity"
     android:background="@color/background">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+        android:background="@color/background">
+
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
 
 
 
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:background="@drawable/ic_edit_text"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textPersonName"
-        android:minWidth="355dp"
-        android:minHeight="55dp"
-        android:padding="8dp"
-        android:textColor="@color/textDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="92dp"
+            android:layout_marginLeft="@dimen/baseMargin"
+            android:layout_marginRight="@dimen/baseMargin"
+            android:background="@drawable/ic_edit_text"
+            android:ems="10"
+            android:hint="Title"
+            android:inputType="textPersonName"
+            android:minWidth="355dp"
+            android:minHeight="55dp"
+            android:padding="8dp"
+            android:textColor="@color/textDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/editTextStartDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/ic_edit_text"
-        android:ems="10"
-        android:hint="Starting Date"
-        android:inputType="textPersonName"
-        android:minWidth="355dp"
-        android:minHeight="55dp"
-        android:padding="8dp"
-        android:textColor="@color/textDark"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
+        <TextView
+            android:id="@+id/editTextStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginLeft="@dimen/baseMargin"
+            android:layout_marginRight="@dimen/baseMargin"
+            android:background="@drawable/ic_edit_text"
+            android:ems="10"
+            android:hint="Starting Date"
+            android:inputType="textPersonName"
+            android:minWidth="355dp"
+            android:minHeight="55dp"
+            android:padding="8dp"
+            android:textColor="@color/textDark"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
-    <EditText
-        android:id="@+id/editTextReason"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/ic_edit_text"
-        android:ems="10"
-        android:hint="Reason"
-        android:inputType="textPersonName"
-        android:minWidth="355dp"
-        android:minHeight="55dp"
-        android:padding="8dp"
-        android:textColor="@color/textDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextStartDate" />
+        <EditText
+            android:id="@+id/editTextReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="@dimen/baseMargin"
+            android:layout_marginRight="@dimen/baseMargin"
+            android:background="@drawable/ic_edit_text"
+            android:ems="10"
+            android:hint="Reason"
+            android:inputType="textPersonName"
+            android:minWidth="355dp"
+            android:minHeight="55dp"
+            android:padding="8dp"
+            android:textColor="@color/textDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextStartDate" />
 
-    <TextView
-        android:id="@+id/selectDays"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:text="Select Days"
-        android:textColor="@color/textDark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextReason" />
+        <TextView
+            android:id="@+id/selectDays"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:text="Select Days"
+            android:textColor="@color/textDark"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextReason" />
 
-    <Button
-        android:id="@+id/mon_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:text="Mon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectDays"/>
-    <Button
-        android:id="@+id/tue_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Tue"
-        app:layout_constraintBaseline_toBaselineOf="@+id/mon_btn"
-        app:layout_constraintStart_toEndOf="@+id/mon_btn" />
+        <Button
+            android:id="@+id/mon_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="@dimen/baseMargin"
+            android:text="Mon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectDays"/>
+        <Button
+            android:id="@+id/tue_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Tue"
+            app:layout_constraintBaseline_toBaselineOf="@+id/mon_btn"
+            app:layout_constraintStart_toEndOf="@+id/mon_btn" />
 
-    <Button
-        android:id="@+id/wed_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Wed"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tue_btn"
-        app:layout_constraintStart_toEndOf="@+id/tue_btn" />
+        <Button
+            android:id="@+id/wed_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Wed"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tue_btn"
+            app:layout_constraintStart_toEndOf="@+id/tue_btn" />
 
-    <Button
-        android:id="@+id/thur_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Thur"
-        app:layout_constraintBaseline_toBaselineOf="@+id/wed_btn"
-        app:layout_constraintStart_toEndOf="@+id/wed_btn" />
+        <Button
+            android:id="@+id/thur_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Thur"
+            app:layout_constraintBaseline_toBaselineOf="@+id/wed_btn"
+            app:layout_constraintStart_toEndOf="@+id/wed_btn" />
 
-    <Button
-        android:id="@+id/sat_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Sat"
-        app:layout_constraintBaseline_toBaselineOf="@+id/fri_btn"
-        app:layout_constraintStart_toEndOf="@+id/fri_btn" />
+        <Button
+            android:id="@+id/sat_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Sat"
+            app:layout_constraintBaseline_toBaselineOf="@+id/fri_btn"
+            app:layout_constraintStart_toEndOf="@+id/fri_btn" />
 
-    <Button
-        android:id="@+id/fri_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginTop="8dp"
-        android:text="Fri"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mon_btn" />
+        <Button
+            android:id="@+id/fri_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="57dp"
+            android:layout_marginTop="@dimen/baseMargin"
+            android:text="Fri"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mon_btn" />
 
-    <Button
-        android:id="@+id/sun_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="57dp"
-        android:text="Sun"
-        app:layout_constraintBaseline_toBaselineOf="@+id/sat_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/sat_btn" />
+        <Button
+            android:id="@+id/sun_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="57dp"
+            android:text="Sun"
+            app:layout_constraintBaseline_toBaselineOf="@+id/sat_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sat_btn" />
 
-    <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/button1"
-        android:text="ToggleButton"
-        android:textColor="@color/textDark"
-        android:textOff="PUBLIC"
-        android:textOn="PRIVATE"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/baseMargin"
+            android:layout_marginRight="@dimen/baseMargin"
+            android:layout_marginTop="@dimen/baseMargin"
+            android:backgroundTint="@color/button1"
+            android:text="ToggleButton"
+            android:textColor="@color/textDark"
+            android:textOff="PUBLIC"
+            android:textOn="PRIVATE"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:text="Set habit to public/private"
-        android:textColor="@color/textDark"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fri_btn" />
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="Set habit to public/private"
+            android:textColor="@color/textDark"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fri_btn" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

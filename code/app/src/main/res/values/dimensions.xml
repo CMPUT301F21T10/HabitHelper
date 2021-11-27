@@ -2,5 +2,5 @@
     <dimen name="fontTitleSize">45dp</dimen>
     <dimen name="fontSubTitleSize">25dp</dimen>
     <dimen name="fontEditSize">20dp</dimen>
-    <dimen name="baseMargin">5dp</dimen>
+    <dimen name="baseMargin">10dp</dimen>
 </resources>
