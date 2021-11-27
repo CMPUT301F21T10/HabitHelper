@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ViewHabitsActivity"
+    android:paddingBottom="20dp"
     android:background="@color/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,6 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/baseMargin"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:text="Set habit to public/private"
             android:textColor="@color/textDark"
             android:textSize="18sp"
