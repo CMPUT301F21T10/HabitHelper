@@ -295,7 +295,13 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
      * @param view
      */
     public void takePicture(View view){
-        dispatchTakePictureIntent();
+        try{
+            dispatchTakePictureIntent();
+        }catch (Exception e){
+            Toast.makeText(CreateHabitEventActivity.this,
+                    "Camera unavailable at this time. Please start again.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
