@@ -166,7 +166,7 @@ public class Habit implements Serializable {
      */
     public void setReason(String reason) {
         if (reason.length() > 30){
-            this.reason = reason.substring(0, 20);
+            this.reason = reason.substring(0, 30);
         }else{
             this.reason = reason;
         }
