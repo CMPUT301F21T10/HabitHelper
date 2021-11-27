@@ -43,7 +43,7 @@ public class HabitTest {
         assertEquals("title", newHabit.getTitle());
 
         newHabit.setTitle("Long long long title that is way too long");
-        assertEquals("Long long long title", newHabit.getTitle());
+        assertEquals(20, newHabit.getTitle().length());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class HabitTest {
         assertEquals("reason", newHabit.getReason());
 
         newHabit.setTitle("Long long long reason that is way too long");
-        assertEquals("Long long long reason that is ", newHabit.getTitle());
+        assertEquals(30, newHabit.getTitle().length());
     }
 }
