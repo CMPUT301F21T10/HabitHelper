@@ -253,6 +253,12 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    /**
+     * Hide the keyboard when text is clicked
+     * @param view
+     *      View this function should operate on
+     */
     public void onTextClick(View view){
         hideKeyboard();
     }

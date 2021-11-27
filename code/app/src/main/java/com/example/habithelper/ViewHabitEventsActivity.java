@@ -250,7 +250,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
      * @param view
      */
     public void takePicture(View view){
-        dispatchTakePictureIntent();
+        try{
+            dispatchTakePictureIntent();
+        }catch (Exception e){
+            Toast.makeText(ViewHabitEventsActivity.this,
+                    "Camera unavailable at this time. Please start again.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
