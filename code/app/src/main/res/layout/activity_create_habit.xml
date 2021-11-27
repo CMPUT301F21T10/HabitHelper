@@ -85,7 +85,7 @@
             android:layout_marginLeft="@dimen/baseMargin"
             android:layout_marginRight="@dimen/baseMargin"
             android:textColor="@color/textDark"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/baseMargin"
             android:layout_marginTop="40dp"
             android:ems="10"
             android:text="Select Days"
@@ -93,78 +93,85 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextReason" />
 
-        <Button
-            android:id="@+id/mon_btn"
-            android:layout_width="wrap_content"
+        <TableLayout
+            android:id="@+id/createHabitsDayButtons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="@dimen/baseMargin"
-            android:backgroundTint="@color/button1"
-            android:text="Mon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/selectDays"/>
-        <Button
-            android:id="@+id/tue_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/baseMargin"
-            android:backgroundTint="@color/button1"
-            android:text="Tue"
-            app:layout_constraintBaseline_toBaselineOf="@+id/mon_btn"
-            app:layout_constraintStart_toEndOf="@+id/mon_btn" />
+            app:layout_constraintTop_toBottomOf="@id/selectDays"
+            android:layout_marginTop="@dimen/buttonMargin"
+            tools:layout_editor_absoluteY="502dp">
 
-        <Button
-            android:id="@+id/wed_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/button1"
-            android:text="Wed"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tue_btn"
-            app:layout_constraintStart_toEndOf="@+id/tue_btn" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-        <Button
-            android:id="@+id/thur_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/button1"
-            android:text="Thur"
-            app:layout_constraintBaseline_toBaselineOf="@+id/wed_btn"
-            app:layout_constraintStart_toEndOf="@+id/wed_btn" />
+                <Button
+                    android:id="@+id/mon_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Mon" />
 
-        <Button
-            android:id="@+id/sat_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/button1"
-            android:text="Sat"
-            app:layout_constraintBaseline_toBaselineOf="@+id/fri_btn"
-            app:layout_constraintStart_toEndOf="@+id/fri_btn" />
+                <Button
+                    android:id="@+id/tue_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Tue" />
 
-        <Button
-            android:id="@+id/fri_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="57dp"
-            android:layout_marginTop="@dimen/baseMargin"
-            android:backgroundTint="@color/button1"
-            android:text="Fri"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mon_btn" />
+                <Button
+                    android:id="@+id/wed_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Wed" />
+            </TableRow>
 
-        <Button
-            android:id="@+id/sun_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="57dp"
-            android:backgroundTint="@color/button1"
-            android:text="Sun"
-            app:layout_constraintBaseline_toBaselineOf="@+id/sat_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sat_btn" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/thur_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Thu" />
+
+                <Button
+                    android:id="@+id/fri_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Fri" />
+
+                <Button
+                    android:id="@+id/sat_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+                    android:text="Sat" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/sun_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/buttonMargin"
+
+                    android:text="Sun" />
+            </TableRow>
+
+        </TableLayout>
 
         <ToggleButton
             android:id="@+id/toggleButton"
@@ -186,13 +193,13 @@
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/baseMargin"
             android:layout_marginTop="36dp"
             android:text="Set habit to public/private"
             android:textColor="@color/textDark"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fri_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/createHabitsDayButtons" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
