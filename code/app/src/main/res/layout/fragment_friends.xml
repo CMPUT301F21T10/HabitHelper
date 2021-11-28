@@ -7,18 +7,6 @@
     android:layout_marginBottom="@dimen/baseMargin"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_bar"
-        android:queryHint="Search"
-        android:layout_margin="2dp"
-        app:iconifiedByDefault="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/followingButton"
-        android:layout_marginTop="70dp">
-
-    </androidx.appcompat.widget.SearchView>
-
 
     <Button
         android:id="@+id/followingButton"
@@ -64,14 +52,28 @@
         app:srcCompat="@android:drawable/btn_star_big_on"
         tools:visibility="visible" />
 
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="390dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Search"
+        android:inputType="textPersonName"
+        android:maxLength="40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/followingButton" />
+
     <ListView
         android:id="@+id/following_List"
         android:layout_width="410dp"
         android:layout_height="601dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_bar"
-        tools:ignore="DuplicateClickableBoundsCheck">
+        tools:ignore="DuplicateClickableBoundsCheck,MissingConstraints">
 
     </ListView>
 

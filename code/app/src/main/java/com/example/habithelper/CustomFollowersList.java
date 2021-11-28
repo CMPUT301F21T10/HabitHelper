@@ -22,6 +22,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,29 +33,98 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> {
+public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> implements Filterable{
 
     private ArrayList<ArrayList<String>> followers;
+    private ArrayList<ArrayList<String>> filteredFollowers;
+    private CustomFilter cs;
     private Context context;
 
-    public CustomFollowersList(Context context, ArrayList<ArrayList<String>> followers){
-        super(context, 0, followers);
-        this.followers = followers;
+    public CustomFollowersList(@NonNull Context context, ArrayList<ArrayList<String>> list){
+        super(context, 0, list);
+        this.followers = list;
+        this.filteredFollowers = list;
         this.context = context;
     }
 
+    @Override
+    public ArrayList<String> getItem(int i) {
+        return followers.get(i);
+    }
+
+    @Override
+    public int getCount(){
+        if(followers != null) {
+            return followers.size();
+        }else{
+            return 0;
+        }
+    }
+
+    @Override
+    public long getItemId(int i){
+        return i;
+    }
+
+
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
+        ArrayList<String> profile = getItem(position);
 
         View view = convertView;
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.user_display_layout, parent,false);
         }
 
-        ArrayList<String> followerNameEmail = followers.get(position);
         TextView name = view.findViewById(R.id.addFriendsRecyclerUserItem);
 
-        name.setText(followerNameEmail.get(0));
+        name.setText(followers.get(position).get(0));
 
         return view;
     }
+
+
+    @Override
+    public Filter getFilter() {
+        if(cs == null){
+            cs = new CustomFilter();
+        }
+        return cs;
+    }
+
+    class CustomFilter extends Filter{
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+
+            if(constraint != null && constraint.length() > 0) {
+                constraint = constraint.toString().toUpperCase();
+                ArrayList<ArrayList<String>> filters = new ArrayList<>();
+
+                for (int i = 0; i < filteredFollowers.size(); i++) {
+                    if (filteredFollowers.get(i).get(0).toUpperCase().contains(constraint)) {
+                        ArrayList<String> profile = new ArrayList<>();
+                        profile.add(filteredFollowers.get(i).get(0));
+                        profile.add(filteredFollowers.get(i).get(1));
+                        filters.add(profile);
+                    }
+                }
+
+                filterResults.count = filters.size();
+                filterResults.values = filters;
+            }else{
+                filterResults.count = filteredFollowers.size();
+                filterResults.values = filteredFollowers;
+            }
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            followers = (ArrayList<ArrayList<String>>) filterResults.values;
+            notifyDataSetChanged();
+        }
+    }
 }
+
+
