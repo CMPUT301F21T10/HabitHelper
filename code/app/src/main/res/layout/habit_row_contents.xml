@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="@dimen/baseMargin"
+    android:layout_marginRight="@dimen/baseMargin"
+    android:layout_marginLeft="@dimen/baseMargin"
     android:elevation="12dp"
     app:cardCornerRadius="12dp">
 

@@ -85,7 +85,7 @@ public class HabitEvent implements Serializable {
     public HabitEvent(String eventTitle, String eventComment, String eventDateCompleted, String associatedHabitTitle,
                       String eventLocation, Double Lat, Double Long) {
         this.EventTitle = eventTitle;
-        this.EventComment = eventComment;
+        this.setEventComment(eventComment);
         this.EventDateCompleted = eventDateCompleted;
         this.AssociatedHabitTitle = associatedHabitTitle;
         this.EventLocation = eventLocation;

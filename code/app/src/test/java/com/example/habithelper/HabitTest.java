@@ -51,7 +51,7 @@ public class HabitTest {
         Habit newHabit = mockHabit();
         assertEquals("reason", newHabit.getReason());
 
-        newHabit.setTitle("Long long long reason that is way too long");
-        assertEquals(30, newHabit.getTitle().length());
+        newHabit.setReason("Long long long reason that is way too long and I cannot believe it is this long");
+        assertEquals(30, newHabit.getReason().length());
     }
 }

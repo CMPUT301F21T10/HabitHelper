@@ -144,7 +144,8 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
                                     // now check if habit is today
                                     String habitDays = retrievedHabit.getHabitDays();
                                     int index = (today-2) % 7;
-                                    if (habitDays.charAt(index) == '1'){
+                                    //Modified here as it was crashing for specific indices
+                                    if (index > 0 && habitDays.length()>index && habitDays.charAt(index) == '1'){
                                         HabitsList.add(retrievedHabit);
                                     }
                                 }
