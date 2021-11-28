@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment1 = new HabitFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
         bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
+        bottomNavigationView.setBackground(null);
 
         //Set the floating action button to open up new habit
         floatingActionButton = findViewById(R.id.fab);
