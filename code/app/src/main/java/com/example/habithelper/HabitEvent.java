@@ -123,12 +123,17 @@ public class HabitEvent implements Serializable {
     }
 
     /**
-     * Set a comment for the habot event
+     * Set a comment for the habot event, ensuring the length is no more than
+     * 20 characters
      * @param eventComment
      * The habit event's comment
      */
     public void setEventComment(String eventComment) {
-        EventComment = eventComment;
+        if (eventComment.length() > 20){
+            this.EventComment = eventComment.substring(0, 20);
+        }else{
+            this.EventComment = eventComment;
+        }
     }
 
     /**

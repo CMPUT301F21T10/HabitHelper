@@ -31,14 +31,14 @@ import java.util.HashMap;
  * Each object holds all the pertinent data for a user
  */
 public class User {
-    public String email;
-    public String password;
-    public String name;
-    public ArrayList<Habit> habits;
-    public ArrayList<String> followers;
-    public ArrayList<String> following;
-    public ArrayList<String> requestsSent;
-    public ArrayList<String> requestsReceived;
+    private String email;
+    private String password;
+    private String name;
+    private ArrayList<Habit> habits;
+    private ArrayList<String> followers;
+    private ArrayList<String> following;
+    private ArrayList<String> requestsSent;
+    private ArrayList<String> requestsReceived;
 
     /**
      * Basic constructor for when a user does not yet have an ID defined in the database
@@ -85,6 +85,7 @@ public class User {
         this.habits = new ArrayList<Habit>();
         this.requestsSent = (ArrayList<String>) doc.get("RequestsSent");
         this.requestsReceived = (ArrayList<String>) doc.get("RequestsReceived");
+        this.password = "";
 
     }
 
@@ -98,6 +99,10 @@ public class User {
      */
     public String getName(){
         return this.name;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public ArrayList<String> getRequestsSent(){

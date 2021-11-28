@@ -106,6 +106,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * @param view
      */
     public void onLoginSignUpClick(View view){
+        hideKeyboard();
         //Show the user sign up fragment
         new NewUserFragment().show(getSupportFragmentManager(), "NEW_USER");
     }
@@ -117,8 +118,15 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     @Override
     public void onOkPressed(User newUser){
-        createDBUser(newUser);
-        createAuthenticationUser(newUser);
+        if (newUser.getPassword().length() > 0 && newUser.getEmail().length() > 0 && newUser.getName().length()>0) {
+            createDBUser(newUser);
+            createAuthenticationUser(newUser);
+        }
+        else{
+            Toast.makeText(LoginActivity.this, "User creation failed.",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("SIGNUP", "Invalid Fields");
+        }
     }
 
     /**
@@ -126,9 +134,11 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * @param newUser
      */
     public void createAuthenticationUser(User newUser){
-        String email = newUser.email;
-        String password = newUser.password;
-        if (email.length() > 0 && password.length() > 0) {
+        hideKeyboard();
+        String email = newUser.getEmail();
+        String password = newUser.getPassword();
+        String name = newUser.getName();
+        if (email.length() > 0 && password.length() > 0 && name.length() > 0) {
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -137,9 +147,15 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                mainIntent.putExtra("currentUser", user);
-                                mainIntent.putExtra("classFrom", LoginActivity.class.toString());
-                                startActivity(mainIntent);
+                                if (user != null) {
+                                    mainIntent.putExtra("currentUser", user);
+                                    mainIntent.putExtra("classFrom", LoginActivity.class.toString());
+                                    startActivity(mainIntent);
+                                }
+                                else{
+                                    Toast.makeText(LoginActivity.this, "Something went wrong. Please try again later.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.d(TAG, "createUserWithEmail:failure", task.getException());
@@ -149,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                         }
                     });
         }else{
-            Toast.makeText(LoginActivity.this, "Invalid Fields.",
+            Toast.makeText(LoginActivity.this, "Invalid Fields. Please try again.",
                     Toast.LENGTH_SHORT).show();
 
         }
@@ -162,24 +178,26 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      */
     public void createDBUser(User newUser){
         //Put the data from the suer object into a specific data structure
-        HashMap<String, ArrayList<String>> newUserData = newUser.generateAllDBData();
-        userCollectionReference
-                .document(newUser.email)
-                .set(newUserData)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });
+        if (newUser.getEmail().length() > 0) {
+            HashMap<String, ArrayList<String>> newUserData = newUser.generateAllDBData();
+            userCollectionReference
+                    .document(newUser.getEmail())
+                    .set(newUserData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // These are a method which gets executed when the task is succeeded
+                            Log.d(TAG, "Data has been added successfully!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // These are a method which gets executed if there’s any problem
+                            Log.d(TAG, "Data could not be added!" + e.toString());
+                        }
+                    });
+        }
     }
     /**
      * OnClick event for the login button
@@ -189,6 +207,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * @param view
      */
     public void onLoginSignInClick(View view){
+        hideKeyboard();
         //If the user has been defined by an ID, send that back to the main
         EditText emailEdit = findViewById(R.id.loginEditEmail);
         String email = emailEdit.getText().toString();
@@ -234,6 +253,12 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    /**
+     * Hide the keyboard when text is clicked
+     * @param view
+     *      View this function should operate on
+     */
     public void onTextClick(View view){
         hideKeyboard();
     }

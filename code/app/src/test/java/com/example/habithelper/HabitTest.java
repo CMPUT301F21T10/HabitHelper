@@ -36,27 +36,22 @@ public class HabitTest {
     }
 
 
-    //NOTE: STILL FIGURING OUT HOW TO TEST ADDING TO DATABASE IN JUNIT
+
     @Test
-    public void testAddHabit(){
-        Habit newHabit = new Habit("Run", "reason", "2021-01-01", true);
-        String email = "fake2@fake.ca";
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        newHabit.addHabitToDB(email, db);
+    public void testSetName(){
+        Habit newHabit = mockHabit();
+        assertEquals("title", newHabit.getTitle());
 
-        //Ensure the habit has been added
-
+        newHabit.setTitle("Long long long title that is way too long");
+        assertEquals(20, newHabit.getTitle().length());
     }
 
-    //NOTE: STILL FIGURING OUT HOW TO TEST DELETING FROM DATABASE IN JUNIT
     @Test
-    public void testDeleteHabit(){
-        Habit newHabit = new Habit("Run", "reason", "2021-01-01", true);
-        String email = "fake2@fake.ca";
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        newHabit.deleteHabitFromDB(email, db);
+    public void testSetReason(){
+        Habit newHabit = mockHabit();
+        assertEquals("reason", newHabit.getReason());
 
-        //Ensure the habit has been deleted
-
+        newHabit.setTitle("Long long long reason that is way too long");
+        assertEquals(30, newHabit.getTitle().length());
     }
 }

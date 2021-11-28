@@ -18,8 +18,10 @@ CreateHabitEventActivity hold all the pertinent data for the habit event being c
  */
 package com.example.habithelper;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -41,6 +43,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -295,7 +299,30 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
      * @param view
      */
     public void takePicture(View view){
-        dispatchTakePictureIntent();
+        try{
+            if (checkCameraPermissions() == true){
+                dispatchTakePictureIntent();
+            } else{
+                Toast.makeText(CreateHabitEventActivity.this, "Please enable the camera to take photos.",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        }catch (Exception e){
+            Toast.makeText(CreateHabitEventActivity.this,
+                    "Camera unavailable at this time. Please start again.",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("CAMERA", e.getMessage());
+        }
+    }
+
+    public Boolean checkCameraPermissions(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(CreateHabitEventActivity.this, new String[] {Manifest.permission.CAMERA}, 100);
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**

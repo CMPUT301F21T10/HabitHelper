@@ -23,10 +23,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -35,19 +38,28 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.google.firebase.firestore.core.AsyncEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 // FriednsFragment is responsible for showing the user their followers/following lists in the same fragment
 // buttons change color on click to signal being pressed, and the list content changes. User names are displayed
@@ -63,11 +75,12 @@ import java.util.ArrayList;
  * Use the {@link FriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements TextWatcher{
     private FirebaseFirestore db;
     private Intent loginIntent;
 
-    private SearchView followSearch;
+    private EditText followSearch;
+    //private SearchView followSearch;
     private ListView followersListView;
     private CustomFollowersList followersAdapter;
     private ArrayList<ArrayList<String>> followersDataList;
@@ -138,6 +151,7 @@ public class FriendsFragment extends Fragment {
     }
 
 
+
     /**
      * onFollowersSelect retrieves the current user of the app from the database
      * and takes a DocumentSnapshot to set the DataList to the content of the
@@ -162,8 +176,6 @@ public class FriendsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
-                    followersAdapter = new CustomFollowersList(getContext(), followersDataList);
-                    followersListView.setAdapter(followersAdapter);
 
                     followersEmailList = (ArrayList<String>) document.get("Followers");
                     for(String userEmail : followersEmailList) {
@@ -174,6 +186,8 @@ public class FriendsFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     followersDataList.add((ArrayList<String>) document.get("UserData"));
+                                    followersAdapter = new CustomFollowersList(getContext(), followersDataList);
+                                    followersListView.setAdapter(followersAdapter);
                                     followersAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -184,6 +198,7 @@ public class FriendsFragment extends Fragment {
         });
 
     }
+
 
     /**
      * onFollowingSelect retrieves the current user of the app from the database
@@ -209,8 +224,6 @@ public class FriendsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     followersDataList.clear();
-                    followersAdapter = new CustomFollowersList(getContext(), followersDataList);
-                    followersListView.setAdapter(followersAdapter);
 
                     followersEmailList = (ArrayList<String>) document.get("Following");
                     for(String userEmail : followersEmailList) {
@@ -264,10 +277,10 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                 // clear search bar on button click, get followers and set button colors
                 onFollowersSelect();
+                followSearch.getText().clear();
                 followersButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
                 followingButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
                 followersAdapter.notifyDataSetChanged();
-                followSearch.setQuery("", false);
             }
         });
 
@@ -277,10 +290,10 @@ public class FriendsFragment extends Fragment {
             public void onClick(View v) {
                 // clear search bar on button click, get following and set button colors
                 onFollowingSelect();
+                followSearch.getText().clear();
                 followingButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
                 followersButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
                 followersAdapter.notifyDataSetChanged();
-                followSearch.setQuery("", false);
             }
         });
 
@@ -290,26 +303,30 @@ public class FriendsFragment extends Fragment {
         followersDataList = new ArrayList<>();
         followersEmailList = new ArrayList<>();
         followersDataName = new ArrayList<>();
-        //followersAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, followersDataList);
+
         followersAdapter = new CustomFollowersList(getContext(), followersDataList);
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
 
 
-        // implement search bar and filter the list of followers/following by entry
-        followSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                followersAdapter.getFilter().filter(query);
-                return false;
-            }
+        followSearch.addTextChangedListener(this);
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                followersAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+
+//        // implement search bar and filter the list of followers/following by entry
+//        followSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                followersAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                followersAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+
 
         followersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -372,4 +389,22 @@ public class FriendsFragment extends Fragment {
         });
         return view;
     }
+
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        this.followersAdapter.getFilter().filter(charSequence);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+    }
 }
+
+

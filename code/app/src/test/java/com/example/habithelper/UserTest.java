@@ -20,8 +20,8 @@ public class UserTest {
     public void testGenerateDBData(){
         User user = mockUser();
         ArrayList<String> data = user.generateDBData();
-        assertEquals(user.name, data.get(0));
-        assertEquals(user.email, data.get(1));
+        assertEquals(user.getName(), data.get(0));
+        assertEquals(user.getEmail(), data.get(1));
     }
 
     /**
@@ -43,8 +43,8 @@ public class UserTest {
         assertNotEquals(null, userData.get("Requests"));
 
         //Test that the data is in the right places
-        assertEquals(user.name, userData.get("UserData").get(0));
-        assertEquals(user.email, userData.get("UserData").get(1));
+        assertEquals(user.getName(), userData.get("UserData").get(0));
+        assertEquals(user.getEmail(), userData.get("UserData").get(1));
         assertEquals("TEST1", userData.get("Followers").get(0));
         assertEquals("TEST3", userData.get("Following").get(0));
         assertEquals("TEST4", userData.get("Requests").get(0));
@@ -60,7 +60,7 @@ public class UserTest {
         assertEquals(0, (int) user.countFollowers());
         user.addFollower("TEST1");
         assertEquals(1, (int) user.countFollowers());
-        assertEquals("TEST1", user.followers.get(0));
+        assertEquals("TEST1", user.getFollowers().get(0));
     }
     /**
      * Test the addFollowing function works
@@ -72,7 +72,7 @@ public class UserTest {
         assertEquals(0, (int) user.countFollowing());
         user.addFollowing("TEST1");
         assertEquals(1, (int) user.countFollowing());
-        assertEquals("TEST1", user.following.get(0));
+        assertEquals("TEST1", user.getFollowing().get(0));
     }
     /**
      * Test the addUserHabit function works
@@ -84,7 +84,7 @@ public class UserTest {
         assertEquals(0, (int) user.countHabits());
         user.addUserHabit(new Habit("TEST1"));
         assertEquals(1, (int) user.countHabits());
-        assertEquals("TEST1", user.habits.get(0).getTitle());
+        //assertEquals("TEST1", user.getHabits.get(0).getTitle());
     }
 
 

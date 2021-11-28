@@ -90,8 +90,8 @@ public class Habit implements Serializable {
      * Denotes whether the habit is public or not
      */
     public Habit(String title, String reason, String dateStarted, Boolean publicStatus, String habitDays, int numHabitEvents) {
-        this.title = title;
-        this.reason = reason;
+        this.setTitle(title);
+        this.setReason(reason);
         this.dateStarted = dateStarted;
         this.publicStatus = publicStatus;
         this.habitDays = habitDays;
@@ -111,8 +111,8 @@ public class Habit implements Serializable {
      * Denotes whether the habit is public or not
      */
     public Habit(String title, String reason, String dateStarted, Boolean publicStatus) {
-        this.title = title;
-        this.reason = reason;
+        this.setTitle(title);
+        this.setReason(reason);
         this.dateStarted = dateStarted;
         this.publicStatus = publicStatus;
     }
@@ -123,7 +123,7 @@ public class Habit implements Serializable {
      * The habit title/name
      */
     public Habit(String title) {
-        this.title = title;
+        this.setTitle(title);
     }
 
     /**
@@ -136,12 +136,17 @@ public class Habit implements Serializable {
     }
 
     /**
-     * Set the title of a habit object to title
+     * Set the title of a habit object to title ensuring the length is no more
+     * than 20 characters
      * @param title
      * title of habit
      */
     public void setTitle(String title) {
-        this.title = title;
+        if (title.length() > 20){
+            this.title = title.substring(0, 20);
+        }else{
+            this.title = title;
+        }
     }
 
     /**
@@ -154,13 +159,17 @@ public class Habit implements Serializable {
     }
 
     /**
-     * Set the reason for a habit object
+     * Set the reason for a habit object ensuring it is no more than 30 characters
      * @param reason
      * reason of a habit
      *
      */
     public void setReason(String reason) {
-        this.reason = reason;
+        if (reason.length() > 30){
+            this.reason = reason.substring(0, 30);
+        }else{
+            this.reason = reason;
+        }
     }
 
     /**

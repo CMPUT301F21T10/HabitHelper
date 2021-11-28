@@ -52,4 +52,13 @@ public class HabitEventTest {
         assertEquals(event.getLong().toString(), eventData.get("long"));
 
     }
+
+    @Test
+    public void testSetEventComment(){
+        HabitEvent newEvent = mockHabitEvent();
+        assertEquals("eventComment", newEvent.getEventComment());
+
+        newEvent.setEventComment("Long long long comment that is way too long");
+        assertEquals(20, newEvent.getEventComment().length());
+    }
 }
