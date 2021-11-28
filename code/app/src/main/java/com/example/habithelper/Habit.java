@@ -88,6 +88,10 @@ public class Habit implements Serializable {
      * The date the habit started
      * @param publicStatus
      * Denotes whether the habit is public or not
+     * @param habitDays
+     * Represents the days the habit should be done
+     * @param numHabitEvents
+     * The number of habit events completed for the habit
      */
     public Habit(String title, String reason, String dateStarted, Boolean publicStatus, String habitDays, int numHabitEvents) {
         this.setTitle(title);
@@ -209,10 +213,20 @@ public class Habit implements Serializable {
     }
 
 
+    /**
+     * Set the days that the habit should be done
+     * @param daysSelected
+     * days habit should be done encoded in a binary format length 7
+     */
     public void setHabitDays(String daysSelected) {
         this.habitDays = daysSelected;
     }
 
+    /**
+     * Get the days that the habit should be doen
+     * @return
+     * The days which the habit should be done
+     */
     public String getHabitDays() {
         return habitDays;
     }
@@ -236,10 +250,11 @@ public class Habit implements Serializable {
         return newHabitData;
     }
 
-    public void setNumHabitEvents(int num){
-        this.numHabitEvents = String.valueOf(num);
-    }
-
+    /**
+     * Get the number of habit events completed for the habit object
+     * @return
+     * The number of habit events
+     */
     public String getNumHabitEvents(){
         return this.numHabitEvents;
     }
@@ -302,11 +317,6 @@ public class Habit implements Serializable {
                 });
     }
 
-
-
-
-
-
     /**
      * Count the number of times a habit is to be done weekly
      * @return the frequency of doing habit object per week
@@ -320,7 +330,6 @@ public class Habit implements Serializable {
         }
         return sum;
     }
-
 
     /**
      * Calculate the total number of days the habit object should have been done

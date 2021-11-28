@@ -261,8 +261,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 newHabitEvent.setEventPhoto(currentPhotoFileName);
                 newHabitEvent.addHabitEventToDB(user.getEmail(), db);
 
-
-
+                //Retrieving current number of habit events from db
                 DocumentReference docRef = db.collection("Habits")
                         .document(user.getEmail())
                         .collection(user.getEmail()+"_habits").document(habit_to_create_event.getTitle());
@@ -271,6 +270,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                         .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                //Incrementing number of habit events and saving it back to db
                                 numHabitEvents = (String) documentSnapshot.get("numHabitEvents");
                                 int numberOfHabitEvents = Integer.parseInt(numHabitEvents);
                                 numberOfHabitEvents++;

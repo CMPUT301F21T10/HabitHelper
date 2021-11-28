@@ -30,8 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -104,15 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
             }else if (extras.getString("classFrom").equals(ViewHabitEventsActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
-                //Need to go to habit events fragment
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("habitEventCreated", HabitEventsList);
-//                getSupportActionBar().setTitle("Habit Events");
-//                Fragment fragment = new EventsFragment();
-//                fragment.setArguments(bundle);
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment).commit();
-
-
 
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
@@ -256,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            //When create habit is selected in the menu
             case R.id.profile:
                 Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
                 break;
@@ -264,12 +252,9 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 deleteCache(this);
                 Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-
                 Intent loginIntent =new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
