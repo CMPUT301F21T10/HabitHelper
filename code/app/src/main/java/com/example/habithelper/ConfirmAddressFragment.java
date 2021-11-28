@@ -28,21 +28,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * A dialog fragment that pops up when a location is selected, used when a user wants to see a given location on map
+ * It animates the location selected and allows the user to confirm its choice or change location.
+ */
 public class ConfirmAddressFragment extends DialogFragment implements android.view.View.OnClickListener, OnMapReadyCallback {
     public Dialog d;
 
     private GoogleMap mMap;
-    Double Lat;
-    Double Long;
-    String Address;
-    TextView myAddress;
-    Button SelectBtn;
-    Button ChangeBtn;
+    private Double Lat;
+    private Double Long;
+    private String Address;
 
-    Habit habit;
-    String date;
-    String comment;
-    FirebaseUser user;
+    private TextView myAddress;
+    private Button SelectBtn;
+    private Button ChangeBtn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,11 @@ public class ConfirmAddressFragment extends DialogFragment implements android.vi
     MapFragment mapFragment;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // inflate fragment view
         View v = inflater.inflate(R.layout.custom_confirm_address, container, false);
         myAddress=(TextView)v.findViewById(R.id.myAddress);
         SelectBtn=(Button) v.findViewById(R.id.Select);
         ChangeBtn=(Button) v.findViewById(R.id.Change);
-
-
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapp);
         mapFragment.getMapAsync(this);
@@ -74,6 +73,7 @@ public class ConfirmAddressFragment extends DialogFragment implements android.vi
 
             }
         });
+
         ChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +104,11 @@ public class ConfirmAddressFragment extends DialogFragment implements android.vi
 
     }
 
+    /**
+     * Animate the camera and centers the location selected at the centre of the dialog fragment
+     * @param googleMap
+     *  an instance of GoogleMap to display
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

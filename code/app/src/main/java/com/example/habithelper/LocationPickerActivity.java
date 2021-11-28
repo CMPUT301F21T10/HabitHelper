@@ -42,6 +42,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * An activity that allows a user to select a location on the map,
+ * shows the user's current location as default location
+ */
 public class LocationPickerActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -87,31 +91,31 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-//                    LOCATION_REQUEST_CODE);
-//        }
-
+        // requesting location permission
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                 LOCATION_REQUEST_CODE);
 
     }
 
-
+    /**
+     * Check location permission provided by user and displays map if permission granted
+     * @param requestCode
+     *      The permission's request code
+     * @param permissions
+     *      permissions granted
+     * @param grantResults
+     *        List of all permissions granted
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
-                Log.d("MARKER", "haha: ");
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("MARKER", "haha2: ");
+                    // location permission granted
 
-
+                    // animate selected location/default location at centre of screen
                     if (Lat != 0 & Long != 0) {
                         mMap.clear();
                         markerPosition = new LatLng(Lat, Long);
@@ -143,7 +147,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
                     }
 
-
+                    // if a location on map is clicked, display dialog fragment to confirm location selected
                     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
@@ -155,6 +159,8 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
                                     latLng, 15);
                             mMap.animateCamera(location);
+
+                            // place marker at position clicked
                             mMap.addMarker(markerOptions);
                         }
                     });
@@ -176,7 +182,14 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
     }
 
-
+    /**
+     * Given the latitude and longitude of a point on the map, it returns the address that corresponds
+     * to this point.
+     * @param latLng
+     *      an object that contains the latitude and longitude of a point
+     * @return
+     *      the address of the latitude and longitude of a point on the map
+     */
     private String getAddress(LatLng latLng){
 
         Geocoder geocoder;
@@ -184,8 +197,8 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         geocoder = new Geocoder(this, Locale.getDefault());
 
         try {
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            String address = addresses.get(0).getAddressLine(0);
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
@@ -200,6 +213,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
             ft.addToBackStack(null);
             DialogFragment dialogFragment = new ConfirmAddress();
 
+            // pass data to dialog fragment and show dialog fragment
             Bundle args = new Bundle();
             args.putDouble("lat", latLng.latitude);
             args.putDouble("long", latLng.longitude);

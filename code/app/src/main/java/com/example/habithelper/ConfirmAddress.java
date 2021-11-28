@@ -22,25 +22,30 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseUser;
 
-
+/**
+ * A dialog fragment that pops up when a location is selected.
+ * It animates the location selected and allows the user to confirm its choice or change location.
+ */
 public class ConfirmAddress extends DialogFragment implements
         android.view.View.OnClickListener, OnMapReadyCallback {
 
     public Dialog d;
 
     private GoogleMap mMap;
-    Double Lat;
-    Double Long;
-    String Address;
-    String photoPath;
-    TextView myAddress;
-    Button SelectBtn;
-    Button ChangeBtn;
+    private Double Lat;
+    private Double Long;
+    private String Address;
+    private Habit habit;
+    private String date;
+    private String comment;
+    private FirebaseUser user;
+    private String photoPath;
 
-    Habit habit;
-    String date;
-    String comment;
-    FirebaseUser user;
+    private TextView myAddress;
+    private Button SelectBtn;
+    private Button ChangeBtn;
+    private MapFragment mapFragment;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,14 +61,14 @@ public class ConfirmAddress extends DialogFragment implements
 
 
     }
-    MapFragment mapFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // inflate fragment view
         View v = inflater.inflate(R.layout.custom_confirm_address, container, false);
         myAddress=(TextView)v.findViewById(R.id.myAddress);
         SelectBtn=(Button) v.findViewById(R.id.Select);
         ChangeBtn=(Button) v.findViewById(R.id.Change);
-
 
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapp);
@@ -72,10 +77,10 @@ public class ConfirmAddress extends DialogFragment implements
         SelectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),myAddress.getText().toString(),Toast.LENGTH_LONG).show();
+
                 getFragmentManager().beginTransaction().remove(mapFragment).commit();
                 dismiss();
-
+                // location selected, go back to create habit event activity
                 Intent intent = new Intent(getActivity(), CreateHabitEventActivity.class);
                 intent.putExtra("lat", Lat);
                 intent.putExtra("long", Long);
@@ -92,6 +97,7 @@ public class ConfirmAddress extends DialogFragment implements
 
             }
         });
+
         ChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +128,11 @@ public class ConfirmAddress extends DialogFragment implements
 
     }
 
+    /**
+     * Animate the camera and centers the location selected at the centre of the dialog fragment
+     * @param googleMap
+     *  an instance of GoogleMap to display
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;

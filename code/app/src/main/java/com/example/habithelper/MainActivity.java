@@ -171,14 +171,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainerView, fragment1).commit();
         bottomNavigationView.setSelectedItemId(R.id.habits_fragment);
 
-        // only for testing for the time being, not implemented dynamically yet
-        //Draw a notification badge over the friends icon
-        bottomNavigationView.setBackground(null);
-        BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.friends_fragment);
-        badge.setVisible(true);
-        badge.setNumber(10);
-        badge.setBadgeGravity(BadgeDrawable.TOP_END);
-
         //Set the floating action button to open up new habit
         floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -245,9 +237,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.profile:
-                Toast.makeText(getApplicationContext(), "Profile clicked", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.log_out:
                 FirebaseAuth.getInstance().signOut();
                 deleteCache(this);

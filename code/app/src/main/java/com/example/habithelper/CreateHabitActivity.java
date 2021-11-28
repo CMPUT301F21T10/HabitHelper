@@ -55,7 +55,6 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         //Setting up the toolbar with create habit and cancel menu items
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); removed back button from toolbar
         getSupportActionBar().setTitle("Create Habit");
 
         db = FirebaseFirestore.getInstance();

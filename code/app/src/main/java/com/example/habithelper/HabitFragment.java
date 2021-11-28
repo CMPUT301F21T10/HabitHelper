@@ -44,19 +44,9 @@ import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HabitFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Displays the list of all habits
  */
 public class HabitFragment extends Fragment implements Serializable, habitsCustomList.ItemClickListener {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     ArrayList<Habit> HabitsList = new ArrayList<>();
     RecyclerView recyclerView;
@@ -71,23 +61,6 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Habits.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HabitFragment newInstance(String param1, String param2) {
-        HabitFragment fragment = new HabitFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,12 +95,6 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
                         }
                     }
                 });
-
-//        try {
-//            TimeUnit.MILLISECONDS.sleep(100);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
 
 
@@ -155,8 +122,19 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
         return view;
     }
 
+
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|
             ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, ItemTouchHelper.RIGHT) {
+
+        /**
+         * On user hold and drag on a habit item, user can reorder items in the list
+         * @param recyclerView
+         *      an reference to the recyclerView
+         * @param viewHolder
+         *      This is the recycler view holder
+         * @param target
+         *      a reference to the target position where the item is released
+         */
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
 
@@ -167,14 +145,13 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
             recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
 
-
             return false;
         }
 
         /**
          * On user swipe on a habit item, starts the create habit event activity
          * @param viewHolder
-         *      The is the recycler view holder
+         *      This is the recycler view holder
          * @param direction
          *      This is the swiping direction (to the right)
          */
@@ -193,7 +170,7 @@ public class HabitFragment extends Fragment implements Serializable, habitsCusto
 
 
     /**
-     * On user click on a habit item, start the view habit event activity
+     * On user click on a habit item, start the view habit activity
      * @param habit
      *      This is the habit item clicked
      */
