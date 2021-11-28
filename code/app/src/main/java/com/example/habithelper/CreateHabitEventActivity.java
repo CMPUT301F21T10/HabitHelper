@@ -121,6 +121,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
         editTextComments = findViewById(R.id.editTextOptionalComments);
 
+        storage = FirebaseStorage.getInstance();
         eventImage = findViewById(R.id.imageView);
 //        currentPhotoFileName = "";
 //        currentPhotoPath = "";
@@ -139,7 +140,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 String comment = extras.getString("comment");
                 Lat = extras.getDouble("lat");
                 Long = extras.getDouble("long");
-                currentPhotoPath = extras.getString("photo_path");
+                currentPhotoFileName = extras.getString("photo_path");
                 Log.d("PHOTO", "onCreate: " + currentPhotoPath);
 
                 //Get the habit for which a habit event is to be created
@@ -155,9 +156,10 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
 
                 //LOAD IMAGE HERE
-                if (!currentPhotoPath.equals("")) {
+                if (!currentPhotoFileName.equals("")) {
                     Log.d("PHOTO", "onCreate: display photo");
 //                    showImage(eventImage, currentPhotoPath);
+                    locatePicture(currentPhotoFileName,eventImage);
                 }
 
 
@@ -190,7 +192,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 mapIntent.putExtra("lat", Lat);
                 mapIntent.putExtra("long", Long);
                 mapIntent.putExtra("address", address);
-                mapIntent.putExtra("photo_path", currentPhotoPath);
+                mapIntent.putExtra("photo_path", currentPhotoFileName);
 
                 startActivity(mapIntent);
             }
@@ -220,7 +222,6 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
             }
         });
 
-        storage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -497,6 +498,39 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         Bitmap bitmap = BitmapFactory.decodeFile(filePhotoPath, bmOptions);
         destination.setImageBitmap(bitmap);
         return bitmap;
+    }
+
+
+    /**
+     * Find the relevant image in firestore storage, if it exists
+     * @param fileName
+     * @param destination
+     */
+    private void locatePicture(String fileName, ImageView destination){
+        StorageReference storageRef = storage.getReference();
+        StorageReference pictureImagesRef = storageRef.child(fileName);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        }
+        catch (Exception e){
+            return;
+        }
+        File finalLocalFile = localFile;
+        pictureImagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                currentPhotoPath = finalLocalFile.getAbsolutePath();
+                showImage(destination, finalLocalFile.getAbsolutePath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
     }
     //END OF CODE FOR RETRIEVING HABIT EVEN IMAGE
 }

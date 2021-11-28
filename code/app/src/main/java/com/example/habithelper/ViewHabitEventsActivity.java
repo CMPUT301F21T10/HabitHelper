@@ -95,6 +95,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 Long = extras.getDouble("long");
                 date = extras.getString("date");
                 comment = extras.getString("comment");
+                currentPhotoFileName = extras.getString("photo_path");
 
                 user = (FirebaseUser) extras.get("currentUser");
                 habitEventEditing = (HabitEvent) extras.getSerializable("habitEvent");
@@ -109,6 +110,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 habitEventEditing.setEventLocation(address);
                 habitEventEditing.setLat(Lat);
                 habitEventEditing.setLong(Long);
+
+                //LOAD IMAGE HERE
+                if (!currentPhotoFileName.equals("")) {
+                    Log.d("PHOTO", "onCreate: display photo");
+//                    showImage(eventImage, currentPhotoPath);
+                    locatePicture(currentPhotoFileName,eventImage);
+                }
 
             }
             else { // from main activity (Events fragment)
@@ -169,6 +177,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
 
                 intent.putExtra("currentUser", user);
                 intent.putExtra("habitEvent", habitEventEditing);
+                intent.putExtra("photo_path", currentPhotoFileName);
 
 
                 startActivity(intent);
@@ -338,7 +347,10 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     private void setPicture() {
 
         Bitmap bitmap = showImage(eventImage, currentPhotoPath);
-        savePicture(bitmap);
+        if (bitmap != null){
+            savePicture(bitmap);
+        }
+
         //Log.d(encodeFileToBase64Binary(currentPhotoPath));
 
     }
