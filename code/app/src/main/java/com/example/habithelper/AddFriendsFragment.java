@@ -115,20 +115,24 @@ public class AddFriendsFragment extends Fragment {
         System.out.println("CONTEXT: "+this.getContext());
         Context context = this.getContext();
 
+        Intent intent = getActivity().getIntent();
+        FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
+        String currentUserEmail = user.getEmail();
 
         cdb.get().addOnCompleteListener((new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot d = task.getResult();
                 documentList = d.getDocuments();
-                System.out.println("IDDD:"+documentList.get(0).getId());
 
                 for(DocumentSnapshot dox : documentList){
-                  userToShow = new User(dox);
-                  allUsersList.add(userToShow);
-                }
-                for(User i : allUsersList){
-                    System.out.println("WORKING!!:"+i.getName());
+                    ArrayList<String> nextUser = (ArrayList<String>) dox.get("UserData");
+                    System.out.println(nextUser.get(1));
+
+                    if(!nextUser.get(1).equals(currentUserEmail)){
+                        userToShow = new User(dox);
+                        allUsersList.add(userToShow);
+                    }
                 }
                 userArrayAdapter = new customUserList(context, allUsersList);
                 allUsersListView.setAdapter(userArrayAdapter);
@@ -139,10 +143,7 @@ public class AddFriendsFragment extends Fragment {
         allUsersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = getActivity().getIntent();
-                db = FirebaseFirestore.getInstance();
-                FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
-                String currentUserEmail = user.getEmail();
+
                 User selectedUser = (User)adapterView.getItemAtPosition(i); //THESE ARE IDS FOR NOW, should be EMAIL
                 FragmentTransaction fr = getParentFragmentManager().beginTransaction();
                 //CREATE PROFILE OBJECT, pass selectedUserEmail and currentUserEmail. hardcoded for now
@@ -151,7 +152,6 @@ public class AddFriendsFragment extends Fragment {
                 fr.commit();
             }
         });
-
 
         return view;
     }
