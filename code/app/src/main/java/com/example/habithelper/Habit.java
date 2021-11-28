@@ -317,9 +317,9 @@ public class Habit implements Serializable {
      * Calculate the total number of days the habit object should have been done
      * @return the total number of days the habit should have been done
      */
-    public int getTotalDays(){
-        int sum = 0;
-        long days = 0;
+    public double getTotalDays(){
+        double sum = 0.000;
+        double days = 0.000;
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         try {
@@ -331,7 +331,7 @@ public class Habit implements Serializable {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        sum = (int) (days * this.frequencyWeekly());
+        sum = (double) (days * this.frequencyWeekly());
         return sum;
     }
 

@@ -83,11 +83,11 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
         holder.habitTitle_textView.setText(habits_list.get(position).getTitle());
         holder.habitComment_textView.setText(habits_list.get(position).getReason());
         holder.habitDate_textView.setText(habits_list.get(position).getDateStarted());
-        int progress=0;
+        double progress=0;
         int numEvents = Integer.parseInt(habits_list.get(position).getNumHabitEvents());
         if(habits_list.get(position).getTotalDays()==0){
             if (numEvents>0){
-                if (numEvents==1) progress=33; else if (numEvents==2) progress=66; else progress=100;
+                if (numEvents==1) progress=100;
             }
         }else progress = ((numEvents)*100)/(habits_list.get(position).getTotalDays());
         if (progress<33){
@@ -97,7 +97,7 @@ public class habitsCustomList extends RecyclerView.Adapter<habitsCustomList.MyVi
         }else{
             holder.pb.setProgressTintList(ColorStateList.valueOf(Color.GREEN));
         }
-        holder.pb.setProgress(progress);
+        holder.pb.setProgress((int) progress);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
