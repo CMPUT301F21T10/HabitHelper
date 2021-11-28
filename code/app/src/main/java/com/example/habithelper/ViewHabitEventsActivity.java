@@ -112,7 +112,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 habitEventEditing.setLong(Long);
 
                 //LOAD IMAGE HERE
-                if (!currentPhotoFileName.equals("")) {
+                if (currentPhotoFileName!=null && !currentPhotoFileName.equals("")) {
                     Log.d("PHOTO", "onCreate: display photo");
 //                    showImage(eventImage, currentPhotoPath);
                     locatePicture(currentPhotoFileName,eventImage);
