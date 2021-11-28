@@ -118,14 +118,14 @@
             android:id="@+id/viewImage"
             android:layout_width="300dp"
             android:layout_height="200dp"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="@dimen/baseMargin"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="@dimen/baseMargin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewHabitName"
-            app:srcCompat="@android:drawable/ic_menu_crop" />
+            app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <TextView
             android:id="@+id/textView7"
@@ -171,7 +171,7 @@
             android:onClick="takePicture"
             app:layout_constraintBottom_toBottomOf="@+id/viewImage"
             app:layout_constraintEnd_toEndOf="@+id/viewImage"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <Button
             android:id="@+id/viewLocation_button"
