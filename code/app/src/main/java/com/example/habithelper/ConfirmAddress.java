@@ -32,6 +32,7 @@ public class ConfirmAddress extends DialogFragment implements
     Double Lat;
     Double Long;
     String Address;
+    String photoPath;
     TextView myAddress;
     Button SelectBtn;
     Button ChangeBtn;
@@ -51,6 +52,7 @@ public class ConfirmAddress extends DialogFragment implements
         date = getArguments().getString("date");
         comment = getArguments().getString("comment");
         user = (FirebaseUser) getArguments().getParcelable("currentUser");
+        photoPath = getArguments().getString("photo_path");
 
 
     }
@@ -83,6 +85,7 @@ public class ConfirmAddress extends DialogFragment implements
                 intent.putExtra("date", date);
                 intent.putExtra("comment", comment);
                 intent.putExtra("currentUser", user);
+                intent.putExtra("photo_path", photoPath);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 getActivity().finish();

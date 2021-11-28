@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -90,8 +91,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
     ImageView eventImage;
     private FirebaseStorage storage;
-    private String currentPhotoPath;
-    private String currentPhotoFileName;
+    private String currentPhotoPath = "";
+    private String currentPhotoFileName = "";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
@@ -123,8 +124,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         editTextComments = findViewById(R.id.editTextOptionalComments);
 
         eventImage = findViewById(R.id.imageView);
-        currentPhotoFileName = "";
-        currentPhotoPath = "";
+//        currentPhotoFileName = "";
+//        currentPhotoPath = "";
 
 
         Bundle extras = getIntent().getExtras();
@@ -139,6 +140,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 String comment = extras.getString("comment");
                 Lat = extras.getDouble("lat");
                 Long = extras.getDouble("long");
+                currentPhotoPath = extras.getString("photo_path");
+                Log.d("PHOTO", "onCreate: " + currentPhotoPath);
 
                 //Get the habit for which a habit event is to be created
                 habit_to_create_event = (Habit) extras.getSerializable("habit");
@@ -151,7 +154,14 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 locationText.setVisibility(View.VISIBLE);
                 selectedLocationText.setVisibility(View.VISIBLE);
 
+
                 //LOAD IMAGE HERE
+                if (!currentPhotoPath.equals("")) {
+                    Log.d("PHOTO", "onCreate: display photo");
+//                    showImage(eventImage, currentPhotoPath);
+                }
+
+
             }
             else{ // from main activity (habit fragment)
 
@@ -181,6 +191,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 mapIntent.putExtra("lat", Lat);
                 mapIntent.putExtra("long", Long);
                 mapIntent.putExtra("address", address);
+                mapIntent.putExtra("photo_path", currentPhotoPath);
 
                 startActivity(mapIntent);
             }

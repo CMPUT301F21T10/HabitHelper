@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/baseMargin"
     android:layout_marginRight="@dimen/baseMargin"
-    android:layout_marginBottom="@dimen/baseMargin"
     tools:context=".HabitFragment">
 
 

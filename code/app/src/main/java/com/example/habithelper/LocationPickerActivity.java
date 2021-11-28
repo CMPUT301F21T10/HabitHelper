@@ -46,13 +46,14 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
     private GoogleMap mMap;
 
-    FirebaseUser user;
-    Habit habit;
-    String date;
-    String comment;
-    Double Lat;
-    Double Long;
-    String address;
+    private FirebaseUser user;
+    private Habit habit;
+    private String date;
+    private String comment;
+    private Double Lat;
+    private Double Long;
+    private String address;
+    private String photoPath;
     private LatLng markerPosition;
 
 
@@ -79,6 +80,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
             Lat = extras.getDouble("lat");
             Long = extras.getDouble("long");
             address = extras.getString("address");
+            photoPath = extras.getString("photo_path");
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -206,6 +208,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
             args.putParcelable("currentUser", user);
             args.putString("date", date);
             args.putString("comment", comment);
+            args.putString("photo_path", photoPath);
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
             return address;
