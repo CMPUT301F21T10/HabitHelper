@@ -347,7 +347,10 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     private void setPicture() {
 
         Bitmap bitmap = showImage(eventImage, currentPhotoPath);
-        savePicture(bitmap);
+        if (bitmap != null){
+            savePicture(bitmap);
+        }
+
         //Log.d(encodeFileToBase64Binary(currentPhotoPath));
 
     }
