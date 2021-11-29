@@ -268,12 +268,12 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                     intent.putExtra("currentUser", user);
                     startActivity(intent);
                 }catch (NullPointerException e){
-                    Toast.makeText(getApplicationContext(), "One or more of your fields is filled in incorrectly.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "One or more of your fields is filled in incorrectly.",
+                            Toast.LENGTH_LONG).show();
                     Log.d("MYEXCEPTION", "Null");
                 }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), "Something went wrong.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Something went wrong.",
+                            Toast.LENGTH_LONG).show();
                     Log.d("MYEXCEPTION", "Gen");
                 }
                 return true;
