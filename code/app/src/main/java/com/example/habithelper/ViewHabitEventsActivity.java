@@ -29,7 +29,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,6 +44,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ViewHabitEventsActivity extends AppCompatActivity {
 
@@ -260,6 +265,26 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                     intent.putExtra("currentUser", user);
                     startActivity(intent);
                     eventImage.setImageDrawable(null);
+                    //Retrieving current number of habit events from db
+                    DocumentReference docRef = db.collection("Habits")
+                            .document(user.getEmail())
+                            .collection(user.getEmail()+"_habits").document(habitEventEditing.getAssociatedHabitTitle());
+
+                    docRef.get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    //Incrementing number of habit events and saving it back to db
+                                    String numHabitEvents = (String) documentSnapshot.get("numHabitEvents");
+                                    int numberOfHabitEvents = Integer.parseInt(numHabitEvents);
+                                    numberOfHabitEvents--;
+                                    numHabitEvents = String.valueOf(numberOfHabitEvents);
+
+                                    Map<String, String> data = new HashMap<>();
+                                    data.put("numHabitEvents", numHabitEvents);
+                                    docRef.set(data, SetOptions.merge());
+                                }
+                            });
 
             }catch(Exception e){
                 Toast.makeText(getApplicationContext(),
