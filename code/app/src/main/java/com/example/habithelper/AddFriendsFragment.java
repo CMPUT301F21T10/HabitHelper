@@ -28,11 +28,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,7 +65,8 @@ import javax.crypto.AEADBadTagException;
  * Use the {@link AddFriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddFriendsFragment extends Fragment {
+public class AddFriendsFragment extends Fragment implements TextWatcher {
+    private EditText friendSearch;
     protected View view;
     protected ListView allUsersListView;
     protected ArrayList<User> allUsersList = new ArrayList<>();
@@ -110,6 +114,7 @@ public class AddFriendsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_friends, null);
         allUsersListView = (ListView) view.findViewById(R.id.allUsersList);
+        friendSearch = view.findViewById(R.id.search_bar);
         db = FirebaseFirestore.getInstance();
         CollectionReference cdb = db.collection("Users");
         System.out.println("CONTEXT: "+this.getContext());
@@ -118,6 +123,8 @@ public class AddFriendsFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         FirebaseUser user = (FirebaseUser) intent.getExtras().get("currentUser");
         String currentUserEmail = user.getEmail();
+
+        friendSearch.addTextChangedListener(this);
 
         cdb.get().addOnCompleteListener((new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -154,5 +161,20 @@ public class AddFriendsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        this.userArrayAdapter.getFilter().filter(charSequence);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }

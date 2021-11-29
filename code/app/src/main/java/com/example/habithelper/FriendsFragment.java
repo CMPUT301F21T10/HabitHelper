@@ -80,7 +80,6 @@ public class FriendsFragment extends Fragment implements TextWatcher{
     private Intent loginIntent;
 
     private EditText followSearch;
-    //private SearchView followSearch;
     private ListView followersListView;
     private CustomFollowersList followersAdapter;
     private ArrayList<ArrayList<String>> followersDataList;
