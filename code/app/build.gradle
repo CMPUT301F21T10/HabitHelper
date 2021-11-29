@@ -68,6 +68,7 @@ dependencies {
     // Declare the dependency for the Cloud Storage library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage'
+    implementation 'androidx.camera:camera-core:1.1.0-alpha03'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.1'
