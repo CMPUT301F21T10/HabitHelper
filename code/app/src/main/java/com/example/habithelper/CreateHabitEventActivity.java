@@ -390,7 +390,11 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
 
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                try{
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }catch(Exception e){
+                    Log.d("MyCamera", "FAILURE");
+                }
             }
         }
     }
