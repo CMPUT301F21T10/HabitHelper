@@ -13,7 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * NOTE: PLEASE RUN THE TESTS IN ORDER. OTHERWISE TESTS WILL/MIGHT FAIL.
+ * NOTE: PLEASE RUN THE TESTS ONE BY ONE IN ORDER. OTHERWISE TESTS WILL/MIGHT FAIL.
  */
 
 public class CreateHabitActivityTest {
@@ -198,6 +198,10 @@ public class CreateHabitActivityTest {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
+
+    /**
+     * CHECK IF HABIT HAS BEEN DELTED
+     */
     @Test
     public void CheckIfDeleted(){
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
