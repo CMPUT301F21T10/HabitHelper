@@ -49,6 +49,11 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
     boolean publicStatus = true;
 
 
+    /**
+     * Set up everything we need to allow the user to create a habit
+     * @param savedInstanceState
+     *      Information passed through the intent that started this activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,6 +219,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         });
     }
 
+    /**
+     * Set up the options menu
+     * @param menu
+     *      The place to put the options menu
+     * @return
+     *      A boolean reflecting whether this succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -221,6 +233,13 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
         return true;
     }
 
+    /**
+     * What happens when a new option is selected
+     * @param item
+     *      selected item
+     * @return
+     *      boolean
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Getting the habit title, reason, and start date edit texts of the habit being created

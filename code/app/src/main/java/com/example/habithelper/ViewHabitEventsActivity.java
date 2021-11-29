@@ -299,6 +299,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     /**
      * Initiate the camera
      * @param view
+     *      Who is starting the method call
      */
     public void takePicture(View view){
         try{
@@ -377,8 +378,11 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     /**
      * After finishing with taking a picture set the pictre
      * @param requestCode
+     *      What activity was being completed
      * @param resultCode
+     *      Whether the activity was successful
      * @param data
+     *      The data the activity created
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -455,8 +459,11 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
      * Taken from the android tutorial
      * https://developer.android.com/training/camera/photobasics
      * @param destination
+     *      Where to show the image
      * @param filePhotoPath
+     *      Where to find the image
      * @return
+     *      The image in bitmap form
      */
     private Bitmap showImage(ImageView destination, String filePhotoPath){
 
@@ -489,7 +496,9 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     /**
      * Find the relevant image in firestore storage, if it exists
      * @param fileName
+     *      Name of the file in storage
      * @param destination
+     *      Where we want to show the image
      */
     private void locatePicture(String fileName, ImageView destination){
         StorageReference storageRef = storage.getReference();
