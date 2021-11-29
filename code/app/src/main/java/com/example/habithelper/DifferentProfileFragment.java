@@ -58,6 +58,7 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
     private Button acceptRequest;
     private Button declineRequest;
     private Button sendRequest;
+    private Button unfollowUser;
     private User selectedUser;
     private User currentUser;
     ArrayList<Habit> HabitsList = new ArrayList<>();
@@ -160,6 +161,7 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         acceptRequest = (Button) view.findViewById(R.id.acceptRequest);
         declineRequest = (Button) view.findViewById(R.id.declineRequest);
         sendRequest = (Button) view.findViewById(R.id.sendRequest);
+        unfollowUser = (Button) view.findViewById(R.id.unfollowUserButton);
         habitsRecyclerView = view.findViewById(R.id.habitsRecyclerView);
 
 
@@ -228,7 +230,7 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         if (currentUser.getFollowing().indexOf(selectedUserEmail) >= 0) {
             //If current user is following selected user, show the hobbies.
             System.out.println("HABITS VISIBLE");
-
+            unfollowUser.setVisibility(View.VISIBLE);
             habitsRecyclerView.setVisibility(View.VISIBLE);
         }
         if (currentUser.getRequestsReceived().indexOf(selectedUserEmail) >= 0) {
@@ -254,6 +256,7 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         acceptRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                habitsRecyclerView.setVisibility(View.GONE);
                 currentUser.acceptRequest(selectedUserEmail, true);
                 acceptRequest.setVisibility(View.INVISIBLE);
                 declineRequest.setVisibility(View.INVISIBLE);
@@ -265,9 +268,22 @@ public class DifferentProfileFragment extends Fragment implements Serializable, 
         declineRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                habitsRecyclerView.setVisibility(View.GONE);
                 currentUser.acceptRequest(selectedUserEmail, false);
                 acceptRequest.setVisibility(View.INVISIBLE);
                 declineRequest.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        unfollowUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                unfollowUser.setVisibility(View.GONE);
+                currentUser.unfollowUser(selectedUserEmail);
+                habitsRecyclerView.setVisibility(View.GONE);
+                sendRequest.setEnabled(true);
+                sendRequest.setText("Send Request");
+                sendRequest.setVisibility(View.VISIBLE);
             }
         });
 

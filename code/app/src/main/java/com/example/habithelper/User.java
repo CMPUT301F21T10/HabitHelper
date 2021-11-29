@@ -262,6 +262,21 @@ public class User {
         }
     }
 
+    /**
+     * @param userToUnfollow
+     *  Id of the user who sent the request
+     * Removes the user from the current user's "following" list
+     * Remove the current user from userToUnfollow's "Follower" list
+     */
+
+    public void unfollowUser(String userToUnfollow){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference currentUserRef = db.collection("Users").document(this.email);
+        DocumentReference userToUnFollowRef = db.collection("Users").document(userToUnfollow);
+        currentUserRef.update("Following", FieldValue.arrayRemove(userToUnfollow));
+        userToUnFollowRef.update("Followers", FieldValue.arrayRemove(this.email));
+    }
+
 
 
     /**
