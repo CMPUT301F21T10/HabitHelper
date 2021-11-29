@@ -58,7 +58,7 @@ public class HabitEventTest {
         HabitEvent newEvent = mockHabitEvent();
         assertEquals("eventComment", newEvent.getEventComment());
 
-        newEvent.setEventComment("Long long long comment that is way too long");
+        newEvent.setEventComment("Long long long comment that is way too long and I cannot believe it is this long");
         assertEquals(20, newEvent.getEventComment().length());
     }
 }

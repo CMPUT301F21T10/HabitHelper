@@ -44,19 +44,9 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EventsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Displays a list of all habit events done
  */
 public class EventsFragment extends Fragment implements habitEventsCustomList.EventClickListener{
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     ArrayList<HabitEvent> HabitEvents_list = new ArrayList<>();
     RecyclerView Event_recyclerView;
@@ -66,24 +56,6 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
 
     public EventsFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Events.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EventsFragment newInstance(String param1, String param2) {
-        EventsFragment fragment = new EventsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -138,15 +110,17 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
                         }
                     }
                 });
-
-//        try {
-//            TimeUnit.MILLISECONDS.sleep(100);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
+    /**
+     * Setting up the recycler view to the habitEvents adapter
+     * Inflating the view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     *      The view to be returned
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -157,11 +131,17 @@ public class EventsFragment extends Fragment implements habitEventsCustomList.Ev
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         Event_recyclerView.setLayoutManager(layoutManager);
 
+        // set up the recycler view adapter, populate it with HabitEvents_list
         HabitEventsAdapter = new habitEventsCustomList(HabitEvents_list, getContext(), this);
         Event_recyclerView.setAdapter(HabitEventsAdapter);
         return view;
     }
 
+    /**
+     * On user click on a habit event item, start the view habit event activity
+     * @param habit_event
+     *      This is the habit event item clicked
+     */
     @Override
     public void onEventItemClick(HabitEvent habit_event) {
         Log.d("EDIT_EVENT", "onEventItemClick: " + habit_event.getEventTitle());

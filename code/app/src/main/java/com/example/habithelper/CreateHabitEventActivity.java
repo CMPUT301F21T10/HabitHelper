@@ -82,28 +82,26 @@ import java.util.Map;
  */
 public class CreateHabitEventActivity extends AppCompatActivity implements Serializable {
 
-    TextView textViewHabitName;
-    Button button_location_picker;
-    TextView locationText;
-    TextView editTextDateCompleted;
-    EditText editTextComments;
-    TextView selectedLocationText;
+    private TextView textViewHabitName;
+    private Button button_location_picker;
+    private TextView locationText;
+    private TextView editTextDateCompleted;
+    private EditText editTextComments;
+    private TextView selectedLocationText;
 
-    ImageView eventImage;
+    private ImageView eventImage;
     private FirebaseStorage storage;
     private String currentPhotoPath = "";
     private String currentPhotoFileName = "";
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    private FirebaseFirestore db;
+    private FirebaseUser user;
+    private Habit habit_to_create_event;
+    private String numHabitEvents;
 
-    FirebaseFirestore db;
-    FirebaseUser user;
-    Habit habit_to_create_event;
-    String numHabitEvents;
-
-
-    String address = "";
-    Double Lat = 0.0, Long = 0.0;
+    private String address = "";
+    private Double Lat = 0.0, Long = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +121,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
         editTextComments = findViewById(R.id.editTextOptionalComments);
 
+        storage = FirebaseStorage.getInstance();
         eventImage = findViewById(R.id.imageView);
 //        currentPhotoFileName = "";
 //        currentPhotoPath = "";
@@ -130,9 +129,10 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
         Bundle extras = getIntent().getExtras();
         if (extras != null){
-            Log.d("CLASS_FROM", "onCreate: " + extras.getString("classFrom"));
 
+            // determine if we are returning from main activity or from LocationPickerActivity
             if (extras.getString("classFrom").equals(LocationPickerActivity.class.toString())){
+                // from LocationPickerActivity
 
                 address = extras.getString("address");
                 Log.d("ADDRESS", "onCreate: " + address);
@@ -140,7 +140,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 String comment = extras.getString("comment");
                 Lat = extras.getDouble("lat");
                 Long = extras.getDouble("long");
-                currentPhotoPath = extras.getString("photo_path");
+                currentPhotoFileName = extras.getString("photo_path");
                 Log.d("PHOTO", "onCreate: " + currentPhotoPath);
 
                 //Get the habit for which a habit event is to be created
@@ -156,28 +156,29 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
 
 
                 //LOAD IMAGE HERE
-                if (!currentPhotoPath.equals("")) {
+                if (currentPhotoFileName != null && !currentPhotoFileName.equals("")) {
                     Log.d("PHOTO", "onCreate: display photo");
 //                    showImage(eventImage, currentPhotoPath);
+                    locatePicture(currentPhotoFileName,eventImage);
                 }
 
 
             }
-            else{ // from main activity (habit fragment)
+            else{
+                // from main activity (habit fragment)
 
                 //Get the habit for which a habit event is to be created
                 habit_to_create_event = (Habit) extras.getSerializable("habit");
                 textViewHabitName.setText("Habit Name: "+habit_to_create_event.getTitle());
                 user = (FirebaseUser) extras.get("currentUser");
             }
-
-
-
         }
 
+        // runs when select location button is clicked
         button_location_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // go to LocationPickerActivity to select a location
                 Intent mapIntent = new Intent(CreateHabitEventActivity.this, LocationPickerActivity.class);
                 mapIntent.putExtra("habit", habit_to_create_event);
                 mapIntent.putExtra("currentUser", user);
@@ -191,7 +192,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 mapIntent.putExtra("lat", Lat);
                 mapIntent.putExtra("long", Long);
                 mapIntent.putExtra("address", address);
-                mapIntent.putExtra("photo_path", currentPhotoPath);
+                mapIntent.putExtra("photo_path", currentPhotoFileName);
 
                 startActivity(mapIntent);
             }
@@ -221,7 +222,6 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
             }
         });
 
-        storage = FirebaseStorage.getInstance();
     }
 
     @Override
@@ -281,10 +281,6 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                                 docRef.set(data, SetOptions.merge());
                             }
                         });
-
-//                Toast.makeText(CreateHabitEventActivity.this, ""+numHabitEvents, Toast.LENGTH_SHORT).show();
-
-
 
                 Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
@@ -502,6 +498,39 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         Bitmap bitmap = BitmapFactory.decodeFile(filePhotoPath, bmOptions);
         destination.setImageBitmap(bitmap);
         return bitmap;
+    }
+
+
+    /**
+     * Find the relevant image in firestore storage, if it exists
+     * @param fileName
+     * @param destination
+     */
+    private void locatePicture(String fileName, ImageView destination){
+        StorageReference storageRef = storage.getReference();
+        StorageReference pictureImagesRef = storageRef.child(fileName);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        }
+        catch (Exception e){
+            return;
+        }
+        File finalLocalFile = localFile;
+        pictureImagesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                currentPhotoPath = finalLocalFile.getAbsolutePath();
+                showImage(destination, finalLocalFile.getAbsolutePath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
     }
     //END OF CODE FOR RETRIEVING HABIT EVEN IMAGE
 }
