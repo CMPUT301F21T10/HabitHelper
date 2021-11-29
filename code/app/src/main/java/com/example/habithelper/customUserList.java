@@ -32,6 +32,11 @@ import com.example.habithelper.User;
 
 import java.util.ArrayList;
 
+// customUserList is a custom ArrayAdapter for displaying add friends lists in the add friends fragment
+// Implements a Filter class that allows the app user to search and sort through the displayed users by username
+// only, despite each user being represented by username and email. Filter class is required as simple search bar
+// can not sort the users because of the User representation that contains the user objects.
+
 public class customUserList extends ArrayAdapter<User> {
 
 
@@ -95,6 +100,13 @@ public class customUserList extends ArrayAdapter<User> {
         }
         return cs;
     }
+
+    /**
+     * CustomFilterFriend performs filtering based on the input provided in the EditText field in friends fragment
+     * each user in the full list is checked for the constraint (search) values and added to the filtered list
+     * with both the name and the email, so future clicks on the profile can utilize the email as user id to open
+     * user profiles. Results are used to update the array adapter and create the filtered look.
+     */
 
     class CustomFilterFriend extends Filter{
         @Override

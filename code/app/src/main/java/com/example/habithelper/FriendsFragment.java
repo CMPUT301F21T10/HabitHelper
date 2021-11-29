@@ -64,7 +64,7 @@ import java.util.Locale;
 // FriednsFragment is responsible for showing the user their followers/following lists in the same fragment
 // buttons change color on click to signal being pressed, and the list content changes. User names are displayed
 // but a custom adapter is used and in the background the userid (email) is also stored to allow clicking on profiles.
-// Search bar is implemented but does not currently filter correctly after implementing custom adapter.
+// Search bar is implemented and does filter correctly after implementing custom adapter that sorts based on user's name alone.
 // Clicking on profiles from the list shows the correct profile and allows to view the selected user's and list of habits
 // Add Friedns button takes the user to a page loaded with all firebase user that can be clicked and requested to be followed.
 // A new followers requests button shows up when friends fragment is clicked and a requests exists in firebase, the user is then
@@ -307,7 +307,8 @@ public class FriendsFragment extends Fragment implements TextWatcher{
         followersListView = (ListView) view.findViewById(R.id.following_List);
         followersListView.setAdapter(followersAdapter);
 
-
+        // using a text change listener with a custom adapter to filter arraylists with username and email based
+        // on the name only, previously utilized a different filter
         followSearch.addTextChangedListener(this);
 
         followersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -372,7 +373,15 @@ public class FriendsFragment extends Fragment implements TextWatcher{
         return view;
     }
 
-
+    /**
+     * onTextChanged and beforeTextChanged responsible for correctly filtering the followers/following lists
+     * by calling the getFilter method of the CustomFollowersList with the text input from editText field.
+     * No action is required before or after the text has been changed.
+     * @param charSequence
+     * @param i
+     * @param i1
+     * @param i2
+     */
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         this.followersAdapter.getFilter().filter(charSequence);

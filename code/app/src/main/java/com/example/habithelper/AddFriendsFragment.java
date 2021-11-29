@@ -163,6 +163,16 @@ public class AddFriendsFragment extends Fragment implements TextWatcher {
         return view;
     }
 
+    /**
+     * onTextChanged and beforeTextChanged responsible for correctly filtering the AddFriends list
+     * by calling the getFilter method of the customUserList with the text input from editText field.
+     * No action is required before or after the text has been changed.
+     * @param charSequence
+     * @param i
+     * @param i1
+     * @param i2
+     */
+
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         this.userArrayAdapter.getFilter().filter(charSequence);
