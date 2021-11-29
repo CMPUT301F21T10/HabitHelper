@@ -51,6 +51,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
     FirebaseFirestore db;
     FirebaseUser user;
     final boolean[] days_clicked = {false,false,false,false,false,false,false};
+    Button mon_btn, tue_btn, wed_btn, thur_btn, fri_btn, sat_btn, sun_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +67,13 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         editTextReason = findViewById(R.id.editTextReason);
         db = FirebaseFirestore.getInstance();
         //Setting up the days buttons (for selecting days)
-        Button mon_btn = findViewById(R.id.mon_btn);
-        Button tue_btn = findViewById(R.id.tue_btn);
-        Button wed_btn = findViewById(R.id.wed_btn);
-        Button thur_btn = findViewById(R.id.thur_btn);
-        Button fri_btn = findViewById(R.id.fri_btn);
-        Button sat_btn = findViewById(R.id.sat_btn);
-        Button sun_btn = findViewById(R.id.sun_btn);
+        mon_btn = findViewById(R.id.mon_btn);
+        tue_btn = findViewById(R.id.tue_btn);
+        wed_btn = findViewById(R.id.wed_btn);
+        thur_btn = findViewById(R.id.thur_btn);
+        fri_btn = findViewById(R.id.fri_btn);
+        sat_btn = findViewById(R.id.sat_btn);
+        sun_btn = findViewById(R.id.sun_btn);
 
         extras = getIntent().getExtras();
         //Getting the habit object being viewed, and the current user
@@ -293,7 +294,7 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 }
                 Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), Integer.parseInt(numHabitEvents));
                 String emailToEdit = user.getEmail();
-                
+
                 //deleting the old habit from the database
                 habitEditing.deleteHabitFromDB(emailToEdit, db);
 

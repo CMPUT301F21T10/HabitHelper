@@ -84,6 +84,7 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
         final int today = calendar.get(calendar.DAY_OF_WEEK);
         String today_date = year + "-" + month + "-" + dayOfMonth;
 
+
         CollectionReference collectionRef = db.collection("Habits")
                 .document(email)
                 .collection(email+"_habits");
@@ -120,8 +121,12 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
                                     // now check if habit is today
                                     String habitDays = retrievedHabit.getHabitDays();
                                     int index = (today-2) % 7;
-                                    //Modified here as it was crashing for specific indices
-                                    if (index > 0 && habitDays.length()>index && habitDays.charAt(index) == '1'){
+
+                                    if (index < 0) {
+                                        index = index + 7;
+                                    }
+                                    Log.d("INDEX", "onComplete: " + index);
+                                    if (habitDays.charAt(index) == '1'){
                                         HabitsList.add(retrievedHabit);
                                     }
                                 }

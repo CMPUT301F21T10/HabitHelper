@@ -175,7 +175,6 @@ public class FriendsFragment extends Fragment implements TextWatcher{
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    followersDataList.clear();
 
                     followersEmailList = (ArrayList<String>) document.get("Followers");
                     for(String userEmail : followersEmailList) {
@@ -223,7 +222,6 @@ public class FriendsFragment extends Fragment implements TextWatcher{
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    followersDataList.clear();
 
                     followersEmailList = (ArrayList<String>) document.get("Following");
                     for(String userEmail : followersEmailList) {
@@ -269,17 +267,18 @@ public class FriendsFragment extends Fragment implements TextWatcher{
         Button followingButton = (Button) view.findViewById(R.id.followingButton);
 
         //initial colors for the buttons (represents the friends tab starting on followers first)
-        followersButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
-        followingButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+        followersButton.setBackgroundColor(Color.parseColor("#FF0E7C7B"));
+        followingButton.setBackgroundColor(Color.parseColor("#FF17BEBB"));
 
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // clear search bar on button click, get followers and set button colors
-                onFollowersSelect();
+                followersDataList.clear();
                 followSearch.getText().clear();
-                followersButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
-                followingButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+                onFollowersSelect();
+                followersButton.setBackgroundColor(Color.parseColor("#FF0E7C7B"));
+                followingButton.setBackgroundColor(Color.parseColor("#FF17BEBB"));
                 followersAdapter.notifyDataSetChanged();
             }
         });
@@ -289,10 +288,11 @@ public class FriendsFragment extends Fragment implements TextWatcher{
             @Override
             public void onClick(View v) {
                 // clear search bar on button click, get following and set button colors
-                onFollowingSelect();
+                followersDataList.clear();
                 followSearch.getText().clear();
-                followingButton.setBackgroundColor(Color.parseColor("#FF3700B3"));
-                followersButton.setBackgroundColor(Color.parseColor("#FFBB86FC"));
+                onFollowingSelect();
+                followingButton.setBackgroundColor(Color.parseColor("#FF0E7C7B"));
+                followersButton.setBackgroundColor(Color.parseColor("#FF17BEBB"));
                 followersAdapter.notifyDataSetChanged();
             }
         });
@@ -310,23 +310,6 @@ public class FriendsFragment extends Fragment implements TextWatcher{
 
 
         followSearch.addTextChangedListener(this);
-
-
-//        // implement search bar and filter the list of followers/following by entry
-//        followSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                followersAdapter.getFilter().filter(query);
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                followersAdapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
-
 
         followersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
