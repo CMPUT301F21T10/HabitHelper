@@ -27,7 +27,7 @@
             android:fontFamily="@font/cabin_medium"
             android:text="Exercise"
             android:textColor="@color/textDark"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="19dp"
+            android:layout_marginEnd="15dp"
             android:text="09/10/2021" />
 
         <ProgressBar
@@ -57,8 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/habitDate_textView"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="31dp"
-            android:layout_marginEnd="37dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="15dp"
             android:max="100"
             android:minWidth="68dip"
             android:minHeight="16dip"

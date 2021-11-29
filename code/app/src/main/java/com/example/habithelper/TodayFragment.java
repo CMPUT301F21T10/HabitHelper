@@ -125,7 +125,7 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
                                     if (index < 0) {
                                         index = index + 7;
                                     }
-                                    Log.d("INDEX", "onComplete: " + index);
+
                                     if (habitDays.charAt(index) == '1'){
                                         HabitsList.add(retrievedHabit);
                                     }
@@ -161,9 +161,9 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
      */
     @Override
     public void onItemClick(Habit habit) {
-//        Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
-//        intent.putExtra("habit", habit);
-//        intent.putExtra("currentUser", user);
-//        startActivity(intent);
+        Intent intent = new Intent(getContext(), ViewHabitsActivity.class);
+        intent.putExtra("habit", habit);
+        intent.putExtra("currentUser", user);
+        startActivity(intent);
     }
 }
