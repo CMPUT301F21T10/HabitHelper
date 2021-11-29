@@ -52,6 +52,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -219,6 +220,14 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 DatePickerDialog datePickerDialog = new DatePickerDialog(CreateHabitEventActivity.this,
                         finalSetListener, year, month, day);
                 datePickerDialog.show();
+            }
+        });
+
+        FloatingActionButton takePictureButton = findViewById(R.id.fab_createHabitEventPicture);
+        takePictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePicture(view);
             }
         });
 
