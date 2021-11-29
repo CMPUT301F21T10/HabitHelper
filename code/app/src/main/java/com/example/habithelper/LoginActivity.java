@@ -72,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     CollectionReference userCollectionReference;
     private FirebaseAuth mAuth;
 
+    /**
+     * Set up the activity to log in/create a user
+     * Includes firestore set up and button set up
+     * @param savedInstanceState
+     *      Date sent by the last activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,6 +201,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * Create a user in the firestore database, identifiable by their email
      * Data will be put into collection "User"
      * @param newUser
+     *      A user object containing the information to put into the DB
      */
     public void createDBUser(User newUser){
         //Put the data from the suer object into a specific data structure
@@ -225,6 +232,7 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
      * If they have, send them back to the main activity, otherwise let them know
      * they have entered bad credentials
      * @param view
+     *      The view that called this method
      */
     public void onLoginSignInClick(View view){
         hideKeyboard();

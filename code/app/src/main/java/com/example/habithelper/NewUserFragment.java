@@ -39,14 +39,26 @@ public class NewUserFragment extends DialogFragment{
     private EditText editUserName;
     private EditText editPassword;
 
+    /**
+     * Empty fragment constructor
+     */
     NewUserFragment(){
     }
 
+    /**
+     * Interface to set what happens when the user clicks the affirmative button
+     */
     public interface OnFragmentInteractionListener{
         void onOkPressed(User newUser);
     }
 
 
+    /**
+     * What happens when the fragment is attached to a context
+     * Set the affirmative button listener, make sure it is implemented
+     * @param context
+     *      Where this fragment was attached
+     */
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
@@ -58,6 +70,13 @@ public class NewUserFragment extends DialogFragment{
         }
     }
 
+    /**
+     * Create the dialog fragment, set it up to look nice
+     * @param savedInstanceState
+     *      Data from the context this fragment was created on
+     * @return
+     *      The new dialog fragment
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
