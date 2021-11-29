@@ -213,47 +213,65 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                 String habitEventComment = viewOptionalComments.getText().toString();
                 String habitEventLocation = viewOptionalLocation.getText().toString();
 
-                HabitEvent newEditedHabitEvent;
-                if (habitEventLocation.equals(habitEventEditing.getEventLocation())) {
-                    newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
-                            habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
-                            habitEventEditing.getLat(), habitEventEditing.getLong());
+                try {
 
 
+                    HabitEvent newEditedHabitEvent;
+                    if (habitEventLocation.equals(habitEventEditing.getEventLocation())) {
+                        newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
+                                habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
+                                habitEventEditing.getLat(), habitEventEditing.getLong());
+
+
+                    } else {
+                        newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
+                                habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
+                                Lat, Long);
+                    }
+
+                    newEditedHabitEvent.setEventPhoto(currentPhotoFileName);
+                    String emailToEdit = user.getEmail();
+
+                    //deleting the old habit from the database
+                    habitEventEditing.deleteHabitEventFromDB(emailToEdit, db);
+
+                    //adding the new edited habit to the database
+                    newEditedHabitEvent.addHabitEventToDB(emailToEdit, db);
+
+                    Intent intent = new Intent(ViewHabitEventsActivity.this, MainActivity.class);
+                    intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+                    eventImage.setImageDrawable(null);
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(),
+                            "Something went wrong!",
+                            Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    newEditedHabitEvent = new HabitEvent(habitEventsTitle, habitEventComment, habitEventDate,
-                            habitEventEditing.getAssociatedHabitTitle(), habitEventLocation,
-                            Lat, Long);
-                }
-
-                newEditedHabitEvent.setEventPhoto(currentPhotoFileName);
-                String emailToEdit = user.getEmail();
-
-                //deleting the old habit from the database
-                habitEventEditing.deleteHabitEventFromDB(emailToEdit, db);
-
-                //adding the new edited habit to the database
-                newEditedHabitEvent.addHabitEventToDB(emailToEdit, db);
-
-                Intent intent = new Intent(ViewHabitEventsActivity.this, MainActivity.class);
-                intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
-                intent.putExtra("currentUser", user);
-                startActivity(intent);
                 return true;
 
             case R.id.delete:
                 String email = user.getEmail();
                 //deleting the habit from the database
-                habitEventEditing.deleteHabitEventFromDB(email, db);
-                intent = new Intent(ViewHabitEventsActivity.this, MainActivity.class);
-                intent.putExtra("classFrom", ViewHabitEventsActivity.class.toString());
-                intent.putExtra("currentUser", user);
-                startActivity(intent);
+                try{
+                    habitEventEditing.deleteHabitEventFromDB(email, db);
+                    Intent intent = new Intent(ViewHabitEventsActivity.this, MainActivity.class);
+                    intent.putExtra("classFrom", ViewHabitEventsActivity.class.toString());
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+                    eventImage.setImageDrawable(null);
+
+            }catch(Exception e){
+            Toast.makeText(getApplicationContext(),
+                    "Something went wrong!",
+                    Toast.LENGTH_SHORT).show();
+        }
                 return true;
 
             case R.id.goBack:
+                eventImage.setImageDrawable(null);
                 onBackPressed();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);

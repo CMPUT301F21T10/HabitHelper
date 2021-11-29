@@ -284,40 +284,53 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 String habitStartDate = String.valueOf(editTextStartDate.getText());;
                 StringBuilder day = new StringBuilder();
                 String numHabitEvents = habitEditing.getNumHabitEvents();
-                //Setting up days
-                for (int days=0;days<7;days++){
-                    if (days_clicked[days]){
-                        day.append("1");
-                    }else{
-                        day.append("0");
+                try {
+                    //Setting up days
+                    for (int days = 0; days < 7; days++) {
+                        if (days_clicked[days]) {
+                            day.append("1");
+                        } else {
+                            day.append("0");
+                        }
                     }
+
+                    Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), Integer.parseInt(numHabitEvents));
+                    String emailToEdit = user.getEmail();
+
+                    //deleting the old habit from the database
+                    habitEditing.deleteHabitFromDB(emailToEdit, db);
+
+                    //adding the new edited habit to the database
+                    newEditedHabit.addHabitToDB(emailToEdit, db);
+
+                    Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
+                    intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(),
+                            "Something went wrong!",
+                            Toast.LENGTH_SHORT).show();
                 }
-                Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), Integer.parseInt(numHabitEvents));
-                String emailToEdit = user.getEmail();
-
-                //deleting the old habit from the database
-                habitEditing.deleteHabitFromDB(emailToEdit, db);
-
-                //adding the new edited habit to the database
-                newEditedHabit.addHabitToDB(emailToEdit, db);
-
-                Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
-                intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
-                intent.putExtra("currentUser", user);
-                startActivity(intent);
                 return true;
 
             case R.id.delete:
                 String email = user.getEmail();
                 //deleting the habit from the database
-                habitEditing.deleteHabitFromDB(email, db);
+                try{
+                    habitEditing.deleteHabitFromDB(email, db);
+                }catch(Exception e){
+                    Toast.makeText(getApplicationContext(),
+                            "Something went wrong!",
+                            Toast.LENGTH_SHORT).show();
+                }
 
 //                try {
 //                    TimeUnit.MILLISECONDS.sleep(400);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-                intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
+                Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
                 intent.putExtra("currentUser", user);
                 startActivity(intent);

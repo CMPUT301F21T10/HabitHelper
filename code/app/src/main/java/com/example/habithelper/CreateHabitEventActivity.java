@@ -309,20 +309,23 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                     intent.putExtra("habitEventCreated", newHabitEvent);
                     intent.putExtra("currentUser", user);
                     startActivity(intent);
+                    eventImage.setImageDrawable(null);
 
                 }catch (NullPointerException e){
-                    Toast.makeText(CreateHabitEventActivity.this, "One or more of your fields is filled in incorrectly.",
+                    Toast.makeText(getApplicationContext(), "One or more of your fields is filled in incorrectly.",
                             Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
-                    Toast.makeText(CreateHabitEventActivity.this, "Something went wrong.",
+                    Toast.makeText(getApplicationContext(), "Something went wrong.",
                             Toast.LENGTH_SHORT).show();
                 }
+
                 return true;
 
 
             //When cancel is selected in the menu
             case R.id.goBack:
                 onBackPressed();
+                eventImage.setImageDrawable(null);
                 return true;
         }
         return super.onOptionsItemSelected(item);
