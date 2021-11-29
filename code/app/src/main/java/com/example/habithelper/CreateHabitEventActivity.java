@@ -268,7 +268,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 //Some fields must be populated
 
                 try{
-                    if (EventTitle == null || associatedHabitTitle == null|| EventDateCompleted == null){
+                    if (EventTitle == null || associatedHabitTitle == null|| EventDateCompleted.equals("")){
                         throw new NullPointerException();
                     }
                     if (EventComment == null){
@@ -312,7 +312,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                     eventImage.setImageDrawable(null);
 
                 }catch (NullPointerException e){
-                    Toast.makeText(getApplicationContext(), "One or more of your fields is filled in incorrectly.",
+                    Toast.makeText(getApplicationContext(), "Please input the date of completion.",
                             Toast.LENGTH_SHORT).show();
                 }catch (Exception e){
                     Toast.makeText(getApplicationContext(), "Something went wrong.",

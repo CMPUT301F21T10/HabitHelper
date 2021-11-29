@@ -253,6 +253,14 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                     newEditedHabitEvent.setEventPhoto(currentPhotoFileName);
                     String emailToEdit = user.getEmail();
 
+                    //Validating the input
+                    if (newEditedHabitEvent.getEventTitle() == null || newEditedHabitEvent.getAssociatedHabitTitle() == null|| newEditedHabitEvent.getEventDateCompleted().equals("")){
+                        throw new NullPointerException();
+                    }
+                    if (newEditedHabitEvent.getEventComment() == null){
+                        newEditedHabitEvent.setEventComment("");
+                    }
+
                     //deleting the old habit from the database
                     habitEventEditing.deleteHabitEventFromDB(emailToEdit, db);
 
@@ -264,6 +272,10 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                     intent.putExtra("currentUser", user);
                     startActivity(intent);
                     eventImage.setImageDrawable(null);
+
+                }catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Please input the date of completion.",
+                            Toast.LENGTH_SHORT).show();
                 }catch(Exception e){
                     Toast.makeText(getApplicationContext(),
                             "Something went wrong!",
