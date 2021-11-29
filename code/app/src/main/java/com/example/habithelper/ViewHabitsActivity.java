@@ -20,6 +20,7 @@ package com.example.habithelper;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -285,6 +286,17 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 StringBuilder day = new StringBuilder();
                 String numHabitEvents = habitEditing.getNumHabitEvents();
                 try {
+
+                    if (habitTitle == null || habitReason == null || habitStartDate == null
+                            || habitTitle.length() == 0 || habitReason.length() == 0
+                            || habitStartDate.length()==0 || (days_clicked[0] == false && days_clicked[1] == false
+                            && days_clicked[2] == false
+                            && days_clicked[3] == false
+                            && days_clicked[4] == false
+                            && days_clicked[5] == false
+                            && days_clicked[6] == false)){
+                        throw new NullPointerException();
+                    }
                     //Setting up days
                     for (int days = 0; days < 7; days++) {
                         if (days_clicked[days]) {
@@ -307,7 +319,12 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                     intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
                     intent.putExtra("currentUser", user);
                     startActivity(intent);
-                }catch(Exception e){
+                }catch (NullPointerException e){
+                    Toast.makeText(this, "One or more of your fields is filled in incorrectly.",
+                            Toast.LENGTH_LONG).show();
+                    Log.d("MYEXCEPTION", "Null");
+                }
+                catch(Exception e){
                     Toast.makeText(getApplicationContext(),
                             "Something went wrong!",
                             Toast.LENGTH_SHORT).show();

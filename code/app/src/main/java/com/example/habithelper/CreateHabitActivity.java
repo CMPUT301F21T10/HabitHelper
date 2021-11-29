@@ -252,7 +252,12 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 try {
                     if (habitTitle == null || habitReason == null || habitStartDate == null
                             || habitTitle.length() == 0 || habitReason.length() == 0
-                            || habitStartDate.length()==0){
+                            || habitStartDate.length()==0 || (days_clicked[0] == false && days_clicked[1] == false
+                            && days_clicked[2] == false
+                            && days_clicked[3] == false
+                            && days_clicked[4] == false
+                            && days_clicked[5] == false
+                            && days_clicked[6] == false)){
                         throw new NullPointerException();
                     }
 
