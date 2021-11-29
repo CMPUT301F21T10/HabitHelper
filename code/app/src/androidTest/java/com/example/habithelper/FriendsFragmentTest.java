@@ -45,36 +45,53 @@ public class FriendsFragmentTest {
 
     @Test
     public void onFollowingSelectButton(){
-        //User log in Hardcoding raj in because old yev test is having issues
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fakeraj@fake.com");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "fakeraj");
+
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "kaznovsk@mail.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "yevpass123");
         solo.clickOnButton("Login");
 
         solo.clickOnView(solo.getView(R.id.friends_fragment));
-        // click on the Following button and check that the expected list comes up by clicking the
-        // user from the list and checking for expected name string
 
         solo.clickOnButton("Following");
-        String followingText = solo.clickInList(0).get(0).getText().toString();
-        System.out.println(followingText);
-        assertEquals("fakeraj2", followingText);
+
+        String followersText = solo.clickInList(0).get(0).getText().toString();
+        assertEquals("Raj Shreyas", followersText);
     }
 
     @Test
     public void onFollowersSelectButton(){
-        //User log in Hardcoding raj in because old yev test is having issues
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fakeraj@fake.com");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "fakeraj");
+
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "kaznovsk@mail.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "yevpass123");
         solo.clickOnButton("Login");
 
         solo.clickOnView(solo.getView(R.id.friends_fragment));
         // click on the Followers button and check that the expected list comes up by clicking the
-        // user from the list and checking for expected name string
+        // user from the list after using the search bar to filter for exact name, and checking for
+        // expected name string
 
         solo.clickOnButton("Followers");
-        String followersText = solo.clickInList(0).get(0).getText().toString();
-        assertEquals("Fake2", followersText);
+        solo.enterText((EditText) solo.getView(R.id.search_bar), "A");
+        solo.enterText((EditText) solo.getView(R.id.search_bar), "q");
+        solo.enterText((EditText) solo.getView(R.id.search_bar), "i");
+        solo.enterText((EditText) solo.getView(R.id.search_bar), "l");
+
+        String followingText = solo.clickInList(0).get(0).getText().toString();
+        assertEquals("Aqil", followingText);
     }
 
+    @Test
+    public void onFollowingUserProfileSelect(){
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "kaznovsk@mail.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "yevpass123");
+        solo.clickOnButton("Login");
+
+        solo.clickOnView(solo.getView(R.id.friends_fragment));
+
+        solo.clickOnButton("Followers");
+        String followingText = solo.clickInList(0).get(0).getText().toString();
+        solo.waitForText("Aqil");
+        solo.waitForText("SEND REQUEST");
+    }
 }
 
