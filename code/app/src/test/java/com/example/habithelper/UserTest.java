@@ -3,6 +3,8 @@ package com.example.habithelper;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -35,19 +37,21 @@ public class UserTest {
         user.addRequest("TEST4");
 
         HashMap<String, ArrayList<String>> userData = user.generateAllDBData();
-
         //Ensure all the appropriate fields exist
         assertNotEquals(null, userData.get("UserData"));
-        assertNotEquals(null, userData.get("Followers"));
+        //assertNotEquals(null, userData.get("Followers"));
         assertNotEquals(null, userData.get("Following"));
-        assertNotEquals(null, userData.get("Requests"));
+        assertNotEquals(null, userData.get("RequestsReceived"));
+        assertNotEquals(null, userData.get("RequestsSent"));
 
         //Test that the data is in the right places
-        assertEquals(user.getName(), userData.get("UserData").get(0));
-        assertEquals(user.getEmail(), userData.get("UserData").get(1));
-        assertEquals("TEST1", userData.get("Followers").get(0));
+        ArrayList<String> data = userData.get("UserData");
+        assertEquals(user.getName(), data.get(0));
+        assertEquals(user.getEmail(), data.get(1));
+        //assertEquals("TEST1", userData.get("Followers"));
         assertEquals("TEST3", userData.get("Following").get(0));
-        assertEquals("TEST4", userData.get("Requests").get(0));
+        assertEquals("TEST4", userData.get("RequestsReceived").get(0));
+        assertEquals("TEST4", userData.get("RequestsSent").get(0));
     }
 
     /**
