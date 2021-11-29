@@ -3,6 +3,8 @@ package com.example.habithelper;
 import static org.junit.Assert.fail;
 
 import android.app.Activity;
+import android.graphics.Camera;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import com.robotium.solo.Solo;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class CreateHabitEventActivitytest {
     private Solo solo;
@@ -49,7 +53,7 @@ public class CreateHabitEventActivitytest {
     @Test
     public void createHabitEvent(){
         //User log in
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fake2@fake.ca");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "test@test.ca");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "123456");
         solo.clickOnButton("Login");
 
@@ -85,8 +89,8 @@ public class CreateHabitEventActivitytest {
     @Test
     public void testTakeHabitEventPicture(){
         //User log in
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fake2@fake.ca");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "123456");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "emily@email.ca");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "password");
         solo.clickOnButton("Login");
 
         //Swiping
@@ -103,5 +107,5 @@ public class CreateHabitEventActivitytest {
 
 
         solo.clickOnView(solo.getView(R.id.fab_createHabitEventPicture));
-        }
+    }
 }

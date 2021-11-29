@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -248,17 +249,33 @@ public class CreateHabitActivity extends AppCompatActivity implements Serializab
                 String habitReason = String.valueOf(editTextReason.getText());
                 String habitStartDate = String.valueOf(dateStarted.getText());;
                 //Create the new habit object
-                Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), 0);
+                try {
+                    if (habitTitle == null || habitReason == null || habitStartDate == null
+                            || habitTitle.length() == 0 || habitReason.length() == 0
+                            || habitStartDate.length()==0){
+                        throw new NullPointerException();
+                    }
 
-                //adding the new edited habit to the database
-                habitCreated.addHabitToDB(user.getEmail(), db);
+                    Habit habitCreated = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), 0);
+
+                    //adding the new edited habit to the database
+                    habitCreated.addHabitToDB(user.getEmail(), db);
 
 
-                Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
-                intent.putExtra("classFrom", CreateHabitActivity.class.toString());
-                intent.putExtra("habitCreated", habitCreated);
-                intent.putExtra("currentUser", user);
-                startActivity(intent);
+                    Intent intent = new Intent(CreateHabitActivity.this, MainActivity.class);
+                    intent.putExtra("classFrom", CreateHabitActivity.class.toString());
+                    intent.putExtra("habitCreated", habitCreated);
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+                }catch (NullPointerException e){
+                    Toast.makeText(CreateHabitActivity.this, "One or more of your fields is filled in incorrectly.",
+                            Toast.LENGTH_SHORT).show();
+                    Log.d("MYEXCEPTION", "Null");
+                }catch (Exception e){
+                    Toast.makeText(CreateHabitActivity.this, "Something went wrong.",
+                            Toast.LENGTH_SHORT).show();
+                    Log.d("MYEXCEPTION", "Gen");
+                }
                 return true;
 
             //When cancel is selected in the menu

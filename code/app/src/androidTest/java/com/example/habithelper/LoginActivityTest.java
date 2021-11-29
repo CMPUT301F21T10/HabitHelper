@@ -43,8 +43,6 @@ public class LoginActivityTest {
     @Test
     public void start() throws Exception{
         Activity activity = rule.getActivity();
-
-
     }
 
     /**
@@ -55,12 +53,12 @@ public class LoginActivityTest {
         //Make sure we are on the right activity
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fake@fake.ca");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "emily@email.ca");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "password");
 
         solo.clickOnButton("Login");
 
-        solo.waitForText("Authentication Succeeded");
+        solo.waitForText("Authentication Succeeded", 1, 3000);
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
@@ -72,12 +70,12 @@ public class LoginActivityTest {
         //Make sure we are on the right activity
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "test@fake.fake");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "test@test.com");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "p");
 
         solo.clickOnButton("Login");
 
-        solo.waitForText("Authentication failed.");
+        solo.waitForText("Authentication failed.", 1, 3000);
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
     }
 

@@ -246,6 +246,8 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
         editTextDateCompleted = findViewById(R.id.editTextDateCompleted);
         editTextComments = findViewById(R.id.editTextOptionalComments);
 
+
+
         switch (item.getItemId()){
             //When create is selected in the menu
             case R.id.createHabit:
@@ -262,42 +264,61 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
                 String EventDateCompleted = editTextDateCompleted.getText().toString();
                 String EventLocation = locationText.getText().toString();
 
-                //Create the new habit event object
-                HabitEvent newHabitEvent = new HabitEvent(EventTitle, EventComment, EventDateCompleted, associatedHabitTitle,
-                        EventLocation, Lat, Long);
+                //Ensure all the fields are at least an empty string
+                //Some fields must be populated
 
-                //adding the new habit event to the database
-                newHabitEvent.setEventPhoto(currentPhotoFileName);
-                newHabitEvent.addHabitEventToDB(user.getEmail(), db);
+                try{
+                    if (EventTitle == null || associatedHabitTitle == null|| EventDateCompleted == null){
+                        throw new NullPointerException();
+                    }
+                    if (EventComment == null){
+                        EventComment = "";
+                    }
+                    //Create the new habit event object
+                    HabitEvent newHabitEvent = new HabitEvent(EventTitle, EventComment, EventDateCompleted, associatedHabitTitle,
+                            EventLocation, Lat, Long);
 
-                //Retrieving current number of habit events from db
-                DocumentReference docRef = db.collection("Habits")
-                        .document(user.getEmail())
-                        .collection(user.getEmail()+"_habits").document(habit_to_create_event.getTitle());
+                    //adding the new habit event to the database
+                    newHabitEvent.setEventPhoto(currentPhotoFileName);
+                    newHabitEvent.addHabitEventToDB(user.getEmail(), db);
 
-                docRef.get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                //Incrementing number of habit events and saving it back to db
-                                numHabitEvents = (String) documentSnapshot.get("numHabitEvents");
-                                int numberOfHabitEvents = Integer.parseInt(numHabitEvents);
-                                numberOfHabitEvents++;
-                                numHabitEvents = String.valueOf(numberOfHabitEvents);
+                    //Retrieving current number of habit events from db
+                    DocumentReference docRef = db.collection("Habits")
+                            .document(user.getEmail())
+                            .collection(user.getEmail()+"_habits").document(habit_to_create_event.getTitle());
 
-                                Map<String, String> data = new HashMap<>();
-                                data.put("numHabitEvents", numHabitEvents);
-                                docRef.set(data, SetOptions.merge());
-                            }
-                        });
+                    docRef.get()
+                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                    //Incrementing number of habit events and saving it back to db
+                                    numHabitEvents = (String) documentSnapshot.get("numHabitEvents");
+                                    int numberOfHabitEvents = Integer.parseInt(numHabitEvents);
+                                    numberOfHabitEvents++;
+                                    numHabitEvents = String.valueOf(numberOfHabitEvents);
 
-                Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
-                intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
-                intent.putExtra("habit", habit_to_create_event);
-                intent.putExtra("habitEventCreated", newHabitEvent);
-                intent.putExtra("currentUser", user);
-                startActivity(intent);
+                                    Map<String, String> data = new HashMap<>();
+                                    data.put("numHabitEvents", numHabitEvents);
+                                    docRef.set(data, SetOptions.merge());
+                                }
+                            });
+
+                    Intent intent = new Intent(CreateHabitEventActivity.this, MainActivity.class);
+                    intent.putExtra("classFrom", CreateHabitEventActivity.class.toString());
+                    intent.putExtra("habit", habit_to_create_event);
+                    intent.putExtra("habitEventCreated", newHabitEvent);
+                    intent.putExtra("currentUser", user);
+                    startActivity(intent);
+
+                }catch (NullPointerException e){
+                    Toast.makeText(CreateHabitEventActivity.this, "One or more of your fields is filled in incorrectly.",
+                            Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(CreateHabitEventActivity.this, "Something went wrong.",
+                            Toast.LENGTH_SHORT).show();
+                }
                 return true;
+
 
             //When cancel is selected in the menu
             case R.id.goBack:
