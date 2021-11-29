@@ -102,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
             }else if (extras.getString("classFrom").equals(ViewHabitEventsActivity.class.toString())){
                 user = (FirebaseUser) extras.get("currentUser");
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             } else if (extras.getString("classFrom").equals(LoginActivity.class.toString())){
                 Intent intent = getIntent();
