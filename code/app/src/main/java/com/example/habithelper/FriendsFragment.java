@@ -249,6 +249,7 @@ public class FriendsFragment extends Fragment implements TextWatcher{
      * colors and search bar that can be used to filter the lists for users. Sets up onItemClick to handle
      * selecting profiles from the list and opening then in a new fragment. Places the add followers and
      * check requests buttons (later only if requests exists when FriendsFragment is clicked).
+     * Add several onclicklisteners that function to open user profiles, addfriends fragment, and requests fragment.
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -268,6 +269,7 @@ public class FriendsFragment extends Fragment implements TextWatcher{
         //initial colors for the buttons (represents the friends tab starting on followers first)
         followersButton.setBackgroundColor(Color.parseColor("#FF0E7C7B"));
         followingButton.setBackgroundColor(Color.parseColor("#FF17BEBB"));
+
 
         followersButton.setOnClickListener(new View.OnClickListener() {
             @Override

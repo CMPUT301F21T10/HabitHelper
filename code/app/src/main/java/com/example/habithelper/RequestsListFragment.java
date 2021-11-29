@@ -89,8 +89,11 @@ public class RequestsListFragment extends Fragment {
 
 
     /**
-     * Set up the view for use by the user
-     * Including interfaces, database, and onClick events
+     * Set up the view for use by the user Including interfaces, database, and onClick events
+     * Pulls the information about the current user's followers requests and add them to a list to be
+     * displayed. Allows to perform onItemClick which will open the selected user's profile page and
+     * allow the user to accept/decline the request and send one back if they wish to do so, or do nothing.
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState

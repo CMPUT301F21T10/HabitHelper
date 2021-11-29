@@ -110,6 +110,10 @@ public class AddFriendsFragment extends Fragment implements TextWatcher {
     /**
      * Configure the view for use by the user
      * Includes setting onClick events and setting up interfaces and the database
+     * Pulls from the database and places all the users excluding the current user into arraylist
+     * to be displayed and further clicked on to access user profiles. Sets up the customArray that
+     * allows for searching (filtering) to be preformed on the list and changes the content of the list
+     * based on the user search query.
      * @param inflater
      *      What we will use to show the fragment to the user
      * @param container
