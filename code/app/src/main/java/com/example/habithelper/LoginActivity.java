@@ -34,8 +34,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -94,6 +96,24 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
                 {
                     Log.d("USER_DATA", String.valueOf(doc.getData().get("User_Data")));
                 }
+
+            }
+        });
+
+        Button loginButton = findViewById(R.id.loginButtonLogin);
+        TextView signUpText = findViewById(R.id.loginButtonSignUp);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLoginSignInClick(view);
+            }
+        });
+
+        signUpText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onLoginSignUpClick(view);
 
             }
         });

@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/baseMargin"
             android:backgroundTint="@color/button1"
-            android:onClick="onLoginSignInClick"
             android:text="@string/submitLogin"
             app:cardCornerRadius="@dimen/buttonMargin" />
 
@@ -86,7 +85,6 @@
             android:layout_margin="@dimen/baseMargin"
             android:clickable="true"
             android:gravity="right"
-            android:onClick="onLoginSignUpClick"
             android:text="@string/newUser"
             android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize" />
