@@ -29,6 +29,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+    lintOptions {
+        // Turns off checks for the issue IDs you specify.
+        disable("UsingOnClickInXml")
+    }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
