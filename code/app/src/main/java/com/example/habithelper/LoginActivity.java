@@ -65,9 +65,7 @@ import java.util.HashMap;
  * Login Activity handles sign in and initiates sign up of users to the broader application
  */
 public class LoginActivity extends AppCompatActivity implements NewUserFragment.OnFragmentInteractionListener{
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     Intent mainIntent;
-    ImageView imageView;
     FirebaseFirestore db;
     CollectionReference userCollectionReference;
     private FirebaseAuth mAuth;
@@ -82,8 +80,6 @@ public class LoginActivity extends AppCompatActivity implements NewUserFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        imageView = findViewById(R.id.imageView);
 
         mainIntent = new Intent(LoginActivity.this, MainActivity.class);
 

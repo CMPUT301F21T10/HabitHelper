@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
     //This can be used for other purposes
     User currentUser;
 
+    /**
+     * Set up the app for the user to navigate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
      * Get the document information from the DB on the user passed to the function as an email
      * And convert it into a user object
      * @param email
+     *      The email (Identifying feature) of the user
      * @return
+     *      nothing
      */
     public void collectUserData(String email){
         DocumentReference docRef = db.collection("Users").document(email);
@@ -167,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Set up the bottom interface bar
+     * Set up the bottom interface bar for navigation through the app
      */
     public void setUpInterface(){
         // setup the bottom navigation bar and maps with corresponding fragment
@@ -232,6 +238,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Create the options menu for logging out
+     * @param menu
+     *      The menu where we want to create the options
+     * @return
+     *      whether or not we succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_toolbar, menu);
@@ -240,6 +253,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Set what happens when the user selected an option in the menu
+     * @param item
+     *      The item that was clicked
+     * @return
+     *      boolean reflecting whether the click was successful
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -255,6 +275,11 @@ public class MainActivity extends AppCompatActivity {
 
     //https://stackoverflow.com/questions/23908189/clear-cache-in-android-application-programmatically
 
+    /**
+     * delete any cached data from the app for a clean logout
+     * @param context
+     *      The context we want to delete the cache from
+     */
     public static void deleteCache(Context context) {
         try {
             File dir = context.getCacheDir();
@@ -262,6 +287,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) { e.printStackTrace();}
     }
 
+    /**
+     * Delete a directory from the phone
+     * @param dir
+     *      The directory to clean out
+     * @return
+     *      Whether or not the delete succeeded
+     */
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
