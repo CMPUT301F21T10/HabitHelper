@@ -335,7 +335,7 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     //START OF CODE FOR GETTING HABIT EVENT IMAGE
 
     /**
-     * Initiate the camera
+     * Initiate the the taking a picture process
      * @param view
      */
     public void takePicture(View view){
@@ -432,8 +432,11 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     /**
      * After finishing with taking a picture set the pictre
      * @param requestCode
+     *      What activity was being completed
      * @param resultCode
+     *      Whether the activity was successful
      * @param data
+     *      The data the activity created
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -506,8 +509,11 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
      * Taken from the android tutorial
      * https://developer.android.com/training/camera/photobasics
      * @param destination
+     *      Where we want to show the image
      * @param filePhotoPath
+     *      The file location of the image to show
      * @return
+     *      A bitmap of the image
      */
     private Bitmap showImage(ImageView destination, String filePhotoPath){
 
@@ -541,7 +547,9 @@ public class CreateHabitEventActivity extends AppCompatActivity implements Seria
     /**
      * Find the relevant image in firestore storage, if it exists
      * @param fileName
+     *      The name of the file in storage
      * @param destination
+     *      The palce we want to show the image
      */
     private void locatePicture(String fileName, ImageView destination){
         StorageReference storageRef = storage.getReference();
