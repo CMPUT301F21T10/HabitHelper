@@ -52,17 +52,17 @@ public class SendFollowTest {
     @Test
     public void SendFollowTest(){
         db = FirebaseFirestore.getInstance();
-        DocumentReference senderDocRef = db.collection("Users").document("fakeraj@fake.com");
+        DocumentReference senderDocRef = db.collection("Users").document("raj@email.com");
         DocumentReference receiverDocRef = db.collection("Users").document("fakeraj2@fake.com");
         senderDocRef.update("RequestsSent", FieldValue.arrayRemove("fakeraj2@fake.com"));
-        receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove("fakeraj@fake.com"));
+        receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove("raj@email.com"));
         senderDocRef.update("Following", FieldValue.arrayRemove("fakeraj2@fake.com"));
-        receiverDocRef.update("Followers", FieldValue.arrayRemove("fakeraj@fake.com"));
+        receiverDocRef.update("Followers", FieldValue.arrayRemove("raj@email.com"));
 
         // Asserts that the current activity is the LoginActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fakeraj@fake.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "raj@email.com");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "fakeraj");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
@@ -87,8 +87,8 @@ public class SendFollowTest {
         solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "");
 
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "fakeraj2@fake.com");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "fakeraj");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "raj@email.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "Raj Shreyas");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
