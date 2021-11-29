@@ -153,6 +153,8 @@ public class showLocationActivity extends AppCompatActivity implements OnMapRead
                                 mMap.animateCamera(cameraUpdate);
                             }
                         });
+                        Toast.makeText(getApplicationContext(),
+                                "No location provided, showing current location as default", Toast.LENGTH_SHORT).show();
                     }
 
                     // if a location on map is clicked, display dialog fragment to confirm location selected

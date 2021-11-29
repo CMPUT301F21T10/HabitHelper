@@ -167,16 +167,18 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                     mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
+                            markerPosition = latLng;
                             MarkerOptions markerOptions = new MarkerOptions();
                             markerOptions.position(latLng);
 
-                            markerOptions.title(getAddress(latLng));
+                            address = getAddress(latLng);
+                            Lat = markerPosition.latitude;
+                            Long = markerPosition.longitude;
+                            markerOptions.title(address);
                             mMap.clear();
                             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(
                                     latLng, 15);
                             mMap.animateCamera(location);
-
-                            // place marker at position clicked
                             mMap.addMarker(markerOptions);
                         }
                     });
@@ -214,7 +216,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
 
         try {
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-            String address = addresses.get(0).getAddressLine(0);
+            String address1 = addresses.get(0).getAddressLine(0);
             String city = addresses.get(0).getLocality();
             String state = addresses.get(0).getAdminArea();
             String country = addresses.get(0).getCountryName();
@@ -227,21 +229,16 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
                 ft.remove(prev);
             }
             ft.addToBackStack(null);
-            DialogFragment dialogFragment = new ConfirmAddress();
+            DialogFragment dialogFragment = new ConfirmAddressFragment();
 
-            // pass data to dialog fragment and show dialog fragment
             Bundle args = new Bundle();
             args.putDouble("lat", latLng.latitude);
             args.putDouble("long", latLng.longitude);
-            args.putString("address", address);
-            args.putSerializable("habit", habit);
-            args.putParcelable("currentUser", user);
-            args.putString("date", date);
-            args.putString("comment", comment);
-            args.putString("photo_path", photoPath);
+            args.putString("address", address1);
+
             dialogFragment.setArguments(args);
             dialogFragment.show(ft, "dialog");
-            return address;
+            return address1;
         } catch (IOException e) {
             e.printStackTrace();
             return "No Address Found";
@@ -253,7 +250,7 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.location_picker_menu, menu);
+        inflater.inflate(R.menu.view_location_menu, menu);
         return true;
     }
 
@@ -264,6 +261,29 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
             case R.id.goBack:
                 onBackPressed();
                 return true;
+
+            case R.id.done:
+
+
+                if (Lat != 0 & Long != 0) {
+                    // location selected, go back to create habit event activity
+                    Intent intent = new Intent(LocationPickerActivity.this, CreateHabitEventActivity.class);
+                    intent.putExtra("lat", Lat);
+                    intent.putExtra("long", Long);
+                    intent.putExtra("address", address);
+                    intent.putExtra("classFrom", LocationPickerActivity.class.toString());
+                    intent.putExtra("habit", habit);
+                    intent.putExtra("date", date);
+                    intent.putExtra("comment", comment);
+                    intent.putExtra("currentUser", user);
+                    intent.putExtra("photo_path", photoPath);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Please select a location or press cancel", Toast.LENGTH_SHORT).show();
+                }
         }
         return super.onOptionsItemSelected(item);
     }

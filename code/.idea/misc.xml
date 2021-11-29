@@ -81,7 +81,9 @@
         <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/activity_location_picker.xml" value="0.1793478260869565" />
         <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/activity_view_habit_events.xml" value="0.1793478260869565" />
         <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/activity_view_habits.xml" value="0.1793478260869565" />
-        <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/habit_event_row_contents.xml" value="0.1793478260869565" />
+        <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/fragment_habits.xml" value="0.1793478260869565" />
+        <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/fragment_today.xml" value="0.1793478260869565" />
+        <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/habit_event_row_contents.xml" value="0.5344129554655871" />
         <entry key="..\:/sooda/OneDrive/Desktop/STAT 252/HabitHelper/code/app/src/main/res/layout/habit_row_contents.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_create_habit.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_habit_event.xml" value="0.14375" />

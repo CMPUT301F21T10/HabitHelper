@@ -33,6 +33,11 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+// CustomFollowersList is a custom ArrayAdapter for displaying followers/following lists in the friends fragment
+// Implements a Filter class that allows the app user to search and sort through the displayed users by username
+// only, despite each user being represented by username and email. Filter class is required as simple search bar
+// can not sort the users because of the ArrayList<String> representation that contains user email.
+
 public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> implements Filterable{
 
     private ArrayList<ArrayList<String>> followers;
@@ -91,6 +96,13 @@ public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> impleme
         }
         return cs;
     }
+
+    /**
+     * CustomFilter performs filtering based on the input provided in the EditText field in friends fragment
+     * each user in the full list is checked for the constraint (search) values and added to the filtered list
+     * with both the name and the email, so future clicks on the profile can utilize the email as user id to open
+     * user profiles. Results are used to update the array adapter and create the filtered look.
+     */
 
     class CustomFilter extends Filter{
         @Override
