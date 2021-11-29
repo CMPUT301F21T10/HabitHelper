@@ -387,11 +387,22 @@ public class FriendsFragment extends Fragment implements TextWatcher{
         this.followersAdapter.getFilter().filter(charSequence);
     }
 
+    /**
+     * Do nothing
+     * @param charSequence
+     * @param i
+     * @param i1
+     * @param i2
+     */
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
 
+    /**
+     * Do nothing
+     * @param editable
+     */
     @Override
     public void afterTextChanged(Editable editable) {
 

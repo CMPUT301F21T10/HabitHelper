@@ -88,6 +88,15 @@ public class RequestsListFragment extends Fragment {
     }
 
 
+    /**
+     * Set up the view for use by the user
+     * Including interfaces, database, and onClick events
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     *      The created view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,7 +137,9 @@ public class RequestsListFragment extends Fragment {
     /**
      * Populates the requestList array with the ids of the requests this user got.
      * @param email
+     *      email of user we want to check requests for
      * @return
+     *      nothing
      */
     public void generateRequestsList(String email){
         DocumentReference docRef = db.collection("Users").document(email);
@@ -149,6 +160,11 @@ public class RequestsListFragment extends Fragment {
         });
     }
 
+    /**
+     * Collect the information on each user
+     * @param ids
+     *      Users to get information on
+     */
     public void afterPopulating(ArrayList<String> ids){
         System.out.println(requestsIdsList.size());
         Context context = this.getContext();

@@ -52,6 +52,13 @@ public class customUserList extends ArrayAdapter<User> {
         this.context = context;
     }
 
+    /**
+     * Set up the view, including getting the user
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -72,12 +79,23 @@ public class customUserList extends ArrayAdapter<User> {
         return view;
     }
 
-
+    /**
+     * get the user at the specified index
+     * @param i
+     *      Specified index
+     * @return
+     *      User at the index i
+     */
     @Override
     public User getItem(int i) {
         return users.get(i);
     }
 
+    /**
+     * Count users in the list
+     * @return
+     *      int of users in the list
+     */
     @Override
     public int getCount(){
         if(users != null) {
@@ -87,12 +105,21 @@ public class customUserList extends ArrayAdapter<User> {
         }
     }
 
+    /**
+     * Retrieve the id of the item
+     * @param i
+     * @return
+     */
     @Override
     public long getItemId(int i){
         return i;
     }
 
-
+    /**
+     * Get the filter for search purposes
+     * @return
+     *      The filter to use
+     */
     @Override
     public Filter getFilter() {
         if(cs == null){
@@ -132,6 +159,11 @@ public class customUserList extends ArrayAdapter<User> {
             return filterResults;
         }
 
+        /**
+         * Show the results to the user
+         * @param charSequence
+         * @param filterResults
+         */
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             users = (ArrayList<User>) filterResults.values;

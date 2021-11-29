@@ -45,6 +45,13 @@ public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> impleme
     private CustomFilter cs;
     private Context context;
 
+    /**
+     * Set up the followersList
+     * @param context
+     *      Where this list is being created
+     * @param list
+     *      List of followers
+     */
     public CustomFollowersList(@NonNull Context context, ArrayList<ArrayList<String>> list){
         super(context, 0, list);
         this.followers = list;
@@ -52,11 +59,22 @@ public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> impleme
         this.context = context;
     }
 
+    /**
+     *
+     * @param i
+     *      Index to retrieve the item from
+     * @return
+     *      The follower at index i
+     */
     @Override
     public ArrayList<String> getItem(int i) {
         return followers.get(i);
     }
 
+    /**
+     * @return
+     *      The number of followers in the list
+     */
     @Override
     public int getCount(){
         if(followers != null) {
@@ -66,12 +84,28 @@ public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> impleme
         }
     }
 
+    /**
+     * Get the ID of the item
+     * @param i
+     * @return
+     *      The item ID
+     */
     @Override
     public long getItemId(int i){
         return i;
     }
 
 
+    /**
+     * Create a view for the list
+     * @param position
+     *      Where to create the view
+     * @param convertView
+     * @param parent
+     *      The owner of the view
+     * @return
+     *      The new view
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         ArrayList<String> profile = getItem(position);
@@ -89,6 +123,11 @@ public class CustomFollowersList extends ArrayAdapter<ArrayList<String>> impleme
     }
 
 
+    /**
+     * Get a filter for search purposes
+     * @return
+     *      The custom filter we want for this list
+     */
     @Override
     public Filter getFilter() {
         if(cs == null){

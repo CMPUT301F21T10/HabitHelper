@@ -107,7 +107,18 @@ public class AddFriendsFragment extends Fragment implements TextWatcher {
         return fragment;
     }
 
-
+    /**
+     * Configure the view for use by the user
+     * Includes setting onClick events and setting up interfaces and the database
+     * @param inflater
+     *      What we will use to show the fragment to the user
+     * @param container
+     *      Where to show the frgament
+     * @param savedInstanceState
+     *      Data passed by the previous context
+     * @return
+     *      The view we created
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -178,11 +189,22 @@ public class AddFriendsFragment extends Fragment implements TextWatcher {
         this.userArrayAdapter.getFilter().filter(charSequence);
     }
 
+    /**
+     * Do nothing
+     * @param charSequence
+     * @param i
+     * @param i1
+     * @param i2
+     */
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
     }
 
+    /**
+     * Do nothing
+     * @param editable
+     */
     @Override
     public void afterTextChanged(Editable editable) {
 
