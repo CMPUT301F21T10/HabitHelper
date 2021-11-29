@@ -262,7 +262,7 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
                     eventImage.setImageDrawable(null);
 
             }catch(Exception e){
-            Toast.makeText(getApplicationContext(),
+                Toast.makeText(getApplicationContext(),
                     "Something went wrong!",
                     Toast.LENGTH_SHORT).show();
         }
