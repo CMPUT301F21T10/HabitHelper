@@ -264,8 +264,6 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 datePickerDialog.show();
             }
         });
-
-        Toast.makeText(ViewHabitsActivity.this, ""+habitEditing.getNumHabitEvents(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -295,13 +293,12 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
                 }
                 Habit newEditedHabit = new Habit(habitTitle, habitReason, habitStartDate, publicStatus, day.toString(), Integer.parseInt(numHabitEvents));
                 String emailToEdit = user.getEmail();
-
+                
+                //deleting the old habit from the database
+                habitEditing.deleteHabitFromDB(emailToEdit, db);
 
                 //adding the new edited habit to the database
                 newEditedHabit.addHabitToDB(emailToEdit, db);
-
-                //deleting the old habit from the database
-                habitEditing.deleteHabitFromDB(emailToEdit, db);
 
                 Intent intent = new Intent(ViewHabitsActivity.this, MainActivity.class);
                 intent.putExtra("classFrom", ViewHabitsActivity.class.toString());
