@@ -101,14 +101,29 @@ public class User {
         return this.name;
     }
 
+    /**
+     * Get the password if it is in the object
+     * @return
+     *      The user's password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Get the requests sent
+     * @return
+     *      The user's requests sent
+     */
     public ArrayList<String> getRequestsSent(){
         return this.requestsSent;
     }
 
+    /**
+     * Get the requests received by the user
+     * @return
+     *      The requests the user has received
+     */
     public ArrayList<String> getRequestsReceived(){
         return this.requestsReceived;
     }
