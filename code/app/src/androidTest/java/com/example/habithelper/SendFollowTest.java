@@ -53,17 +53,17 @@ public class SendFollowTest {
     public void SendFollowTest(){
         db = FirebaseFirestore.getInstance();
         DocumentReference senderDocRef = db.collection("Users").document("raj@email.com");
-        DocumentReference receiverDocRef = db.collection("Users").document("fakeraj2@fake.com");
-        senderDocRef.update("RequestsSent", FieldValue.arrayRemove("fakeraj2@fake.com"));
+        DocumentReference receiverDocRef = db.collection("Users").document("james@email.com");
+        senderDocRef.update("RequestsSent", FieldValue.arrayRemove("james@email.com"));
         receiverDocRef.update("RequestsReceived", FieldValue.arrayRemove("raj@email.com"));
-        senderDocRef.update("Following", FieldValue.arrayRemove("fakeraj2@fake.com"));
+        senderDocRef.update("Following", FieldValue.arrayRemove("james@email.com"));
         receiverDocRef.update("Followers", FieldValue.arrayRemove("raj@email.com"));
 
         // Asserts that the current activity is the LoginActivity. Otherwise, show “Wrong Activity”
         solo.assertCurrentActivity("Wrong Activity", LoginActivity.class);
 
         solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "raj@email.com");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "fakeraj");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "password1");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
@@ -73,7 +73,7 @@ public class SendFollowTest {
         solo.clickOnButton("Add friends");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
-        solo.clickOnText("fakeraj2");
+        solo.clickOnText("James");
         solo.clickOnButton("send request");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.goBack();
@@ -87,8 +87,8 @@ public class SendFollowTest {
         solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "");
         solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "");
 
-        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "raj@email.com");
-        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "Raj Shreyas");
+        solo.enterText((EditText) solo.getView(R.id.loginEditEmail), "james@email.com");
+        solo.enterText((EditText) solo.getView(R.id.loginEditPassword), "password2");
         solo.clickOnButton("Login");
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
@@ -105,7 +105,7 @@ public class SendFollowTest {
         solo.clickOnView(solo.getView(R.id.friends_fragment));
         solo.clickOnButton("Followers");
         String followersText = solo.clickInList(0).get(0).getText().toString();
-        assertEquals("fakeraj", followersText);
+        assertEquals("Raj Shreyas", followersText);
 
     }
 }
