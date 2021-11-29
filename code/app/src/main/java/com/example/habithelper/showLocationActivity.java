@@ -58,6 +58,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Class to show the location to the user
+ */
 public class showLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -241,6 +244,13 @@ public class showLocationActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * Show the menu to the user
+     * @param menu
+     *      The menu to show
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -248,6 +258,13 @@ public class showLocationActivity extends AppCompatActivity implements OnMapRead
         return true;
     }
 
+    /**
+     * Set up what happens on goBack or done click
+     * @param item
+     *      The item clicked
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

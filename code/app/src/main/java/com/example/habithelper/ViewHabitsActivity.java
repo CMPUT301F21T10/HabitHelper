@@ -42,6 +42,9 @@ import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 import java.util.Calendar;
 
+/**
+ * Allow the user to see, edit, or delete the selected habit
+ */
 public class ViewHabitsActivity extends AppCompatActivity implements Serializable {
 
     EditText editTextTitle, editTextReason;
@@ -54,6 +57,11 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
     final boolean[] days_clicked = {false,false,false,false,false,false,false};
     Button mon_btn, tue_btn, wed_btn, thur_btn, fri_btn, sat_btn, sun_btn;
 
+    /**
+     * Set up the edit boxes, database, and habit to show
+     * @param savedInstanceState
+     *      Data passed from the previous context
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,6 +276,13 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         });
     }
 
+    /**
+     * Show the menu to the user
+     * @param menu
+     *      Menu to show
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -275,6 +290,14 @@ public class ViewHabitsActivity extends AppCompatActivity implements Serializabl
         return true;
     }
 
+    /**
+     * Set what happens upon selecting an item from the menu
+     * Delete, edit, and go back are all set up here
+     * @param item
+     *      The menu item selected
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

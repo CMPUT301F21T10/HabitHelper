@@ -246,7 +246,13 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
-
+    /**
+     * Set up a menu the user can see
+     * @param menu
+     *      The menu we want to show the user
+     * @return
+     *      A boolean reflecting whether we succeeded
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -254,6 +260,13 @@ public class LocationPickerActivity extends AppCompatActivity implements OnMapRe
         return true;
     }
 
+    /**
+     * Set what happens upon selecting cancel or done from the menu
+     * @param item
+     *      The item clicked on by the user
+     * @return
+     *      Whether the click event succeeded
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

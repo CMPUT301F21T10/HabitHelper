@@ -63,6 +63,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Allow the user to see, edit, or delete the selected habit event
+ */
 public class ViewHabitEventsActivity extends AppCompatActivity {
 
 
@@ -84,6 +87,12 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     private String currentPhotoFileName;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
+
+    /**
+     * Set up the fragment, configuring the textboxes, database, and the habit event being viewed
+     * @param savedInstanceState
+     *      Data passed from the previous context
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,6 +225,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Show the menu to the user
+     * @param menu
+     *      Menu to show
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -223,6 +239,13 @@ public class ViewHabitEventsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Set up saving and deleting a habit event as well as returning to the main view
+     * @param item
+     *      The item clicked
+     * @return
+     *      Boolean reflecting success
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){

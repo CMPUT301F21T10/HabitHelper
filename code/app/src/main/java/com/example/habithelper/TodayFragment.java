@@ -66,6 +66,11 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
     }
 
 
+    /**
+     * Set up the database and the user information necessary for the fragment
+     * @param savedInstanceState
+     *      Data passed from the previous context
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,6 +144,17 @@ public class TodayFragment extends Fragment implements habitsCustomList.ItemClic
                 });
     }
 
+    /**
+     * Set up the view to show the user their habits
+     * @param inflater
+     *      Means of showing the view
+     * @param container
+     *      Where to show the view
+     * @param savedInstanceState
+     *      Data from the context creating the view
+     * @return
+     *     The new view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
