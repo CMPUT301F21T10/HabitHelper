@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:onClick="onTextClick"
             android:text="@string/enterName"
             android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize" />
@@ -40,7 +39,6 @@
             android:textColor="@color/textDark"
             android:textSize="@dimen/fontEditSize"
             android:clickable="true"
-            android:onClick="onTextClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enterUsername" />
@@ -58,13 +56,12 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:textColor="@color/textDark"
-            android:textSize="@dimen/fontEditSize"
-            android:clickable="true"
-            android:onClick="onTextClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/enterPassword" />
+            android:clickable="true"
+            android:text="@string/enterPassword"
+            android:textColor="@color/textDark"
+            android:textSize="@dimen/fontEditSize" />
 
         <EditText
             android:id="@+id/loginNewPassword"
